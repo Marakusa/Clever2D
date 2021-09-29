@@ -359,7 +359,7 @@ namespace Clever2D.Engine
                 return new Vector3(this.x / magnitude, this.y / magnitude, this.z / magnitude);
             }
         }
-        
+
         public static Vector3 operator +(Vector3 a, Vector2 b)
         {
             return new Vector3(a.x + b.x, a.y + b.y, a.z);

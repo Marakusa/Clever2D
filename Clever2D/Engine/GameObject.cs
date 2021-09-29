@@ -6,56 +6,91 @@ using System.Threading.Tasks;
 
 namespace Clever2D.Engine
 {
+    /// <summary>
+    /// Base class for all entities in scenes.
+    /// </summary>
     public class GameObject
     {
-        private int instanceId;
+        internal int instanceId;
         private bool instanceIdSet;
+
+        /// <summary>
+        /// Gets the instance ID of this GameObject.
+        /// </summary>
         public int InstanceId
         {
             get
             {
                 return instanceId;
             }
-            set
-            {
-                if (!instanceIdSet)
-                {
-                    instanceId = value;
-                    instanceIdSet = true;
-                }
-            }
         }
 
+        /// <summary>
+        /// The name of this GameObject.
+        /// </summary>
         public string name = "New GameObject";
+        /// <summary>
+        /// The transform component of this GameObject.
+        /// </summary>
         public Transform transform = new Transform();
 
+        /// <summary>
+        /// Base class for all entities in scenes.
+        /// </summary>
         public GameObject()
         {
             this.name = "New GameObject";
             this.transform = new Transform();
         }
+        /// <summary>
+        /// Base class for all entities in scenes.
+        /// </summary>
         public GameObject(string name)
         {
             this.name = name;
             this.transform = new Transform();
         }
 
-        public static void Instansiate(GameObject gameObject, Vector position = Vector.zero, Vector rotation = Vector.zero)
+        /// <summary>
+        /// Spawns the GameObject into the scene.
+        /// </summary>
+        public static void Spawn(GameObject gameObject)
         {
-            _Instantiate(gameObject, position, rotation);
+            _Spawn(gameObject, Vector2.zero, Vector2.zero);
         }
-        private static void _Instantiate(GameObject gameObject, Vector position, Vector rotation)
+        public static void Spawn(GameObject gameObject, Vector2 position)
         {
-            gameObject.transform.position = position;
-            gameObject.transform.rotation = rotation;
-            gameObject.transform.scale = Vector.one;
-            SceneManager.LoadedScene.InstantiateGameObject(gameObject);
+            _Spawn(gameObject, position, Vector2.zero);
+        }
+        public static void Spawn(GameObject gameObject, Vector2 position, Vector2 rotation)
+        {
+            _Spawn(gameObject, position, rotation);
+        }
+        private static void _Spawn(GameObject gameObject, Vector2 position, Vector2 rotation)
+        {
+            try
+            {
+                gameObject.transform.position = position;
+                gameObject.transform.rotation = rotation;
+                gameObject.transform.scale = Vector2.one;
+                SceneManager.LoadedScene.SpawnGameObject(gameObject);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
         }
 
         public static void Destroy(GameObject gameObject)
         {
-            gameObjects[gameObject.id] = null;
-            availableIds.Add(gameObject.id);
+            try
+            {
+                SceneManager.LoadedScene.DestroyGameObject(gameObject);
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
         }
     }
 }
