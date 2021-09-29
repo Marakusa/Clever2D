@@ -17,9 +17,9 @@ namespace Clever2D.Engine
         public string name = "New Scene";
 
         private int nextId = -2147483648;
-        private List<int> availableIds = new List<int>();
+        private readonly List<int> availableIds = new();
 
-        internal Dictionary<int, GameObject> instances = new Dictionary<int, GameObject>();
+        internal Dictionary<int, GameObject> instances = new();
 
         internal void SpawnGameObject(GameObject gameObject)
         {
@@ -61,9 +61,9 @@ namespace Clever2D.Engine
                         throw new Exception("GameObject could not be instantiated.");
                 }
             }
-            catch (Exception exeption)
+            catch (Exception exception)
             {
-                throw exeption;
+                throw new Exception(exception.Message, exception);
             }
         }
         internal void DestroyGameObject(GameObject gameObject)
@@ -80,9 +80,9 @@ namespace Clever2D.Engine
                     throw new NullReferenceException("GameObject could not be destroyed. Given GameObject was null.");
                 }
             }
-            catch (Exception exeption)
+            catch (Exception exception)
             {
-                throw exeption;
+                throw new Exception(exception.Message, exception);
             }
         }
     }

@@ -35,16 +35,16 @@ namespace Clever2D.Engine
         /// </summary>
         public void Normalize()
         {
-            float magnitude = this.magnitude;
-            this.x = this.x / magnitude;
-            this.y = this.y / magnitude;
-            this.z = this.z / magnitude;
+            float magnitude = this.Magnitude;
+            x /= magnitude;
+            y /= magnitude;
+            z /= magnitude;
         }
 
         /// <summary>
         /// Gets the magnitude of this vector.
         /// </summary>
-        public float magnitude
+        public float Magnitude
         {
             get
             {
@@ -111,35 +111,35 @@ namespace Clever2D.Engine
         /// <summary>
         /// Shorthand for writing Vector2(1, 0).
         /// </summary>
-        public readonly static Vector2 right = new Vector2(1, 0);
+        public readonly static Vector2 right = new(1, 0);
         /// <summary>
         /// Shorthand for writing Vector2(-1, 0).
         /// </summary>
-        public readonly static Vector2 left = new Vector2(-1, 0);
+        public readonly static Vector2 left = new(-1, 0);
         /// <summary>
         /// Shorthand for writing Vector2(0, 1).
         /// </summary>
-        public readonly static Vector2 up = new Vector2(0, 1);
+        public readonly static Vector2 up = new(0, 1);
         /// <summary>
         /// Shorthand for writing Vector2(0, -1).
         /// </summary>
-        public readonly static Vector2 down = new Vector2(0, -1);
+        public readonly static Vector2 down = new(0, -1);
         /// <summary>
         /// Shorthand for writing Vector2(1, 1).
         /// </summary>
-        public readonly static Vector2 one = new Vector2(1, 1);
+        public readonly static Vector2 one = new(1, 1);
         /// <summary>
         /// Shorthand for writing Vector2(0, 0).
         /// </summary>
-        public readonly static Vector2 zero = new Vector2(0, 0);
+        public readonly static Vector2 zero = new(0, 0);
         /// <summary>
         /// Shorthand for writing Vector2(float.PositiveInfinity, float.PositiveInfinity).
         /// </summary>
-        public readonly static Vector2 positiveInfinity = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
+        public readonly static Vector2 positiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity);
         /// <summary>
         /// Shorthand for writing Vector2(float.NegativeInfinity, float.NegativeInfinity).
         /// </summary>
-        public readonly static Vector2 negativeInfinity = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+        public readonly static Vector2 negativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity);
 
         /// <summary>
         /// Set x and y components of an existing Vector2.
@@ -175,11 +175,11 @@ namespace Clever2D.Engine
         /// <summary>
         /// Gets this vector with a magnitude of 1.
         /// </summary>
-        public Vector2 normalized
+        public Vector2 Normalized
         {
             get
             {
-                float magnitude = this.magnitude;
+                float magnitude = this.Magnitude;
                 return new Vector2(this.x / magnitude, this.y / magnitude);
             }
         }
@@ -278,43 +278,43 @@ namespace Clever2D.Engine
         /// <summary>
         /// Shorthand for writing Vector3(1, 0, 0).
         /// </summary>
-        public readonly static Vector3 right = new Vector3(1, 0, 0);
+        public readonly static Vector3 right = new(1, 0, 0);
         /// <summary>
         /// Shorthand for writing Vector3(-1, 0, 0).
         /// </summary>
-        public readonly static Vector3 left = new Vector3(-1, 0, 0);
+        public readonly static Vector3 left = new(-1, 0, 0);
         /// <summary>
         /// Shorthand for writing Vector3(0, 1, 0).
         /// </summary>
-        public readonly static Vector3 up = new Vector3(0, 1, 0);
+        public readonly static Vector3 up = new(0, 1, 0);
         /// <summary>
         /// Shorthand for writing Vector3(0, -1, 0).
         /// </summary>
-        public readonly static Vector3 down = new Vector3(0, -1, 0);
+        public readonly static Vector3 down = new(0, -1, 0);
         /// <summary>
         /// Shorthand for writing Vector3(0, 0, 1).
         /// </summary>
-        public readonly static Vector3 forward = new Vector3(0, 0, 1);
+        public readonly static Vector3 forward = new(0, 0, 1);
         /// <summary>
         /// Shorthand for writing Vector3(0, 0, -1).
         /// </summary>
-        public readonly static Vector3 back = new Vector3(0, 0, -1);
+        public readonly static Vector3 back = new(0, 0, -1);
         /// <summary>
         /// Shorthand for writing Vector3(1, 1, 1).
         /// </summary>
-        public readonly static Vector3 one = new Vector3(1, 1, 1);
+        public readonly static Vector3 one = new(1, 1, 1);
         /// <summary>
         /// Shorthand for writing Vector3(0, 0, 0).
         /// </summary>
-        public readonly static Vector3 zero = new Vector3(0, 0, 0);
+        public readonly static Vector3 zero = new(0, 0, 0);
         /// <summary>
         /// Shorthand for writing Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity).
         /// </summary>
-        public readonly static Vector3 positiveInfinity = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+        public readonly static Vector3 positiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
         /// <summary>
         /// Shorthand for writing Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity).
         /// </summary>
-        public readonly static Vector3 negativeInfinity = new Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        public readonly static Vector3 negativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
 
         /// <summary>
         /// Set x and y components of an existing Vector3.
@@ -351,11 +351,11 @@ namespace Clever2D.Engine
         /// <summary>
         /// Gets this vector with a magnitude of 1.
         /// </summary>
-        public Vector3 normalized
+        public Vector3 Normalized
         {
             get
             {
-                float magnitude = this.magnitude;
+                float magnitude = this.Magnitude;
                 return new Vector3(this.x / magnitude, this.y / magnitude, this.z / magnitude);
             }
         }

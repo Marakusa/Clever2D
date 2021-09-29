@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Clever2D\Clever2D.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+
 </Project>

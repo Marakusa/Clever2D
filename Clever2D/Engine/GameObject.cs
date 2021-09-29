@@ -12,7 +12,6 @@ namespace Clever2D.Engine
     public class GameObject
     {
         internal int instanceId;
-        private bool instanceIdSet;
 
         /// <summary>
         /// Gets the instance ID of this GameObject.
@@ -30,9 +29,13 @@ namespace Clever2D.Engine
         /// </summary>
         public string name = "New GameObject";
         /// <summary>
+        /// The assigned tag to this GameObject.
+        /// </summary>
+        public string tag = "Untagged";
+        /// <summary>
         /// The transform component of this GameObject.
         /// </summary>
-        public Transform transform = new Transform();
+        public Transform transform = new();
 
         /// <summary>
         /// Base class for all entities in scenes.
@@ -40,7 +43,8 @@ namespace Clever2D.Engine
         public GameObject()
         {
             this.name = "New GameObject";
-            this.transform = new Transform();
+            this.tag = "Untagged";
+            this.transform = new();
         }
         /// <summary>
         /// Base class for all entities in scenes.
@@ -48,7 +52,8 @@ namespace Clever2D.Engine
         public GameObject(string name)
         {
             this.name = name;
-            this.transform = new Transform();
+            this.tag = "Untagged";
+            this.transform = new();
         }
 
         /// <summary>
@@ -56,17 +61,17 @@ namespace Clever2D.Engine
         /// </summary>
         public static void Spawn(GameObject gameObject)
         {
-            _Spawn(gameObject, Vector2.zero, Vector2.zero);
+            Spawn_(gameObject, Vector2.zero, Vector2.zero);
         }
         public static void Spawn(GameObject gameObject, Vector2 position)
         {
-            _Spawn(gameObject, position, Vector2.zero);
+            Spawn_(gameObject, position, Vector2.zero);
         }
         public static void Spawn(GameObject gameObject, Vector2 position, Vector2 rotation)
         {
-            _Spawn(gameObject, position, rotation);
+            Spawn_(gameObject, position, rotation);
         }
-        private static void _Spawn(GameObject gameObject, Vector2 position, Vector2 rotation)
+        private static void Spawn_(GameObject gameObject, Vector2 position, Vector2 rotation)
         {
             try
             {
@@ -77,7 +82,7 @@ namespace Clever2D.Engine
             }
             catch (Exception exception)
             {
-                throw exception;
+                throw new Exception(exception.Message, exception);
             }
         }
 
@@ -89,7 +94,7 @@ namespace Clever2D.Engine
             }
             catch (Exception exception)
             {
-                throw exception;
+                throw exception.InnerException;
             }
         }
     }

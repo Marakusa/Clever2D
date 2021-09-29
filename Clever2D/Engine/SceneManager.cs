@@ -9,7 +9,7 @@ namespace Clever2D.Engine
     public sealed class SceneManager
     {
         private static SceneManager instance = null;
-        private static readonly object padlock = new object();
+        private static readonly object padlock = new();
 
         public static SceneManager Instance
         {
@@ -42,7 +42,7 @@ namespace Clever2D.Engine
         {
             if (loadedScene != null)
             {
-                loadedScene.gameObjects.Clear();
+                loadedScene.instances.Clear();
             }
 
             loadedScene = scene;

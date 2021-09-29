@@ -14,7 +14,7 @@
             }
         }
 
-        private static ApplicationConfig config = new ApplicationConfig();
+        private static ApplicationConfig config = new();
     }
 
     public class ApplicationConfig

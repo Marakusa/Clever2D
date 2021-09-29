@@ -11,7 +11,7 @@ namespace Example
         [STAThread]
         static void Main(string[] args)
         {
-            Clever2D.Engine.ApplicationConfig config = new Clever2D.Engine.ApplicationConfig();
+            ApplicationConfig config = new();
 
             config.ProjectName = "Example Project";
             config.AuthorName = "Company";
