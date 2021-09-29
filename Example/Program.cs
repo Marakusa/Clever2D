@@ -11,6 +11,12 @@ namespace Example
         [STAThread]
         static void Main(string[] args)
         {
+            SceneManager.AddScenes(new Scene[] {
+                new MainScene()
+            });
+
+            SceneManager.Start();
+
             ApplicationConfig config = new();
 
             config.ProjectName = "Example Project";
@@ -19,15 +25,10 @@ namespace Example
 
             Clever2D.Engine.Application.Config = config;
 
+            Eto.Forms.Application app = new Eto.Forms.Application(Eto.Platforms.Wpf);
             MainForm form = new MainForm(config.ProjectName, config.AuthorName, config.Version);
 
-            new Eto.Forms.Application(Eto.Platforms.Wpf).Run(form);
-
-            SceneManager.AddScenes(new Scene[] { 
-                new MainScene()
-            });
-
-            SceneManager.Start();
+            app.Run(form);
 
             if (SceneManager.Started)
             {

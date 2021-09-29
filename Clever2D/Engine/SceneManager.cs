@@ -71,7 +71,7 @@ namespace Clever2D.Engine
             includedScenes.AddRange(scenes);
         }
 
-        private static Scene loadedScene = null;
+        private static Scene loadedScene;
         public static Scene LoadedScene
         {
             get
@@ -82,12 +82,18 @@ namespace Clever2D.Engine
 
         public static void LoadScene(Scene scene)
         {
+            Console.WriteLine("Loading a new Scene...");
+
             if (loadedScene != null)
             {
                 loadedScene.instances.Clear();
             }
 
+            Console.WriteLine(scene);
+
             loadedScene = scene;
+
+            Console.WriteLine("Scene loaded.");
         }
     }
 }
