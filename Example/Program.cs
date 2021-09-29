@@ -19,7 +19,24 @@ namespace Example
 
             Clever2D.Engine.Application.Config = config;
 
-            new Eto.Forms.Application(Eto.Platforms.Wpf).Run(new MainForm(config.ProjectName, config.AuthorName, config.Version));
+            MainForm form = new MainForm(config.ProjectName, config.AuthorName, config.Version);
+
+            new Eto.Forms.Application(Eto.Platforms.Wpf).Run(form);
+
+            SceneManager.AddScenes(new Scene[] { 
+                new MainScene()
+            });
+
+            SceneManager.Start();
+
+            if (SceneManager.Started)
+            {
+                Console.WriteLine("Scene loaded.");
+            }
+            else
+            {
+                form.Close();
+            }
         }
     }
 }

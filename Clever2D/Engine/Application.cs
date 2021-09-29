@@ -15,6 +15,11 @@
         }
 
         private static ApplicationConfig config = new();
+
+        public static void Exit()
+        {
+            // TODO: Exit the application
+        }
     }
 
     public class ApplicationConfig

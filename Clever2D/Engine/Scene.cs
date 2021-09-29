@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clever2D.Engine
 {
@@ -15,6 +12,20 @@ namespace Clever2D.Engine
         /// Name of the scene.
         /// </summary>
         public string name = "New Scene";
+
+        /// <summary>
+        /// Get the ID of the scene.
+        /// </summary>
+        public int SceneId
+        {
+            get
+            {
+                if (SceneManager.includedScenes.Contains(this))
+                    return SceneManager.includedScenes.IndexOf(this);
+                else
+                    return -1;
+            }
+        }
 
         private int nextId = -2147483648;
         private readonly List<int> availableIds = new();
@@ -84,6 +95,11 @@ namespace Clever2D.Engine
             {
                 throw new Exception(exception.Message, exception);
             }
+        }
+
+        public void LoadScene()
+        {
+            SceneManager.LoadScene(this);
         }
     }
 }

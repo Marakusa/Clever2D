@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Example.Scenes
+namespace Example
 {
     public class MainScene : Scene
     {
+        
     }
 }

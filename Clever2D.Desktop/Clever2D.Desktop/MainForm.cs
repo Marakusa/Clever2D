@@ -1,6 +1,7 @@
 using Eto.Drawing;
 using Eto.Forms;
 using System;
+using Clever2D.Engine;
 
 namespace Clever2D.Desktop
 {
@@ -27,7 +28,6 @@ namespace Clever2D.Desktop
 
         private void Paint(object sender, PaintEventArgs e)
         {
-            Console.WriteLine("Paint: " + rect.IsEmpty);
             if (!rect.IsEmpty)
             {
                 Pen pen = new Pen(new Color(1f, 0f, 0f, 1f), 10f);
@@ -43,7 +43,6 @@ namespace Clever2D.Desktop
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
-            Console.WriteLine(e.Location.ToString());
             Draw(e.Location.X, e.Location.Y, 10f, 10f);
         }
     }

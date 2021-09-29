@@ -1,32 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clever2D.Engine
 {
-    public sealed class SceneManager
+    public static class SceneManager
     {
-        private static SceneManager instance = null;
-        private static readonly object padlock = new();
-
-        public static SceneManager Instance
+        private static bool started = false;
+        public static bool Started
         {
             get
             {
-                if (instance == null)
-                {
-                    lock (padlock)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new SceneManager();
-                        }
-                    }
-                }
-                return instance;
+                return started;
             }
+        }
+
+        /// <summary>
+        /// Start the game and load the first Scene.
+        /// </summary>
+        public static void Start()
+        {
+            if (SceneList.Length > 0)
+            {
+                try
+                {
+                    LoadScene(SceneList[0]);
+                    started = true;
+                }
+                catch (Exception exception)
+                {
+                    throw new Exception(exception.Message, exception);
+                }
+            }
+            else
+            {
+                throw new Exception("Could not start the game. No Scenes added.");
+            }
+        }
+
+        /// <summary>
+        /// Get the Scene list of the SceneManager.
+        /// </summary>
+        public static Scene[] SceneList
+        {
+            get
+            {
+                return includedScenes.ToArray();
+            }
+        }
+        internal static List<Scene> includedScenes = new();
+
+        /// <summary>
+        /// Add a Scene to the SceneManagers Scene list.
+        /// </summary>
+        public static void AddScene(Scene scene)
+        {
+            includedScenes.Add(scene);
+        }
+        /// <summary>
+        /// Add multiple Scenes to the SceneManagers Scene list.
+        /// </summary>
+        public static void AddScenes(Scene[] scenes)
+        {
+            includedScenes.AddRange(scenes);
+        }
+        /// <summary>
+        /// Add multiple Scenes to the SceneManagers Scene list.
+        /// </summary>
+        public static void AddScenes(List<Scene> scenes)
+        {
+            includedScenes.AddRange(scenes);
         }
 
         private static Scene loadedScene = null;
