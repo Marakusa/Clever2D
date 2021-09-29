@@ -7,8 +7,7 @@ namespace Clever2D.Desktop
 {
     public partial class MainForm : Form
     {
-        private Drawable drawable;
-        private RectangleF rect;
+        private Drawable canvas;
 
         public MainForm(string projectName = "Example", string authorName = "Example", string version = "0.1.0")
         {
@@ -18,32 +17,36 @@ namespace Clever2D.Desktop
 
             BackgroundColor = new Color(0, 0, 0);
 
-            drawable = new Drawable(false);
+            canvas = new Drawable(false);
 
-            drawable.Paint += Paint;
-            drawable.MouseDown += MainForm_MouseDown;
+            canvas.Paint += Paint;
+            canvas.MouseDown += MainForm_MouseDown;
 
-            Content = drawable;
+            Content = canvas;
         }
 
         private void Paint(object sender, PaintEventArgs e)
         {
-            if (!rect.IsEmpty)
+            Scene scene = SceneManager.LoadedScene;
+            if (scene != null && scene.ObjectCount > 0)
             {
-                Pen pen = new Pen(new Color(1f, 0f, 0f, 1f), 10f);
-                e.Graphics.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
+                foreach (GameObject gameObject in scene.GetSpawnedGameObjects())
+                {
+                    Pen pen = new Pen(new Color(1f, 0f, 0f, 1f), 10f);
+                    e.Graphics.DrawRectangle(pen, gameObject.transform.position.x, gameObject.transform.position.y, 10f, 10f);
+                }
             }
         }
 
-        public void Draw(float x, float y, float width, float height)
+        public void Draw()
         {
-            rect = new RectangleF(x, y, width, height);
-            drawable.Invalidate();
+            canvas.Invalidate();
         }
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
-            Draw(e.Location.X, e.Location.Y, 10f, 10f);
+            GameObject.Spawn(new GameObject("Yes"), new Vector2(e.Location.X, e.Location.Y));
+            Draw();
         }
     }
 }

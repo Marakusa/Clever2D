@@ -31,6 +31,16 @@ namespace Clever2D.Engine
         private readonly List<int> availableIds = new();
 
         internal Dictionary<int, GameObject> instances = new();
+        private List<GameObject> gameObjects = new();
+
+        private int objectCount = 0;
+        public int ObjectCount
+        {
+            get
+            {
+                return objectCount;
+            }
+        }
 
         internal void SpawnGameObject(GameObject gameObject)
         {
@@ -48,11 +58,17 @@ namespace Clever2D.Engine
 
                             gameObject.instanceId = id;
                             instances.Add(id, gameObject);
+                            gameObjects.Add(gameObject);
+
+                            objectCount++;
                         }
                         else
                         {
                             gameObject.instanceId = nextId;
                             instances.Add(nextId, gameObject);
+                            gameObjects.Add(gameObject);
+
+                            objectCount++;
 
                             nextId++;
                         }
@@ -84,7 +100,10 @@ namespace Clever2D.Engine
                 if (gameObject != null)
                 {
                     instances.Remove(gameObject.InstanceId);
+                    gameObjects.Remove(gameObject);
                     availableIds.Add(gameObject.InstanceId);
+
+                    objectCount--;
                 }
                 else
                 {
@@ -100,6 +119,11 @@ namespace Clever2D.Engine
         public void LoadScene()
         {
             SceneManager.LoadScene(this);
+        }
+
+        public List<GameObject> GetSpawnedGameObjects()
+        {
+            return gameObjects;
         }
     }
 }
