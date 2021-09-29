@@ -8,4 +8,8 @@
     <StartupObject>Clever2D.Program</StartupObject>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Eto.Forms" Version="2.5.11" />
+  </ItemGroup>
+
 </Project>

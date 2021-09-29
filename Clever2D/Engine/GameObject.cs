@@ -32,16 +32,21 @@ namespace Clever2D.Engine
         /// The transform component of this GameObject.
         /// </summary>
         public Transform transform = new();
-
         /// <summary>
-        /// Base class for all entities in scenes.
+        /// The components of this GameObject.
         /// </summary>
-        public GameObject()
+        public List<Component> components = new List<Component>();
+
+        public T GetComponent<T>()
         {
-            this.name = "New GameObject";
-            this.tag = "Untagged";
-            this.transform = new();
+            foreach (object component in components)
+            {
+                Console.WriteLine(component);
+            }
+
+            return default(T);
         }
+
         /// <summary>
         /// Base class for all entities in scenes.
         /// </summary>

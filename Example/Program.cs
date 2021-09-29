@@ -11,12 +11,6 @@ namespace Example
         [STAThread]
         static void Main(string[] args)
         {
-            SceneManager.AddScenes(new Scene[] {
-                new MainScene()
-            });
-
-            SceneManager.Start();
-
             ApplicationConfig config = new();
 
             config.ProjectName = "Example Project";
@@ -30,6 +24,12 @@ namespace Example
 
             app.Run(form);
 
+            SceneManager.AddScenes(new Scene[] {
+                new MainScene()
+            });
+
+            SceneManager.Start();
+
             if (SceneManager.Started)
             {
                 Console.WriteLine("Scene loaded.");
@@ -37,6 +37,7 @@ namespace Example
             else
             {
                 form.Close();
+                return;
             }
         }
     }

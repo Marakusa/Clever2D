@@ -1,0 +1,18 @@
+﻿{
+	"name": "Main",
+	"instances": [
+		{
+			"name": "SwordSpawner",
+			"components": [
+				"Transform": {
+					"position": "10,10",
+					"rotation": "0,0",
+					"scale": "1,1"
+				}
+				"SpriteRenderer": {
+					"sprite": "Resources/Sword.png"
+				}
+			]
+		}
+	]
+}

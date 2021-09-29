@@ -6,8 +6,10 @@ namespace Clever2D.Engine
     /// <summary>
     /// Collection of entities and components.
     /// </summary>
-    public class Scene
+    public abstract class Scene
     {
+        public bool redraw = false;
+
         /// <summary>
         /// Name of the scene.
         /// </summary>
@@ -124,6 +126,16 @@ namespace Clever2D.Engine
         public List<GameObject> GetSpawnedGameObjects()
         {
             return gameObjects;
+        }
+
+        public abstract GameObject[] SceneGameObjects
+        {
+            get;
+        }
+
+        public void Draw()
+        {
+            redraw = true;
         }
     }
 }

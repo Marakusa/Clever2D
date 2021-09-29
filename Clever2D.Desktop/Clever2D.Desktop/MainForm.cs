@@ -23,6 +23,15 @@ namespace Clever2D.Desktop
             canvas.MouseDown += MainForm_MouseDown;
 
             Content = canvas;
+
+            System.Timers.Timer timer = new System.Timers.Timer();
+            timer.Interval = 100;
+            timer.Elapsed += Timer_Elapsed;
+        }
+
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (SceneManager.LoadedScene.redraw) Draw();
         }
 
         private void Paint(object sender, PaintEventArgs e)
@@ -32,8 +41,11 @@ namespace Clever2D.Desktop
             {
                 foreach (GameObject gameObject in scene.GetSpawnedGameObjects())
                 {
-                    Pen pen = new Pen(new Color(1f, 0f, 0f, 1f), 10f);
-                    e.Graphics.DrawRectangle(pen, gameObject.transform.position.x, gameObject.transform.position.y, 10f, 10f);
+                    SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
+                    if (renderer != null)
+                    {
+                        e.Graphics.DrawImage(renderer.Sprite, new PointF(gameObject.transform.position.x, gameObject.transform.position.y));
+                    }
                 }
             }
         }
