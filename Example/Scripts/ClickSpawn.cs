@@ -1,9 +1,6 @@
 ﻿using Clever2D.Engine;
+using Clever2D.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Example
 {
@@ -13,9 +10,12 @@ namespace Example
         {
             Console.WriteLine("Start");
         }
-        public override void Update()
+        public override void FixedUpdate()
         {
-            Console.WriteLine("Update");
+            if (Input.GetKey('d'))
+            {
+                transform.position += Vector2.right;
+            }
         }
     }
 }

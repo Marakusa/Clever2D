@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Timers;
 
 namespace Clever2D.Engine
 {
@@ -60,16 +61,14 @@ namespace Clever2D.Engine
                             availableIds.Remove(id);
 
                             gameObject.instanceId = id;
-                            instances.Add(id, gameObject);
-                            gameObjects.Add(gameObject);
+                            AddGameObject(id, gameObject);
 
                             objectCount++;
                         }
                         else
                         {
                             gameObject.instanceId = nextId;
-                            instances.Add(nextId, gameObject);
-                            gameObjects.Add(gameObject);
+                            AddGameObject(nextId, gameObject);
 
                             objectCount++;
 
@@ -102,8 +101,7 @@ namespace Clever2D.Engine
             {
                 if (gameObject != null)
                 {
-                    instances.Remove(gameObject.InstanceId);
-                    gameObjects.Remove(gameObject);
+                    RemoveGameObject(gameObject);
                     availableIds.Add(gameObject.InstanceId);
 
                     objectCount--;
@@ -117,6 +115,49 @@ namespace Clever2D.Engine
             {
                 throw new Exception(exception.Message, exception);
             }
+        }
+
+        private void AddGameObject(int id, GameObject gameObject)
+        {
+            instances.Add(id, gameObject);
+            gameObjects.Add(gameObject);
+
+            foreach (Component component in gameObject.components)
+            {
+                component.gameObject = gameObject;
+                component.transform = gameObject.transform;
+
+                if ((component as CleverScript) != null)
+                {
+                    ((CleverScript)component).Start();
+                    Timer tickTimer = new();
+
+                    tickTimer.Interval = 1f / 30f;
+                    tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                    {
+                        ((CleverScript)component).FixedUpdate();
+                    };
+
+                    tickTimer.Start();
+
+                    ((CleverScript)component).timer = tickTimer;
+                }
+            }
+        }
+
+        private void RemoveGameObject(GameObject gameObject)
+        {
+            foreach (Component component in gameObject.components)
+            {
+                if ((component as CleverScript) != null)
+                {
+                    ((CleverScript)component).timer.Stop();
+                    ((CleverScript)component).timer = null;
+                }
+            }
+
+            instances.Remove(gameObject.InstanceId);
+            gameObjects.Remove(gameObject);
         }
 
         /// <summary>

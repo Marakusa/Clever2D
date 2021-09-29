@@ -2,6 +2,7 @@
 using Clever2D;
 using Clever2D.Desktop;
 using Clever2D.Engine;
+using Clever2D.Input;
 using Eto.Forms;
 
 namespace Example
@@ -39,6 +40,9 @@ namespace Example
 
                 Console.WriteLine("Scenes loaded.");
 
+                form.KeyDown += MainForm_KeyDown;
+                form.KeyUp += MainForm_KeyUp;
+
                 SceneManager.OnLoaded += (object sender, LoadedEventArgs e) =>
                 {
                     if (SceneManager.Started)
@@ -63,6 +67,15 @@ namespace Example
         private static void SceneManager_OnSceneDraw(object sender, SceneDrawEventArgs e)
         {
             form.Draw();
+        }
+
+        private static void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            Input.KeyPressed(e.KeyChar);
+        }
+        private static void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            Input.KeyReleased(e.KeyChar);
         }
     }
 }

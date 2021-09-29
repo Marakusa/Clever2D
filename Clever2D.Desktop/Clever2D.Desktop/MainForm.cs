@@ -7,7 +7,7 @@ namespace Clever2D.Desktop
 {
     public partial class MainForm : Form
     {
-        private Drawable canvas;
+        public Drawable canvas;
 
         public MainForm(string projectName = "Example", string authorName = "Example", string version = "0.1.0")
         {

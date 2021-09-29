@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Timers;
 
 namespace Clever2D.Engine
 {
@@ -105,6 +106,8 @@ namespace Clever2D.Engine
             }
         }
 
+        private static Timer tickTimer = new();
+
         /// <summary>
         /// Load a scene.
         /// </summary>
@@ -129,6 +132,20 @@ namespace Clever2D.Engine
                 started = true;
 
                 OnLoaded(null, new LoadedEventArgs(scene));
+
+                if (tickTimer == null)
+                {
+                    tickTimer.Interval = 1f / 30f;
+                    tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                    {
+                        if (loadedScene != null)
+                        {
+                            loadedScene.Draw();
+                        }
+                    };
+
+                    tickTimer.Start();
+                }
 
                 return true;
             }
