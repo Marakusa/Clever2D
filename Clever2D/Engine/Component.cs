@@ -7,17 +7,8 @@ namespace Clever2D.Engine
     /// </summary>
     public abstract class Component
     {
-        public string name;
         public GameObject gameObject;
         public Transform transform;
-
-        /// <summary>
-        /// The name of the object.
-        /// </summary>
-        public override string ToString()
-        {
-            return name;
-        }
 
         /// <summary>
         /// Removes a GameObject, component or asset.

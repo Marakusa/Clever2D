@@ -41,7 +41,10 @@ namespace Clever2D.Engine
         {
             foreach (object component in components)
             {
-                Console.WriteLine(component);
+                if (typeof(T) == component.GetType())
+                {
+                    return (T)component;
+                }
             }
 
             return default(T);
