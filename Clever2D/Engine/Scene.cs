@@ -8,12 +8,13 @@ namespace Clever2D.Engine
     /// </summary>
     public abstract class Scene
     {
-        public bool redraw = false;
-
         /// <summary>
         /// Name of the scene.
         /// </summary>
-        public string name = "New Scene";
+        public abstract string Name
+        {
+            get;
+        }
 
         /// <summary>
         /// Get the ID of the scene.
@@ -118,9 +119,15 @@ namespace Clever2D.Engine
             }
         }
 
+        /// <summary>
+        /// Loads this scene.
+        /// </summary>
         public void LoadScene()
         {
-            SceneManager.LoadScene(this);
+            if (!SceneManager.LoadScene(this))
+            {
+                Console.WriteLine("Loading \"" + Name + "\" failed.");
+            }
         }
 
         public List<GameObject> GetSpawnedGameObjects()
@@ -128,14 +135,20 @@ namespace Clever2D.Engine
             return gameObjects;
         }
 
-        public abstract GameObject[] SceneGameObjects
+        public abstract List<GameObject> SceneGameObjects
         {
             get;
         }
 
+        /// <summary>
+        /// Sends a redraw request to Canvas
+        /// 
+        /// TODO: Change this method
+        /// 
+        /// </summary>
         public void Draw()
         {
-            redraw = true;
+            SceneManager.DrawCalled(this);
         }
     }
 }

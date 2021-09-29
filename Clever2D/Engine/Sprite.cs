@@ -11,9 +11,9 @@ namespace Clever2D.Engine
     {
         public Image image;
 
-        public Sprite(Image image)
+        public Sprite(string path)
         {
-            this.image = image;
+            this.image = new Bitmap(Environment.CurrentDirectory + @"\" + path);
         }
     }
 }

@@ -10,11 +10,12 @@ namespace Example
 {
     public class MainScene : Scene
     {
-        public override GameObject[] SceneGameObjects
+        private string name = "MainScene";
+        public override string Name
         {
             get
             {
-                return sceneGameObjects.ToArray();
+                return name;
             }
         }
 
@@ -25,8 +26,17 @@ namespace Example
                 {
                     new ClickSpawn(),
                     new SpriteRenderer(new Sprite("Resources/Sword.png"))
-                }
+                },
+                tag = "Weapon",
+                transform = new Transform(new Vector2(10f, 30f), Vector2.zero)
             }
         };
+        public override List<GameObject> SceneGameObjects
+        {
+            get
+            {
+                return sceneGameObjects;
+            }
+        }
     }
 }

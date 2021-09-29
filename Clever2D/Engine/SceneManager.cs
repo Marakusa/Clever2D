@@ -23,8 +23,10 @@ namespace Clever2D.Engine
             {
                 try
                 {
-                    LoadScene(SceneList[0]);
-                    started = true;
+                    if (!LoadScene(SceneList[0]))
+                    {
+                        Console.WriteLine("Failed to load the scene.");
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -80,20 +82,71 @@ namespace Clever2D.Engine
             }
         }
 
-        public static void LoadScene(Scene scene)
+        public delegate void LoadedEventHandler(object sender, LoadedEventArgs e);
+        /// <summary>
+        /// This event gets called when the Scene is done loading.
+        /// </summary>
+        public static event LoadedEventHandler OnLoaded = delegate { };
+
+        public delegate void SceneDrawEventHandler(object sender, SceneDrawEventArgs e);
+        /// <summary>
+        /// This event gets called when the Scene is being requested to be drawn.
+        /// </summary>
+        public static event SceneDrawEventHandler OnSceneDraw = delegate { };
+
+        /// <summary>
+        /// This event gets called when the Scene is being requested to be drawn.
+        /// </summary>
+        public static void DrawCalled(Scene scene)
         {
-            Console.WriteLine("Loading a new Scene...");
-
-            if (loadedScene != null)
+            if (scene == LoadedScene)
             {
-                loadedScene.instances.Clear();
+                OnSceneDraw(null, new SceneDrawEventArgs(scene));
             }
-
-            Console.WriteLine(scene);
-
-            loadedScene = scene;
-
-            Console.WriteLine("Scene loaded.");
         }
+
+        /// <summary>
+        /// Load a scene.
+        /// </summary>
+        public static bool LoadScene(Scene scene)
+        {
+            Console.WriteLine("Loading a Scene named \"" + scene.Name + "\"...");
+
+            try
+            {
+                if (loadedScene != null)
+                {
+                    loadedScene.instances.Clear();
+                }
+
+                loadedScene = scene;
+
+                foreach (GameObject obj in loadedScene.SceneGameObjects)
+                {
+                    loadedScene.SpawnGameObject(obj);
+                }
+
+                started = true;
+
+                OnLoaded(null, new LoadedEventArgs(scene));
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message, exception);
+            }
+        }
+    }
+
+    public class LoadedEventArgs
+    {
+        public LoadedEventArgs(Scene scene) { Scene = scene; }
+        public Scene Scene { get; }
+    }
+    public class SceneDrawEventArgs
+    {
+        public SceneDrawEventArgs(Scene scene) { Scene = scene; }
+        public Scene Scene { get; }
     }
 }

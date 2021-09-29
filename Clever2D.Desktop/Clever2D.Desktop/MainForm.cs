@@ -23,20 +23,12 @@ namespace Clever2D.Desktop
             canvas.MouseDown += MainForm_MouseDown;
 
             Content = canvas;
-
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 100;
-            timer.Elapsed += Timer_Elapsed;
-        }
-
-        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (SceneManager.LoadedScene.redraw) Draw();
         }
 
         private void Paint(object sender, PaintEventArgs e)
         {
             Scene scene = SceneManager.LoadedScene;
+
             if (scene != null && scene.ObjectCount > 0)
             {
                 foreach (GameObject gameObject in scene.GetSpawnedGameObjects())

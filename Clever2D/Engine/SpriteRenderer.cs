@@ -23,14 +23,21 @@ namespace Clever2D.Engine
             }
         }
 
-        public SpriteRenderer(Image image)
+        public SpriteRenderer(Sprite sprite)
         {
-            Sprite = image;
+            Sprite = sprite.image;
         }
 
         public void Draw()
         {
-            SceneManager.LoadedScene.Draw();
+            if (SceneManager.LoadedScene != null)
+            {
+                SceneManager.LoadedScene.Draw();
+            }
+            else
+            {
+                Console.WriteLine("No scene loaded.");
+            }
         }
     }
 }
