@@ -4,19 +4,10 @@ using System.Timers;
 
 namespace Clever2D.Engine
 {
-    public class SceneManager
+    public static class SceneManager
     {
-        private static SceneManager instance;
-        public static SceneManager Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-
-        private bool started = false;
-        public bool Started
+        private static bool started = false;
+        public static bool Started
         {
             get
             {
@@ -25,16 +16,9 @@ namespace Clever2D.Engine
         }
 
         /// <summary>
-        /// Initialize the SceneManager
-        /// </summary>
-        public void Initialize()
-        {
-            instance = this;
-        }
-        /// <summary>
         /// Start the game and load the first Scene.
         /// </summary>
-        public void Start()
+        public static void Start()
         {
             if (SceneList.Length > 0)
             {
@@ -59,39 +43,39 @@ namespace Clever2D.Engine
         /// <summary>
         /// Get the Scene list of the SceneManager.
         /// </summary>
-        public Scene[] SceneList
+        public static Scene[] SceneList
         {
             get
             {
                 return includedScenes.ToArray();
             }
         }
-        internal List<Scene> includedScenes = new();
+        internal static List<Scene> includedScenes = new();
 
         /// <summary>
         /// Add a Scene to the SceneManagers Scene list.
         /// </summary>
-        public void AddScene(Scene scene)
+        public static void AddScene(Scene scene)
         {
             includedScenes.Add(scene);
         }
         /// <summary>
         /// Add multiple Scenes to the SceneManagers Scene list.
         /// </summary>
-        public void AddScenes(Scene[] scenes)
+        public static void AddScenes(Scene[] scenes)
         {
             includedScenes.AddRange(scenes);
         }
         /// <summary>
         /// Add multiple Scenes to the SceneManagers Scene list.
         /// </summary>
-        public void AddScenes(List<Scene> scenes)
+        public static void AddScenes(List<Scene> scenes)
         {
             includedScenes.AddRange(scenes);
         }
 
-        private Scene loadedScene;
-        public Scene LoadedScene
+        private static Scene loadedScene;
+        public static Scene LoadedScene
         {
             get
             {
@@ -103,31 +87,12 @@ namespace Clever2D.Engine
         /// <summary>
         /// This event gets called when the Scene is done loading.
         /// </summary>
-        public event LoadedEventHandler OnLoaded = delegate { };
-
-        public delegate void SceneDrawEventHandler(object sender, SceneDrawEventArgs e);
-        /// <summary>
-        /// This event gets called when the Scene is being requested to be drawn.
-        /// </summary>
-        public event SceneDrawEventHandler OnSceneDraw = delegate { };
-
-        /// <summary>
-        /// This event gets called when the Scene is being requested to be drawn.
-        /// </summary>
-        public void DrawCalled(Scene scene)
-        {
-            if (scene == LoadedScene)
-            {
-                OnSceneDraw(null, new SceneDrawEventArgs(scene));
-            }
-        }
-
-        private readonly Timer tickTimer = new();
+        public static event LoadedEventHandler OnLoaded = delegate { };
 
         /// <summary>
         /// Load a scene.
         /// </summary>
-        public bool LoadScene(Scene scene)
+        public static bool LoadScene(Scene scene)
         {
             Console.WriteLine("Loading a Scene named \"" + scene.Name + "\"...");
 
@@ -148,20 +113,6 @@ namespace Clever2D.Engine
                 started = true;
 
                 OnLoaded(null, new LoadedEventArgs(scene));
-
-                if (tickTimer == null)
-                {
-                    tickTimer.Interval = 1f / 30f;
-                    tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
-                    {
-                        if (loadedScene != null)
-                        {
-                            loadedScene.Draw();
-                        }
-                    };
-
-                    tickTimer.Start();
-                }
 
                 return true;
             }

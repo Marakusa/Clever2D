@@ -36,28 +36,23 @@ namespace Example
                 Eto.Forms.Application app = new(Eto.Platforms.Wpf);
 
                 app.Initialized += (sender, e) => {
-                    new SceneManager().Initialize();
-
                     form = new MainForm(config.ProjectName, config.AuthorName, config.Version);
 
-                    SceneManager.Instance.OnSceneDraw += SceneManager_OnSceneDraw;
-
                     form.Shown += (object sender, EventArgs e) => {
-                        SceneManager.Instance.AddScenes(new Scene[] {
-                                new MainScene()
-                            });
+                        SceneManager.AddScenes(new Scene[] {
+                            new MainScene()
+                        });
 
                         Console.WriteLine("Scenes loaded.");
 
                         form.KeyDown += MainForm_KeyDown;
                         form.KeyUp += MainForm_KeyUp;
 
-                        SceneManager.Instance.OnLoaded += (object sender, LoadedEventArgs e) =>
+                        SceneManager.OnLoaded += (object sender, LoadedEventArgs e) =>
                         {
-                            if (SceneManager.Instance.Started)
+                            if (SceneManager.Started)
                             {
-                                Console.WriteLine("\"" + SceneManager.Instance.LoadedScene.Name + "\" loaded.");
-                                SceneManager.Instance.LoadedScene.Draw();
+                                Console.WriteLine("\"" + SceneManager.LoadedScene.Name + "\" loaded.");
                             }
                             else
                             {
@@ -67,7 +62,7 @@ namespace Example
                             }
                         };
 
-                        SceneManager.Instance.Start();
+                        SceneManager.Start();
                     };
 
                     form.Show();
@@ -81,18 +76,13 @@ namespace Example
             }
         }
 
-        private static void SceneManager_OnSceneDraw(object sender, SceneDrawEventArgs e)
-        {
-            form.Draw();
-        }
-
         private static void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            Input.KeyPressed(e.Key.ToShortcutString(), form.Draw);
+            Input.KeyPressed(e.Key.ToShortcutString());
         }
         private static void MainForm_KeyUp(object sender, KeyEventArgs e)
         {
-            Input.KeyReleased(e.Key.ToShortcutString(), form.Draw);
+            Input.KeyReleased(e.Key.ToShortcutString());
         }
     }
 }

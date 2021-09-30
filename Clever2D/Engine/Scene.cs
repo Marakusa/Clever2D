@@ -24,8 +24,8 @@ namespace Clever2D.Engine
         {
             get
             {
-                if (SceneManager.Instance.includedScenes.Contains(this))
-                    return SceneManager.Instance.includedScenes.IndexOf(this);
+                if (SceneManager.includedScenes.Contains(this))
+                    return SceneManager.includedScenes.IndexOf(this);
                 else
                     return -1;
             }
@@ -36,7 +36,14 @@ namespace Clever2D.Engine
 
         internal Dictionary<int, GameObject> instances = new();
 
-        private readonly List<GameObject> gameObjects = new();
+        readonly List<GameObject> gameObjects = new();
+        public List<GameObject> GameObjects
+        {
+            get
+            {
+                return gameObjects;
+            }
+        }
 
         private int objectCount = 0;
         public int ObjectCount
@@ -166,31 +173,15 @@ namespace Clever2D.Engine
         /// </summary>
         public void LoadScene()
         {
-            if (!SceneManager.Instance.LoadScene(this))
+            if (!SceneManager.LoadScene(this))
             {
                 Console.WriteLine("Loading \"" + Name + "\" failed.");
             }
         }
 
-        public List<GameObject> GetSpawnedGameObjects()
-        {
-            return gameObjects;
-        }
-
         public abstract List<GameObject> SceneGameObjects
         {
             get;
-        }
-
-        /// <summary>
-        /// Sends a redraw request to Canvas
-        /// 
-        /// TODO: Change this method
-        /// 
-        /// </summary>
-        public void Draw()
-        {
-            SceneManager.Instance.DrawCalled(this);
         }
     }
 }

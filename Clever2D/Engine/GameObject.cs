@@ -83,7 +83,7 @@ namespace Clever2D.Engine
                 gameObject.transform.position = position;
                 gameObject.transform.rotation = rotation;
                 gameObject.transform.scale = Vector2.one;
-                SceneManager.Instance.LoadedScene.SpawnGameObject(gameObject);
+                SceneManager.LoadedScene.SpawnGameObject(gameObject);
             }
             catch (Exception exception)
             {
@@ -95,7 +95,7 @@ namespace Clever2D.Engine
         {
             try
             {
-                SceneManager.Instance.LoadedScene.DestroyGameObject(gameObject);
+                SceneManager.LoadedScene.DestroyGameObject(gameObject);
             }
             catch (Exception exception)
             {

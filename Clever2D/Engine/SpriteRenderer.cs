@@ -33,9 +33,9 @@ namespace Clever2D.Engine
         /// </summary>
         public void Draw()
         {
-            if (SceneManager.Instance.LoadedScene != null)
+            if (SceneManager.LoadedScene != null)
             {
-                SceneManager.Instance.LoadedScene.Draw();
+                //SceneManager.Instance.Draw();
             }
             else
             {

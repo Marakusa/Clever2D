@@ -15,19 +15,21 @@ namespace Clever2D.Input
             return keysPressed.Contains(key);
         }
 
-        public static void KeyPressed(string key, Action callback)
+        public static void KeyPressed(string key)
         {
             if (!keysPressed.Contains(key))
+            {
                 keysPressed.Add(key);
-
-            callback.Invoke();
+                Console.WriteLine("Key down: " + key);
+            }
         }
-        public static void KeyReleased(string key, Action callback)
+        public static void KeyReleased(string key)
         {
             if (keysPressed.Contains(key))
+            {
                 keysPressed.Remove(key);
-
-            callback.Invoke();
+                Console.WriteLine("Key up: " + key);
+            }
         }
     }
 }

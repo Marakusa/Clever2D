@@ -2,15 +2,14 @@ using Eto.Drawing;
 using Eto.Forms;
 using Clever2D.Engine;
 using System;
-using Eto.Threading;
+using System.Collections.Generic;
 
 namespace Clever2D.Desktop
 {
     public partial class MainForm : Form, IKeyboardInputSource
     {
-        public Drawable canvas;
-
-        public delegate void CallDraw();
+        private delegate List<GameObject> ListObjectsMethod getGameObjects;
+        public static List<GameObject> ListObjectsMethod gameObjects;
 
         public MainForm(string projectName = "Example", string authorName = "Example", string version = "0.1.0")
         {
@@ -22,43 +21,51 @@ namespace Clever2D.Desktop
 
             BackgroundColor = new Color(0, 0, 0);
 
-            canvas = new Drawable(false);
+            System.Threading.Thread graphicsThread = new(Draw);
+            graphicsThread.Start();
+        }
 
-            canvas.Paint += Paint;
-            canvas.MouseDown += MainForm_MouseDown;
-
-            Content = canvas;
-
-            CallDraw del = new CallDraw(this.Draw);
+        public List<GameObject> GetGameObjects()
+        {
+            return getGameObjects
         }
 
         private void Paint(object sender, PaintEventArgs e)
         {
-            Scene scene = SceneManager.Instance.LoadedScene;
-
-            if (scene != null && scene.ObjectCount > 0)
+            if (SceneManager.LoadedScene != null && SceneManager.LoadedScene.ObjectCount > 0)
             {
-                foreach (GameObject gameObject in scene.GetSpawnedGameObjects())
+                foreach (GameObject gameObject in GetGameObjects())
                 {
                     SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
                     if (renderer != null)
                     {
-                        e.Graphics.DrawImage(renderer.Sprite, new PointF(gameObject.transform.position.x, -gameObject.transform.position.y + Height));
+                        Console.WriteLine(gameObject.transform.position);
+                        e.Graphics.DrawImage(renderer.Sprite, new PointF(gameObject.transform.position.x, gameObject.transform.position.y));
                     }
                 }
             }
         }
-
-        public void Draw()
+        
+        private void Draw()
         {
-            Action a = canvas.Invalidate;
-            a.Invoke();
-        }
+            Eto.Forms.Application.Instance.Invoke((Action)delegate {
+                Drawable canvas = new Drawable(false);
 
-        private void MainForm_MouseDown(object sender, MouseEventArgs e)
-        {
-            GameObject.Spawn(new GameObject("Yes"), new Vector2(e.Location.X, e.Location.Y));
-            Draw();
+                canvas.Paint += Paint;
+
+                Content = canvas;
+
+                UITimer drawTimer = new UITimer();
+
+                drawTimer.Interval = 1f / 1f;
+                drawTimer.Elapsed += (object sender, EventArgs e) =>
+                {
+                    Console.WriteLine("Draw");
+                    canvas.Invalidate();
+                };
+
+                drawTimer.Start();
+            });
         }
     }
 }

@@ -33,11 +33,6 @@ namespace Example
             }
 
             transform.position += move.Normalized;
-
-            if (move != Vector2.zero)
-            {
-                SceneManager.Instance.LoadedScene.Draw();
-            }
         }
     }
 }
