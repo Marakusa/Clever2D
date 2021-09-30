@@ -9,8 +9,8 @@ namespace Clever2D.Engine
 {
     public class SpriteRenderer : Component
     {
-        private Image sprite;
-        public Image Sprite
+        private Sprite sprite;
+        public Sprite Sprite
         {
             get
             {
@@ -22,10 +22,17 @@ namespace Clever2D.Engine
                 Draw();
             }
         }
+        public Image Image
+        {
+            get
+            {
+                return sprite.image;
+            }
+        }
 
         public SpriteRenderer(Sprite sprite)
         {
-            Sprite = sprite.image;
+            Sprite = sprite;
         }
 
         /// <summary>

@@ -37,7 +37,10 @@ namespace Clever2D.Desktop
                         SpriteRenderer renderer = instance.Value.GetComponent<SpriteRenderer>();
                         if (renderer != null)
                         {
-                            e.Graphics.DrawImage(renderer.Sprite, new PointF(instance.Value.transform.position.x, instance.Value.transform.position.y));
+                            float scale = (Height / 600f);
+                            Bitmap bitmap = new Bitmap(renderer.Sprite.Path);
+                            Image image = new Bitmap(bitmap, (int)Math.Round(bitmap.Size.Width * scale), (int)Math.Round(bitmap.Size.Height * scale), ImageInterpolation.High);
+                            e.Graphics.DrawImage(image, new PointF(instance.Value.transform.position.x * scale, (Height - instance.Value.transform.position.y) * scale));
                         }
                     }
                 }
@@ -58,7 +61,7 @@ namespace Clever2D.Desktop
 
                     UITimer drawTimer = new UITimer();
 
-                    drawTimer.Interval = 1f / 30f;
+                    drawTimer.Interval = 1f / 60f;
                     drawTimer.Elapsed += (object sender, EventArgs e) =>
                     {
                         this.Closed += (object sender, EventArgs e) =>
