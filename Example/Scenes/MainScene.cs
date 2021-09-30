@@ -21,7 +21,21 @@ namespace Example
 
         public readonly List<GameObject> sceneGameObjects = new()
         {
-            new GameObject("Sword")
+            new GameObject("Background")
+            {
+                components = new List<Component>()
+                {
+                    new Transform()
+                    {
+                        position = new Vector2(0f, 0f),
+                        rotation = new Vector2(0f, 0f),
+                        scale = new Vector2(1f, 1f)
+                    },
+                    new SpriteRenderer(new Sprite("assets/resources/Stars.gif"))
+                },
+                tag = "Background"
+            },
+            new GameObject("Player")
             {
                 components = new List<Component>()
                 {
@@ -37,7 +51,7 @@ namespace Example
                     },
                     new SpriteRenderer(new Sprite("assets/resources/Sword.png"))
                 },
-                tag = "Weapon"
+                tag = "Player"
             }/*,
             new GameObject("Sword2")
             {
