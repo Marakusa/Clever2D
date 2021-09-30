@@ -37,10 +37,10 @@ namespace Clever2D.Desktop
                         SpriteRenderer renderer = instance.Value.GetComponent<SpriteRenderer>();
                         if (renderer != null)
                         {
-                            float scale = (Height / 600f);
+                            float scale = (Height / 600f) * 2f;
                             Bitmap bitmap = new(renderer.Sprite.Path);
                             Image image = new Bitmap(bitmap, (int)Math.Round(bitmap.Size.Width * scale), (int)Math.Round(bitmap.Size.Height * scale), ImageInterpolation.High);
-                            e.Graphics.DrawImage(image, new PointF(instance.Value.transform.position.x * scale, (Height - instance.Value.transform.position.y) * scale));
+                            e.Graphics.DrawImage(image, new PointF(instance.Value.transform.position.x * scale * instance.Value.transform.scale.x, -instance.Value.transform.position.y * scale * instance.Value.transform.scale.y));
                         }
                     }
                 }

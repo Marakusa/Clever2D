@@ -41,7 +41,7 @@ namespace Example
                 {
                     new Transform()
                     {
-                        position = new Vector2(10f, 30f),
+                        position = new Vector2(10f, 10f),
                         rotation = new Vector2(0f, 0f),
                         scale = new Vector2(1f, 1f)
                     },
