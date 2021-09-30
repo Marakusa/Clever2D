@@ -1,15 +1,16 @@
 ﻿using System;
-using Clever2D;
+using System.Threading;
 using Clever2D.Desktop;
 using Clever2D.Engine;
 using Clever2D.Input;
+using Clever2D.Threading;
 using Eto.Forms;
 
 namespace Example
 {
     class Program
     {
-        static MainForm form;
+        private static MainForm form;
 
         [STAThread]
         static void Main(string[] args)
@@ -28,40 +29,56 @@ namespace Example
 
             Console.WriteLine("Creating interface...");
 
-            Eto.Forms.Application app = new Eto.Forms.Application(Eto.Platforms.Wpf);
-            form = new MainForm(config.ProjectName, config.AuthorName, config.Version);
+            OperatingSystem os = System.Environment.OSVersion;
 
-            SceneManager.OnSceneDraw += SceneManager_OnSceneDraw;
+            if (os.Platform == PlatformID.Win32NT)
+            {
+                Eto.Forms.Application app = new(Eto.Platforms.Wpf);
 
-            form.Shown += (object sender, EventArgs e) => {
-                SceneManager.AddScenes(new Scene[] {
-                    new MainScene()
-                });
+                app.Initialized += (sender, e) => {
+                    new SceneManager().Initialize();
 
-                Console.WriteLine("Scenes loaded.");
+                    form = new MainForm(config.ProjectName, config.AuthorName, config.Version);
 
-                form.KeyDown += MainForm_KeyDown;
-                form.KeyUp += MainForm_KeyUp;
+                    SceneManager.Instance.OnSceneDraw += SceneManager_OnSceneDraw;
 
-                SceneManager.OnLoaded += (object sender, LoadedEventArgs e) =>
-                {
-                    if (SceneManager.Started)
-                    {
-                        Console.WriteLine("\"" + SceneManager.LoadedScene.Name + "\" loaded.");
-                        SceneManager.LoadedScene.Draw();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Scene loading failed.");
-                        form.Close();
-                        return;
-                    }
+                    form.Shown += (object sender, EventArgs e) => {
+                        SceneManager.Instance.AddScenes(new Scene[] {
+                                new MainScene()
+                            });
+
+                        Console.WriteLine("Scenes loaded.");
+
+                        form.KeyDown += MainForm_KeyDown;
+                        form.KeyUp += MainForm_KeyUp;
+
+                        SceneManager.Instance.OnLoaded += (object sender, LoadedEventArgs e) =>
+                        {
+                            if (SceneManager.Instance.Started)
+                            {
+                                Console.WriteLine("\"" + SceneManager.Instance.LoadedScene.Name + "\" loaded.");
+                                SceneManager.Instance.LoadedScene.Draw();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Scene loading failed.");
+                                form.Close();
+                                return;
+                            }
+                        };
+
+                        SceneManager.Instance.Start();
+                    };
+
+                    form.Show();
                 };
 
-                SceneManager.Start();
-            };
-
-            app.Run(form);
+                app.Run();
+            }
+            else
+            {
+                Console.WriteLine("Unsupported platform");
+            }
         }
 
         private static void SceneManager_OnSceneDraw(object sender, SceneDrawEventArgs e)
@@ -71,11 +88,11 @@ namespace Example
 
         private static void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            Input.KeyPressed(e.KeyChar);
+            Input.KeyPressed(e.Key.ToShortcutString(), form.Draw);
         }
         private static void MainForm_KeyUp(object sender, KeyEventArgs e)
         {
-            Input.KeyReleased(e.KeyChar);
+            Input.KeyReleased(e.Key.ToShortcutString(), form.Draw);
         }
     }
 }

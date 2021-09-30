@@ -10,7 +10,7 @@ namespace Example
 {
     public class MainScene : Scene
     {
-        private string name = "MainScene";
+        private readonly string name = "MainScene";
         public override string Name
         {
             get
@@ -19,13 +19,13 @@ namespace Example
             }
         }
 
-        public readonly List<GameObject> sceneGameObjects = new List<GameObject>()
+        public readonly List<GameObject> sceneGameObjects = new()
         {
             new GameObject("Sword"){
                 components = new List<Component>()
                 {
                     new ClickSpawn(),
-                    new SpriteRenderer(new Sprite("Resources/Sword.png"))
+                    new SpriteRenderer(new Sprite("assets/resources/Sword.png"))
                 },
                 tag = "Weapon",
                 transform = new Transform(new Vector2(10f, 30f), Vector2.zero)
@@ -34,7 +34,7 @@ namespace Example
                 components = new List<Component>()
                 {
                     new ClickSpawn(),
-                    new SpriteRenderer(new Sprite("Resources/Sword.png"))
+                    new SpriteRenderer(new Sprite("assets/resources/Sword.png"))
                 },
                 tag = "Weapon",
                 transform = new Transform(new Vector2(50f, 10f), Vector2.zero)

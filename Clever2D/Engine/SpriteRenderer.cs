@@ -28,11 +28,14 @@ namespace Clever2D.Engine
             Sprite = sprite.image;
         }
 
+        /// <summary>
+        /// Send a request to draw this sprite.
+        /// </summary>
         public void Draw()
         {
-            if (SceneManager.LoadedScene != null)
+            if (SceneManager.Instance.LoadedScene != null)
             {
-                SceneManager.LoadedScene.Draw();
+                SceneManager.Instance.LoadedScene.Draw();
             }
             else
             {

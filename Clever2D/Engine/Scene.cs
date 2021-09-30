@@ -24,8 +24,8 @@ namespace Clever2D.Engine
         {
             get
             {
-                if (SceneManager.includedScenes.Contains(this))
-                    return SceneManager.includedScenes.IndexOf(this);
+                if (SceneManager.Instance.includedScenes.Contains(this))
+                    return SceneManager.Instance.includedScenes.IndexOf(this);
                 else
                     return -1;
             }
@@ -35,7 +35,8 @@ namespace Clever2D.Engine
         private readonly List<int> availableIds = new();
 
         internal Dictionary<int, GameObject> instances = new();
-        private List<GameObject> gameObjects = new();
+
+        private readonly List<GameObject> gameObjects = new();
 
         private int objectCount = 0;
         public int ObjectCount
@@ -165,7 +166,7 @@ namespace Clever2D.Engine
         /// </summary>
         public void LoadScene()
         {
-            if (!SceneManager.LoadScene(this))
+            if (!SceneManager.Instance.LoadScene(this))
             {
                 Console.WriteLine("Loading \"" + Name + "\" failed.");
             }
@@ -189,7 +190,7 @@ namespace Clever2D.Engine
         /// </summary>
         public void Draw()
         {
-            SceneManager.DrawCalled(this);
+            SceneManager.Instance.DrawCalled(this);
         }
     }
 }

@@ -4,10 +4,19 @@ using System.Timers;
 
 namespace Clever2D.Engine
 {
-    public static class SceneManager
+    public class SceneManager
     {
-        private static bool started = false;
-        public static bool Started
+        private static SceneManager instance;
+        public static SceneManager Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        private bool started = false;
+        public bool Started
         {
             get
             {
@@ -16,9 +25,16 @@ namespace Clever2D.Engine
         }
 
         /// <summary>
+        /// Initialize the SceneManager
+        /// </summary>
+        public void Initialize()
+        {
+            instance = this;
+        }
+        /// <summary>
         /// Start the game and load the first Scene.
         /// </summary>
-        public static void Start()
+        public void Start()
         {
             if (SceneList.Length > 0)
             {
@@ -43,39 +59,39 @@ namespace Clever2D.Engine
         /// <summary>
         /// Get the Scene list of the SceneManager.
         /// </summary>
-        public static Scene[] SceneList
+        public Scene[] SceneList
         {
             get
             {
                 return includedScenes.ToArray();
             }
         }
-        internal static List<Scene> includedScenes = new();
+        internal List<Scene> includedScenes = new();
 
         /// <summary>
         /// Add a Scene to the SceneManagers Scene list.
         /// </summary>
-        public static void AddScene(Scene scene)
+        public void AddScene(Scene scene)
         {
             includedScenes.Add(scene);
         }
         /// <summary>
         /// Add multiple Scenes to the SceneManagers Scene list.
         /// </summary>
-        public static void AddScenes(Scene[] scenes)
+        public void AddScenes(Scene[] scenes)
         {
             includedScenes.AddRange(scenes);
         }
         /// <summary>
         /// Add multiple Scenes to the SceneManagers Scene list.
         /// </summary>
-        public static void AddScenes(List<Scene> scenes)
+        public void AddScenes(List<Scene> scenes)
         {
             includedScenes.AddRange(scenes);
         }
 
-        private static Scene loadedScene;
-        public static Scene LoadedScene
+        private Scene loadedScene;
+        public Scene LoadedScene
         {
             get
             {
@@ -87,18 +103,18 @@ namespace Clever2D.Engine
         /// <summary>
         /// This event gets called when the Scene is done loading.
         /// </summary>
-        public static event LoadedEventHandler OnLoaded = delegate { };
+        public event LoadedEventHandler OnLoaded = delegate { };
 
         public delegate void SceneDrawEventHandler(object sender, SceneDrawEventArgs e);
         /// <summary>
         /// This event gets called when the Scene is being requested to be drawn.
         /// </summary>
-        public static event SceneDrawEventHandler OnSceneDraw = delegate { };
+        public event SceneDrawEventHandler OnSceneDraw = delegate { };
 
         /// <summary>
         /// This event gets called when the Scene is being requested to be drawn.
         /// </summary>
-        public static void DrawCalled(Scene scene)
+        public void DrawCalled(Scene scene)
         {
             if (scene == LoadedScene)
             {
@@ -106,12 +122,12 @@ namespace Clever2D.Engine
             }
         }
 
-        private static Timer tickTimer = new();
+        private readonly Timer tickTimer = new();
 
         /// <summary>
         /// Load a scene.
         /// </summary>
-        public static bool LoadScene(Scene scene)
+        public bool LoadScene(Scene scene)
         {
             Console.WriteLine("Loading a Scene named \"" + scene.Name + "\"...");
 

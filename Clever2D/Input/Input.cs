@@ -8,22 +8,26 @@ namespace Clever2D.Input
 {
     public static class Input
     {
-        internal static List<char> keysPressed = new();
+        internal static List<string> keysPressed = new();
 
-        public static bool GetKey(char key)
+        public static bool GetKey(string key)
         {
             return keysPressed.Contains(key);
         }
 
-        public static void KeyPressed(char key)
+        public static void KeyPressed(string key, Action callback)
         {
             if (!keysPressed.Contains(key))
                 keysPressed.Add(key);
+
+            callback.Invoke();
         }
-        public static void KeyReleased(char key)
+        public static void KeyReleased(string key, Action callback)
         {
             if (keysPressed.Contains(key))
                 keysPressed.Remove(key);
+
+            callback.Invoke();
         }
     }
 }

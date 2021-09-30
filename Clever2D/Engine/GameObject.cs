@@ -36,7 +36,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// The components of this GameObject.
         /// </summary>
-        public List<Component> components = new List<Component>();
+        public List<Component> components = new();
 
         public T GetComponent<T>()
         {
@@ -48,7 +48,7 @@ namespace Clever2D.Engine
                 }
             }
 
-            return default(T);
+            return default;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Clever2D.Engine
                 gameObject.transform.position = position;
                 gameObject.transform.rotation = rotation;
                 gameObject.transform.scale = Vector2.one;
-                SceneManager.LoadedScene.SpawnGameObject(gameObject);
+                SceneManager.Instance.LoadedScene.SpawnGameObject(gameObject);
             }
             catch (Exception exception)
             {
@@ -95,7 +95,7 @@ namespace Clever2D.Engine
         {
             try
             {
-                SceneManager.LoadedScene.DestroyGameObject(gameObject);
+                SceneManager.Instance.LoadedScene.DestroyGameObject(gameObject);
             }
             catch (Exception exception)
             {
