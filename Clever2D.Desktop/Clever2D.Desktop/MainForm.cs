@@ -61,6 +61,9 @@ namespace Clever2D.Desktop
 
                     UITimer drawTimer = new();
 
+                    DateTime frameStart = DateTime.Now;
+                    DateTime frameEnd = DateTime.Now;
+
                     drawTimer.Interval = 1f / 60f;
                     drawTimer.Elapsed += (object sender, EventArgs e) =>
                     {
@@ -70,6 +73,9 @@ namespace Clever2D.Desktop
                             this.Unbind();
                         };
                         canvas.Invalidate();
+                        frameEnd = DateTime.Now;
+                        Console.WriteLine((60000f / (frameEnd - frameStart).TotalMilliseconds) + " fps");
+                        frameStart = DateTime.Now;
                     };
 
                     drawTimer.Start();
