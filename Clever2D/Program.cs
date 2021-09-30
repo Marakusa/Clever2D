@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Clever2D.Engine;
+using System;
 
 namespace Clever2D
 {
@@ -6,8 +7,8 @@ namespace Clever2D
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"Clever2D {Version.CurrentVersion} {Version.Copyright}");
-            Console.WriteLine($"Starting...");
+            Player.Log($"Clever2D {Version.CurrentVersion} {Version.Copyright}");
+            Player.Log($"Starting...");
         }
     }
 }

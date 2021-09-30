@@ -11,7 +11,7 @@ namespace Clever2D.Desktop
     {
         public MainForm(string projectName = "Example", string authorName = "Example", string version = "0.1.0")
         {
-            Console.WriteLine("Creating form...");
+            Player.Log("Creating form...");
 
             Title = $"{authorName} - {projectName} {version}";
             MinimumSize = new Size(200, 200);
@@ -73,9 +73,10 @@ namespace Clever2D.Desktop
                             this.Unbind();
                         };
                         canvas.Invalidate();
-                        frameEnd = DateTime.Now;
-                        Console.WriteLine((60000f / (frameEnd - frameStart).TotalMilliseconds) + " fps");
-                        frameStart = DateTime.Now;
+                        //frameEnd = DateTime.Now;
+                        //double fps = (60000f / (frameEnd - frameStart).TotalMilliseconds);
+                        //Player.Log(fps.ToString("0") + " fps");
+                        //frameStart = DateTime.Now;
                     };
 
                     drawTimer.Start();

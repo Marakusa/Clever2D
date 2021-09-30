@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Timers;
 
 namespace Clever2D.Engine
@@ -72,22 +73,22 @@ namespace Clever2D.Engine
                     }
                     else
                     {
-                        throw new NullReferenceException("GameObject could not be instantiated. Given GameObject was null.");
+                        Player.LogError("GameObject could not be instantiated. Given GameObject was null.", new NullReferenceException());
                     }
                 }
                 else
                 {
                     if (nextId > 2147483647)
-                        throw new Exception("GameObject could not be instantiated. The next instance ID available was larger than the 32-bit limit (2147483647).");
+                        Player.LogError("GameObject could not be instantiated. The next instance ID available was larger than the 32-bit limit (2147483647).");
                     else if (nextId < -2147483648)
-                        throw new Exception("GameObject could not be instantiated. The next instance ID available was smaller than the 32-bit limit (-2147483648).");
+                        Player.LogError("GameObject could not be instantiated. The next instance ID available was smaller than the 32-bit limit (-2147483648).");
                     else
-                        throw new Exception("GameObject could not be instantiated.");
+                        Player.LogError("GameObject could not be instantiated.");
                 }
             }
             catch (Exception exception)
             {
-                throw new Exception(exception.Message, exception);
+                Player.LogError(exception.Message, exception);
             }
         }
         internal void DestroyGameObject(GameObject gameObject)
@@ -101,12 +102,12 @@ namespace Clever2D.Engine
                 }
                 else
                 {
-                    throw new NullReferenceException("GameObject could not be destroyed. Given GameObject was null.");
+                    Player.LogError("GameObject could not be destroyed. Given GameObject was null.", new NullReferenceException());
                 }
             }
             catch (Exception exception)
             {
-                throw new Exception(exception.Message, exception);
+                Player.LogError(exception.Message, exception);
             }
         }
 
@@ -122,17 +123,29 @@ namespace Clever2D.Engine
                 if ((component as CleverScript) != null)
                 {
                     ((CleverScript)component).Start();
-                    Timer tickTimer = new();
 
-                    tickTimer.Interval = 1f / 30f;
-                    tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                    Thread thread = new(() =>
                     {
-                        ((CleverScript)component).FixedUpdate();
-                    };
+                        System.Timers.Timer tickTimer = new();
 
-                    tickTimer.Start();
+                        DateTime frameStart = DateTime.Now;
+                        DateTime frameEnd = DateTime.Now;
 
-                    ((CleverScript)component).timer = tickTimer;
+                        tickTimer.Interval = 1f / 60f;
+                        tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                        {
+                            ((CleverScript)component).FixedUpdate();
+                            //frameEnd = DateTime.Now;
+                            //double fps = (60000f / (frameEnd - frameStart).TotalMilliseconds);
+                            //frameStart = DateTime.Now;
+                        };
+
+                        tickTimer.Start();
+
+                        ((CleverScript)component).timer = tickTimer;
+                    });
+
+                    thread.Start();
                 }
             }
         }
@@ -158,7 +171,7 @@ namespace Clever2D.Engine
         {
             if (!SceneManager.LoadScene(this))
             {
-                Console.WriteLine("Loading \"" + Name + "\" failed.");
+                Player.LogError("Loading \"" + Name + "\" failed.");
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Clever2D.Engine;
 using Clever2D.Input;
+using System;
 
 namespace Example
 {
@@ -28,7 +29,7 @@ namespace Example
                 move += Vector2.right;
             }
 
-            transform.position += move.Normalized * speed;
+            transform.position += move.Normalized * speed * 50f * Time.DeltaTime;
         }
     }
 }

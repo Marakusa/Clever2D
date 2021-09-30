@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Clever2D.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,10 @@ namespace Clever2D.Input
             if (!keysPressed.Contains(key))
             {
                 keysPressed.Add(key);
-                Console.WriteLine("Key down: " + key);
+                Player.Log("Key up: " + key);
+                Player.LogWarn("Key up: " + key);
+                Player.LogError("Null is yes");
+                Player.LogError("Null is yes", new NullReferenceException());
             }
         }
         public static void KeyReleased(string key)
@@ -28,7 +32,6 @@ namespace Clever2D.Input
             if (keysPressed.Contains(key))
             {
                 keysPressed.Remove(key);
-                Console.WriteLine("Key up: " + key);
             }
         }
     }

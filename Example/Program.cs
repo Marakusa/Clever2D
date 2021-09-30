@@ -13,11 +13,13 @@ namespace Example
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting...");
+            Player.Log("Starting...");
+
+            Time.Initialize();
 
             ApplicationConfig config = new();
 
-            Console.WriteLine("Loading configurations...");
+            Player.Log("Loading configurations...");
 
             config.ProjectName = "Example Project";
             config.AuthorName = "Company";
@@ -25,7 +27,7 @@ namespace Example
 
             Clever2D.Engine.Application.Config = config;
 
-            Console.WriteLine("Creating interface...");
+            Player.Log("Creating interface...");
 
             OperatingSystem os = System.Environment.OSVersion;
 
@@ -41,7 +43,7 @@ namespace Example
                             new MainScene()
                         });
 
-                        Console.WriteLine("Scenes loaded.");
+                        Player.Log("Scenes loaded.");
 
                         form.KeyDown += MainForm_KeyDown;
                         form.KeyUp += MainForm_KeyUp;
@@ -52,11 +54,11 @@ namespace Example
                         {
                             if (SceneManager.Started)
                             {
-                                Console.WriteLine("\"" + SceneManager.LoadedScene.Name + "\" loaded.");
+                                Player.Log("\"" + SceneManager.LoadedScene.Name + "\" loaded.");
                             }
                             else
                             {
-                                Console.WriteLine("Scene loading failed.");
+                                Player.LogError("Scene loading failed.");
                                 form.Close();
                                 return;
                             }
@@ -72,7 +74,7 @@ namespace Example
             }
             else
             {
-                Console.WriteLine("Unsupported platform");
+                Player.LogError("Unsupported platform");
             }
         }
 

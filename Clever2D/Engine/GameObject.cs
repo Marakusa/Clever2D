@@ -85,7 +85,7 @@ namespace Clever2D.Engine
             }
             catch (Exception exception)
             {
-                throw new Exception(exception.Message, exception);
+                Player.LogError(exception.Message, exception);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Clever2D.Engine
             }
             catch (Exception exception)
             {
-                throw exception.InnerException;
+                Player.LogError(exception.Message, exception);
             }
         }
     }

@@ -27,17 +27,17 @@ namespace Clever2D.Engine
                 {
                     if (!LoadScene(SceneList[0]))
                     {
-                        Console.WriteLine("Failed to load the scene.");
+                        Player.LogError("Failed to load the scene.");
                     }
                 }
                 catch (Exception exception)
                 {
-                    throw new Exception(exception.Message, exception);
+                    Player.LogError(exception.Message, exception);
                 }
             }
             else
             {
-                throw new Exception("Could not start the game. No Scenes added.");
+                Player.LogError("Could not start the game. No Scenes added.");
             }
         }
 
@@ -95,7 +95,7 @@ namespace Clever2D.Engine
         /// </summary>
         public static bool LoadScene(Scene scene)
         {
-            Console.WriteLine("Loading a Scene named \"" + scene.Name + "\"...");
+            Player.Log("Loading a Scene named \"" + scene.Name + "\"...");
 
             try
             {
@@ -119,7 +119,8 @@ namespace Clever2D.Engine
             }
             catch (Exception exception)
             {
-                throw new Exception(exception.Message, exception);
+                Player.LogError(exception.Message, exception);
+                return false;
             }
         }
     }

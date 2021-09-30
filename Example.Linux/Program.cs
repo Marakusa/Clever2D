@@ -14,11 +14,11 @@ namespace Example
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting...");
+            Player.Log("Starting...");
 
             ApplicationConfig config = new();
 
-            Console.WriteLine("Loading configurations...");
+            Player.Log("Loading configurations...");
 
             config.ProjectName = "Example Project";
             config.AuthorName = "Company";
@@ -26,7 +26,7 @@ namespace Example
 
             Clever2D.Engine.Application.Config = config;
 
-            Console.WriteLine("Creating interface...");
+            Player.Log("Creating interface...");
 
             OperatingSystem os = System.Environment.OSVersion;
 
@@ -37,7 +37,7 @@ namespace Example
             }
             else
             {
-                Console.WriteLine("Unsupported platform");
+                Player.LogError("Unsupported platform");
             }
         }
 
@@ -45,14 +45,14 @@ namespace Example
         {
             form = new MainForm(config.ProjectName, config.AuthorName, config.Version);
 
-            SceneManager.OnSceneDraw += SceneManager_OnSceneDraw;
+            //SceneManager.OnSceneDraw += SceneManager_OnSceneDraw;
 
             form.Shown += (object sender, EventArgs e) => {
                 SceneManager.AddScenes(new Scene[] {
                     new MainScene()
                 });
 
-                Console.WriteLine("Scenes loaded.");
+                Player.Log("Scenes loaded.");
 
                 form.KeyDown += MainForm_KeyDown;
                 form.KeyUp += MainForm_KeyUp;
@@ -61,12 +61,12 @@ namespace Example
                 {
                     if (SceneManager.Started)
                     {
-                        Console.WriteLine("\"" + SceneManager.LoadedScene.Name + "\" loaded.");
-                        SceneManager.LoadedScene.Draw();
+                        Player.Log("\"" + SceneManager.LoadedScene.Name + "\" loaded.");
+                        //SceneManager.LoadedScene.Draw();
                     }
                     else
                     {
-                        Console.WriteLine("Scene loading failed.");
+                        Player.LogError("Scene loading failed.");
                         form.Close();
                         return;
                     }
@@ -78,18 +78,18 @@ namespace Example
             app.Run(form);
         }
 
-        private static void SceneManager_OnSceneDraw(object sender, SceneDrawEventArgs e)
-        {
-            form.Draw();
-        }
+        //private static void SceneManager_OnSceneDraw(object sender, SceneDrawEventArgs e)
+        //{
+        //    form.Draw();
+        //}
 
         private static void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            Input.KeyPressed(e.KeyChar);
+            Input.KeyPressed(e.Key.ToShortcutString());
         }
         private static void MainForm_KeyUp(object sender, KeyEventArgs e)
         {
-            Input.KeyReleased(e.KeyChar);
+            Input.KeyReleased(e.Key.ToShortcutString());
         }
     }
 }
