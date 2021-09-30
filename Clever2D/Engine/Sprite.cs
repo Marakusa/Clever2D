@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Eto.Drawing;
 
 namespace Clever2D.Engine
@@ -11,7 +7,7 @@ namespace Clever2D.Engine
     {
         public Image image;
 
-        private string path = "";
+        private readonly string path = "";
         public string Path
         {
             get

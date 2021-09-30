@@ -19,7 +19,6 @@ namespace Clever2D.Engine
             set
             {
                 sprite = value;
-                Draw();
             }
         }
         public Image Image
@@ -33,21 +32,6 @@ namespace Clever2D.Engine
         public SpriteRenderer(Sprite sprite)
         {
             Sprite = sprite;
-        }
-
-        /// <summary>
-        /// Send a request to draw this sprite.
-        /// </summary>
-        public void Draw()
-        {
-            if (SceneManager.LoadedScene != null)
-            {
-                //SceneManager.Instance.Draw();
-            }
-            else
-            {
-                Console.WriteLine("No scene loaded.");
-            }
         }
     }
 }

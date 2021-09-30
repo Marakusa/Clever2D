@@ -13,7 +13,7 @@ namespace Clever2D.Desktop
         {
             Console.WriteLine("Creating form...");
 
-            Title = projectName;
+            Title = $"{authorName} - {projectName} {version}";
             MinimumSize = new Size(200, 200);
             Size = new Size(800, 600);
 
@@ -38,7 +38,7 @@ namespace Clever2D.Desktop
                         if (renderer != null)
                         {
                             float scale = (Height / 600f);
-                            Bitmap bitmap = new Bitmap(renderer.Sprite.Path);
+                            Bitmap bitmap = new(renderer.Sprite.Path);
                             Image image = new Bitmap(bitmap, (int)Math.Round(bitmap.Size.Width * scale), (int)Math.Round(bitmap.Size.Height * scale), ImageInterpolation.High);
                             e.Graphics.DrawImage(image, new PointF(instance.Value.transform.position.x * scale, (Height - instance.Value.transform.position.y) * scale));
                         }
@@ -53,13 +53,13 @@ namespace Clever2D.Desktop
             {
                 Eto.Forms.Application.Instance.Invoke((Action)delegate
                 {
-                    Drawable canvas = new Drawable(false);
+                    Drawable canvas = new(false);
 
                     canvas.Paint += Paint;
 
                     Content = canvas;
 
-                    UITimer drawTimer = new UITimer();
+                    UITimer drawTimer = new();
 
                     drawTimer.Interval = 1f / 60f;
                     drawTimer.Elapsed += (object sender, EventArgs e) =>

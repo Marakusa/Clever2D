@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading;
 using Clever2D.Desktop;
 using Clever2D.Engine;
 using Clever2D.Input;
-using Clever2D.Threading;
 using Eto.Forms;
 
 namespace Example

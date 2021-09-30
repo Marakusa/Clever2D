@@ -1,7 +1,5 @@
 ﻿using Clever2D.Engine;
 using Clever2D.Input;
-using Clever2D.Threading;
-using System;
 
 namespace Example
 {

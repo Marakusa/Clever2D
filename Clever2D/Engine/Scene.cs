@@ -34,7 +34,7 @@ namespace Clever2D.Engine
         private int nextId = -2147483648;
         private readonly List<int> availableIds = new();
 
-        private Dictionary<int, GameObject> instances = new();
+        private readonly Dictionary<int, GameObject> instances = new();
         public Dictionary<int, GameObject> Instances
         {
             get
