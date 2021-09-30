@@ -48,6 +48,8 @@ namespace Example
                         form.KeyDown += MainForm_KeyDown;
                         form.KeyUp += MainForm_KeyUp;
 
+                        form.Closing += MainForm_Closing;
+
                         SceneManager.OnLoaded += (object sender, LoadedEventArgs e) =>
                         {
                             if (SceneManager.Started)
@@ -74,6 +76,11 @@ namespace Example
             {
                 Console.WriteLine("Unsupported platform");
             }
+        }
+
+        private static void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Environment.Exit(0);
         }
 
         private static void MainForm_KeyDown(object sender, KeyEventArgs e)

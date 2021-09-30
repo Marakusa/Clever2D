@@ -38,7 +38,8 @@ namespace Clever2D.Engine
             float magnitude = this.Magnitude;
             x /= magnitude;
             y /= magnitude;
-            z /= magnitude;
+            if (magnitude != 0)
+                z /= magnitude;
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace Clever2D.Engine
             get
             {
                 float magnitude = this.Magnitude;
-                return new Vector2(this.x / magnitude, this.y / magnitude);
+                return new Vector2(magnitude == 0 ? 0 : this.x / magnitude, magnitude == 0 ? 0 : this.y / magnitude);
             }
         }
 
@@ -221,15 +222,32 @@ namespace Clever2D.Engine
 
         public static Vector2 operator /(Vector2 a, Vector2 b)
         {
-            return new Vector2(a.x / b.x, a.y / b.y);
+            return new Vector2(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y);
         }
         public static Vector3 operator /(Vector2 a, Vector3 b)
         {
-            return new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+            return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
         }
         public static Vector3 operator /(Vector3 a, Vector2 b)
         {
-            return new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+            return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
+        }
+
+        public static Vector2 operator *(Vector2 a, float b)
+        {
+            return new Vector2(a.x * b, a.y * b);
+        }
+        public static Vector2 operator *(Vector2 a, int b)
+        {
+            return new Vector2(a.x * b, a.y * b);
+        }
+        public static Vector2 operator *(Vector2 a, double b)
+        {
+            return new Vector2(a.x * (float)b, a.y * (float)b);
+        }
+        public static Vector2 operator *(Vector2 a, decimal b)
+        {
+            return new Vector2(a.x * (float)b, a.y * (float)b);
         }
     }
 
@@ -389,11 +407,28 @@ namespace Clever2D.Engine
 
         public static Vector3 operator /(Vector3 a, Vector3 b)
         {
-            return new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+            return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
         }
         public static Vector3 operator /(Vector3 a, Vector2 b)
         {
-            return new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+            return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
+        }
+
+        public static Vector3 operator *(Vector3 a, float b)
+        {
+            return new Vector3(a.x * b, a.y * b, a.z * b);
+        }
+        public static Vector3 operator *(Vector3 a, int b)
+        {
+            return new Vector3(a.x * b, a.y * b, a.z * b);
+        }
+        public static Vector3 operator *(Vector3 a, double b)
+        {
+            return new Vector3(a.x * (float)b, a.y * (float)b, a.z * (float)b);
+        }
+        public static Vector3 operator *(Vector3 a, decimal b)
+        {
+            return new Vector3(a.x * (float)b, a.y * (float)b, a.z * (float)b);
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Eto.Forms;
+using System;
 using System.Collections.Generic;
 using System.Timers;
 
 namespace Clever2D.Engine
 {
-    public static class SceneManager
+    public class SceneManager
     {
         private static bool started = false;
         public static bool Started
@@ -100,7 +101,7 @@ namespace Clever2D.Engine
             {
                 if (loadedScene != null)
                 {
-                    loadedScene.instances.Clear();
+                    loadedScene.Instances.Clear();
                 }
 
                 loadedScene = scene;
@@ -112,7 +113,7 @@ namespace Clever2D.Engine
 
                 started = true;
 
-                OnLoaded(null, new LoadedEventArgs(scene));
+                OnLoaded(null, new LoadedEventArgs(loadedScene));
 
                 return true;
             }

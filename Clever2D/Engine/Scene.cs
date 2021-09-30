@@ -34,23 +34,12 @@ namespace Clever2D.Engine
         private int nextId = -2147483648;
         private readonly List<int> availableIds = new();
 
-        internal Dictionary<int, GameObject> instances = new();
-
-        readonly List<GameObject> gameObjects = new();
-        public List<GameObject> GameObjects
+        private Dictionary<int, GameObject> instances = new();
+        public Dictionary<int, GameObject> Instances
         {
             get
             {
-                return gameObjects;
-            }
-        }
-
-        private int objectCount = 0;
-        public int ObjectCount
-        {
-            get
-            {
-                return objectCount;
+                return instances;
             }
         }
 
@@ -58,6 +47,8 @@ namespace Clever2D.Engine
         {
             try
             {
+                gameObject.transform = gameObject.GetComponent<Transform>();
+
                 if (nextId <= 2147483647 && nextId >= -2147483648)
                 {
                     if (gameObject != null)
@@ -70,15 +61,11 @@ namespace Clever2D.Engine
 
                             gameObject.instanceId = id;
                             AddGameObject(id, gameObject);
-
-                            objectCount++;
                         }
                         else
                         {
                             gameObject.instanceId = nextId;
                             AddGameObject(nextId, gameObject);
-
-                            objectCount++;
 
                             nextId++;
                         }
@@ -111,8 +98,6 @@ namespace Clever2D.Engine
                 {
                     RemoveGameObject(gameObject);
                     availableIds.Add(gameObject.InstanceId);
-
-                    objectCount--;
                 }
                 else
                 {
@@ -128,7 +113,6 @@ namespace Clever2D.Engine
         private void AddGameObject(int id, GameObject gameObject)
         {
             instances.Add(id, gameObject);
-            gameObjects.Add(gameObject);
 
             foreach (Component component in gameObject.components)
             {
@@ -165,7 +149,6 @@ namespace Clever2D.Engine
             }
 
             instances.Remove(gameObject.InstanceId);
-            gameObjects.Remove(gameObject);
         }
 
         /// <summary>

@@ -7,10 +7,8 @@ namespace Example
 {
     public class ClickSpawn : CleverScript
     {
-        public override void Start()
-        {
-            Console.WriteLine("Start");
-        }
+        public float speed = 1f;
+
         public override void FixedUpdate()
         {
             Vector2 move = Vector2.zero;
@@ -32,7 +30,7 @@ namespace Example
                 move += Vector2.right;
             }
 
-            transform.position += move.Normalized;
+            transform.position += move.Normalized * speed;
         }
     }
 }

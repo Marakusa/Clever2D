@@ -32,7 +32,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// The transform component of this GameObject.
         /// </summary>
-        public Transform transform = new();
+        public Transform transform;
         /// <summary>
         /// The components of this GameObject.
         /// </summary>
@@ -54,11 +54,10 @@ namespace Clever2D.Engine
         /// <summary>
         /// Base class for all entities in scenes.
         /// </summary>
-        public GameObject(string name)
+        public GameObject(string name, string tag = "Untagged")
         {
             this.name = name;
-            this.tag = "Untagged";
-            this.transform = new();
+            this.tag = tag;
         }
 
         /// <summary>
@@ -80,9 +79,6 @@ namespace Clever2D.Engine
         {
             try
             {
-                gameObject.transform.position = position;
-                gameObject.transform.rotation = rotation;
-                gameObject.transform.scale = Vector2.one;
                 SceneManager.LoadedScene.SpawnGameObject(gameObject);
             }
             catch (Exception exception)

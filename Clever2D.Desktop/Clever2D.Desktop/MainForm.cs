@@ -3,14 +3,12 @@ using Eto.Forms;
 using Clever2D.Engine;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Clever2D.Desktop
 {
-    public partial class MainForm : Form, IKeyboardInputSource
+    public class MainForm : Form
     {
-        private delegate List<GameObject> ListObjectsMethod getGameObjects;
-        public static List<GameObject> ListObjectsMethod gameObjects;
-
         public MainForm(string projectName = "Example", string authorName = "Example", string version = "0.1.0")
         {
             Console.WriteLine("Creating form...");
@@ -25,22 +23,22 @@ namespace Clever2D.Desktop
             graphicsThread.Start();
         }
 
-        public List<GameObject> GetGameObjects()
-        {
-            return getGameObjects
-        }
-
         private void Paint(object sender, PaintEventArgs e)
         {
-            if (SceneManager.LoadedScene != null && SceneManager.LoadedScene.ObjectCount > 0)
+            Scene loadedScene = SceneManager.LoadedScene;
+            if (loadedScene != null)
             {
-                foreach (GameObject gameObject in GetGameObjects())
+                var instances = loadedScene.Instances;
+
+                if (instances.Count > 0)
                 {
-                    SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
-                    if (renderer != null)
+                    foreach (var instance in instances)
                     {
-                        Console.WriteLine(gameObject.transform.position);
-                        e.Graphics.DrawImage(renderer.Sprite, new PointF(gameObject.transform.position.x, gameObject.transform.position.y));
+                        SpriteRenderer renderer = instance.Value.GetComponent<SpriteRenderer>();
+                        if (renderer != null)
+                        {
+                            e.Graphics.DrawImage(renderer.Sprite, new PointF(instance.Value.transform.position.x, instance.Value.transform.position.y));
+                        }
                     }
                 }
             }
@@ -48,24 +46,34 @@ namespace Clever2D.Desktop
         
         private void Draw()
         {
-            Eto.Forms.Application.Instance.Invoke((Action)delegate {
-                Drawable canvas = new Drawable(false);
-
-                canvas.Paint += Paint;
-
-                Content = canvas;
-
-                UITimer drawTimer = new UITimer();
-
-                drawTimer.Interval = 1f / 1f;
-                drawTimer.Elapsed += (object sender, EventArgs e) =>
+            Thread thread = new(() =>
+            {
+                Eto.Forms.Application.Instance.Invoke((Action)delegate
                 {
-                    Console.WriteLine("Draw");
-                    canvas.Invalidate();
-                };
+                    Drawable canvas = new Drawable(false);
 
-                drawTimer.Start();
+                    canvas.Paint += Paint;
+
+                    Content = canvas;
+
+                    UITimer drawTimer = new UITimer();
+
+                    drawTimer.Interval = 1f / 30f;
+                    drawTimer.Elapsed += (object sender, EventArgs e) =>
+                    {
+                        this.Closed += (object sender, EventArgs e) =>
+                        {
+                            drawTimer.Stop();
+                            this.Unbind();
+                        };
+                        canvas.Invalidate();
+                    };
+
+                    drawTimer.Start();
+                });
             });
+
+            thread.Start();
         }
     }
 }
