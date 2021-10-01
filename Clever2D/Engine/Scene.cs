@@ -32,136 +32,192 @@ namespace Clever2D.Engine
             }
         }
 
+        /// <summary>
+        /// The instance ID of the next instance.
+        /// </summary>
         private int nextId = -2147483648;
+        /// <summary>
+        /// List of all IDs of destroyed spawned GameObjects. These will be used by the next spawned GameObjects that are going to be spawned.
+        /// </summary>
         private readonly List<int> availableIds = new();
 
-        private readonly Dictionary<int, GameObject> instances = new();
-        public Dictionary<int, GameObject> Instances
+        /// <summary>
+        /// List of all spawned GameObjects.
+        /// </summary>
+        private readonly Dictionary<int, GameObject> spawnedGameObjects = new();
+        /// <summary>
+        /// Returns the list of all spawned GameObjects.
+        /// </summary>
+        public Dictionary<int, GameObject> SpawnedGameObjects
         {
             get
             {
-                return instances;
+                return spawnedGameObjects;
             }
         }
 
+        /// <summary>
+        /// Spawn a GameObejct to this Scene if loaded.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to spawn.</param>
         internal void SpawnGameObject(GameObject gameObject)
         {
-            try
+            if (SceneManager.LoadedScene == this)
             {
-                gameObject.transform = gameObject.GetComponent<Transform>();
-
-                if (nextId <= 2147483647 && nextId >= -2147483648)
+                try
                 {
-                    if (gameObject != null)
+                    gameObject.transform = gameObject.GetComponent<Transform>();
+
+                    if (nextId <= 2147483647 && nextId >= -2147483648)
                     {
-                        if (availableIds.Count > 0)
+                        if (gameObject != null)
                         {
-                            int id = availableIds[0];
+                            if (availableIds.Count > 0)
+                            {
+                                int id = availableIds[0];
 
-                            availableIds.Remove(id);
+                                availableIds.Remove(id);
 
-                            gameObject.instanceId = id;
-                            AddGameObject(id, gameObject);
+                                gameObject.instanceId = id;
+                                AddGameObject(id, gameObject);
+                            }
+                            else
+                            {
+                                gameObject.instanceId = nextId;
+                                AddGameObject(nextId, gameObject);
+
+                                nextId++;
+                            }
                         }
                         else
                         {
-                            gameObject.instanceId = nextId;
-                            AddGameObject(nextId, gameObject);
-
-                            nextId++;
+                            Player.LogError("GameObject could not be instantiated. Given GameObject was null.", new NullReferenceException());
                         }
                     }
                     else
                     {
-                        Player.LogError("GameObject could not be instantiated. Given GameObject was null.", new NullReferenceException());
+                        if (nextId > 2147483647)
+                            Player.LogError("GameObject could not be instantiated. The next instance ID available was larger than the 32-bit limit (2147483647).");
+                        else if (nextId < -2147483648)
+                            Player.LogError("GameObject could not be instantiated. The next instance ID available was smaller than the 32-bit limit (-2147483648).");
+                        else
+                            Player.LogError("GameObject could not be instantiated.");
                     }
                 }
-                else
+                catch (Exception exception)
                 {
-                    if (nextId > 2147483647)
-                        Player.LogError("GameObject could not be instantiated. The next instance ID available was larger than the 32-bit limit (2147483647).");
-                    else if (nextId < -2147483648)
-                        Player.LogError("GameObject could not be instantiated. The next instance ID available was smaller than the 32-bit limit (-2147483648).");
-                    else
-                        Player.LogError("GameObject could not be instantiated.");
+                    Player.LogError(exception.Message, exception);
                 }
             }
-            catch (Exception exception)
+            else
             {
-                Player.LogError(exception.Message, exception);
+                Player.LogError("GameObject could not be instantiated. The Scene is not loaded.");
             }
         }
+        /// <summary>
+        /// Destroy a GameObejct in this Scene if loaded.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to destroy.</param>
         internal void DestroyGameObject(GameObject gameObject)
         {
-            try
+            if (SceneManager.LoadedScene == this)
             {
-                if (gameObject != null)
+                try
                 {
-                    RemoveGameObject(gameObject);
-                    availableIds.Add(gameObject.InstanceId);
+                    if (gameObject != null)
+                    {
+                        RemoveGameObject(gameObject);
+                        availableIds.Add(gameObject.InstanceId);
+                    }
+                    else
+                    {
+                        Player.LogError("GameObject could not be destroyed. Given GameObject was null.", new NullReferenceException());
+                    }
                 }
-                else
+                catch (Exception exception)
                 {
-                    Player.LogError("GameObject could not be destroyed. Given GameObject was null.", new NullReferenceException());
+                    Player.LogError(exception.Message, exception);
                 }
             }
-            catch (Exception exception)
+            else
             {
-                Player.LogError(exception.Message, exception);
+                Player.LogError("GameObject could not be destroyed. The Scene is not loaded.");
             }
         }
 
+        /// <summary>
+        /// Add a GameObject being spawned into the spawned GameObjects list.
+        /// </summary>
+        /// <param name="id">The instance ID of the GameObject.</param>
+        /// <param name="gameObject">The spawned GameObject.</param>
         private void AddGameObject(int id, GameObject gameObject)
         {
-            instances.Add(id, gameObject);
-
-            foreach (Component component in gameObject.components)
+            if (SceneManager.LoadedScene == this)
             {
-                component.gameObject = gameObject;
-                component.transform = gameObject.transform;
+                spawnedGameObjects.Add(id, gameObject);
 
-                if ((component as CleverScript) != null)
+                foreach (Component component in gameObject.components)
                 {
-                    ((CleverScript)component).Start();
+                    component.gameObject = gameObject;
+                    component.transform = gameObject.transform;
 
-                    Thread thread = new(() =>
+                    if ((component as CleverScript) != null)
                     {
-                        System.Timers.Timer tickTimer = new();
+                        ((CleverScript)component).Start();
 
-                        DateTime frameStart = DateTime.Now;
-                        DateTime frameEnd = DateTime.Now;
-
-                        tickTimer.Interval = 1f / 60f;
-                        tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                        Thread thread = new(() =>
                         {
-                            ((CleverScript)component).FixedUpdate();
-                            //frameEnd = DateTime.Now;
-                            //double fps = (60000f / (frameEnd - frameStart).TotalMilliseconds);
-                            //frameStart = DateTime.Now;
-                        };
+                            System.Timers.Timer tickTimer = new();
 
-                        tickTimer.Start();
+                            DateTime frameStart = DateTime.Now;
+                            DateTime frameEnd = DateTime.Now;
 
-                        ((CleverScript)component).timer = tickTimer;
-                    });
+                            tickTimer.Interval = 1f / 60f;
+                            tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                            {
+                                ((CleverScript)component).FixedUpdate();
+                                //frameEnd = DateTime.Now;
+                                //double fps = (60000f / (frameEnd - frameStart).TotalMilliseconds);
+                                //frameStart = DateTime.Now;
+                            };
 
-                    thread.Start();
+                            tickTimer.Start();
+
+                            ((CleverScript)component).timer = tickTimer;
+                        });
+
+                        thread.Start();
+                    }
                 }
+            }
+            else
+            {
+                Player.LogError("GameObject could not be instantiated. The Scene is not loaded.");
             }
         }
-
+        /// <summary>
+        /// Removes a GameObject added into the spawned GameObjects list.
+        /// </summary>
+        /// <param name="gameObject">The spawned GameObject to be removed.</param>
         private void RemoveGameObject(GameObject gameObject)
         {
-            foreach (Component component in gameObject.components)
+            if (SceneManager.LoadedScene == this)
             {
-                if ((component as CleverScript) != null)
+                foreach (Component component in gameObject.components)
                 {
-                    ((CleverScript)component).timer.Stop();
-                    ((CleverScript)component).timer = null;
+                    if ((component as CleverScript) != null)
+                    {
+                        ((CleverScript)component).timer.Stop();
+                        ((CleverScript)component).timer = null;
+                    }
                 }
-            }
 
-            instances.Remove(gameObject.InstanceId);
+                spawnedGameObjects.Remove(gameObject.InstanceId);
+            }
+            else
+            {
+                Player.LogError("GameObject could not be destroyed. The Scene is not loaded.");
+            }
         }
 
         /// <summary>
@@ -175,6 +231,9 @@ namespace Clever2D.Engine
             }
         }
 
+        /// <summary>
+        /// List of the GameObjects in this Scene.
+        /// </summary>
         public abstract List<GameObject> SceneGameObjects
         {
             get;

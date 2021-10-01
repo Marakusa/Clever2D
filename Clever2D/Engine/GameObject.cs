@@ -34,10 +34,14 @@ namespace Clever2D.Engine
         /// </summary>
         public Transform transform;
         /// <summary>
-        /// The components of this GameObject.
+        /// Components of this GameObject.
         /// </summary>
         public List<Component> components = new();
 
+        /// <summary>
+        /// Retrieves and returns a Component of type T.
+        /// </summary>
+        /// <typeparam name="T">The type of the Compnent to retrieve.</typeparam>
         public T GetComponent<T>()
         {
             foreach (object component in components)
@@ -61,21 +65,30 @@ namespace Clever2D.Engine
         }
 
         /// <summary>
-        /// Spawns the GameObject into the scene.
+        /// Spawns the GameObject into the loaded scene.
         /// </summary>
         public static void Spawn(GameObject gameObject)
         {
-            Spawn_(gameObject, Vector2.zero, Vector2.zero);
+            SpawnGameObject(gameObject, Vector2.zero, Vector2.zero);
         }
+        /// <summary>
+        /// Spawns the GameObject into the loaded scene.
+        /// </summary>
         public static void Spawn(GameObject gameObject, Vector2 position)
         {
-            Spawn_(gameObject, position, Vector2.zero);
+            SpawnGameObject(gameObject, position, Vector2.zero);
         }
+        /// <summary>
+        /// Spawns the GameObject into the loaded scene.
+        /// </summary>
         public static void Spawn(GameObject gameObject, Vector2 position, Vector2 rotation)
         {
-            Spawn_(gameObject, position, rotation);
+            SpawnGameObject(gameObject, position, rotation);
         }
-        private static void Spawn_(GameObject gameObject, Vector2 position, Vector2 rotation)
+        /// <summary>
+        /// Sends the spawn request of the GameObject to the loaded scene.
+        /// </summary>
+        private static void SpawnGameObject(GameObject gameObject, Vector2 position, Vector2 rotation)
         {
             try
             {
@@ -89,6 +102,9 @@ namespace Clever2D.Engine
             }
         }
 
+        /// <summary>
+        /// Removes a GameObject, component or asset.
+        /// </summary>
         public static void Destroy(GameObject gameObject)
         {
             try

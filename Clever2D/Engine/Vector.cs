@@ -2,6 +2,9 @@
 
 namespace Clever2D.Engine
 {
+    /// <summary>
+    /// The base class of all Vector types.
+    /// </summary>
     public abstract class Vector
     {
         /// <summary>
@@ -65,11 +68,13 @@ namespace Clever2D.Engine
         /// <summary>
         /// Converts any Vector value to Vector2.
         /// </summary>
-        /// <returns></returns>
         public Vector2 ToVector2()
         {
             return new Vector2(this.x, this.y);
         }
+        /// <summary>
+        /// Converts any Vector value to Vector3.
+        /// </summary>
         public Vector3 ToVector3()
         {
             return new Vector3(this.x, this.y, this.z);

@@ -7,26 +7,52 @@ using System.Threading.Tasks;
 
 namespace Clever2D.Engine
 {
+    /// <summary>
+    /// The base class for the Clever Player which controls the logging.
+    /// </summary>
     public class Player
     {
+        /// <summary>
+        /// Path to the currently active log file.
+        /// </summary>
         private static string logFile = "";
+        /// <summary>
+        /// Path to the currently active log files directory.
+        /// </summary>
         private static string logDirectory = "";
 
+        /// <summary>
+        /// Logs a message into the log file and Console.
+        /// </summary>
+        /// <param name="value">String or object to be displayed in the logs.</param>
         public static void Log(object value)
         {
             string message = $"{GetTimestamp()} | [I] {value}";
             WriteLog(message, ConsoleColor.Cyan);
         }
+        /// <summary>
+        /// Logs a warning into the log file and Console.
+        /// </summary>
+        /// <param name="value">String or object to be displayed in the logs.</param>
         public static void LogWarn(object value)
         {
             string message = $"{GetTimestamp()} | [W] {value}";
             WriteLog(message, ConsoleColor.Yellow);
         }
+        /// <summary>
+        /// Logs an error into the log file and Console.
+        /// </summary>
+        /// <param name="value">String or object to be displayed in the logs.</param>
         public static void LogError(object value)
         {
             string message = $"{GetTimestamp()} | [E] {value}";
             WriteLog(message, ConsoleColor.Red);
         }
+        /// <summary>
+        /// Logs an error into the log file and Console.
+        /// </summary>
+        /// <param name="value">String or object to be displayed in the logs.</param>
+        /// <param name="e">Exception to be displayed in the logs.</param>
         public static void LogError(object value, Exception e)
         {
             if (e == null) e = new Exception();
@@ -35,11 +61,16 @@ namespace Clever2D.Engine
             WriteLog(message, ConsoleColor.Red);
         }
 
+        /// <summary>
+        /// Base method to save the log message into the log file and to display it in the Console.
+        /// </summary>
+        /// <param name="message">String to be displayed in the logs.</param>
+        /// <param name="color">Color of the log message in Console.</param>
         private static void WriteLog(string message, ConsoleColor color)
         {
             if (logFile == "")
             {
-                logDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/" + Application.Config.AuthorName + "/" + Application.Config.ProjectName + "/";
+                logDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/" + Application.CompanyName + "/" + Application.ProductName + "/";
                 logFile = logDirectory + "/PlayerLog.txt";
                 
                 // Backup the of log file and remove old backup if exists
@@ -52,7 +83,7 @@ namespace Clever2D.Engine
                 // Log startup lines
                 string[] logStart = new string[]
                 {
-                    $"{Application.Config.ProjectName} v{Application.Config.Version} (c) {Application.Config.AuthorName} {DateTime.Now.Year} | Clever2D v{Version.CurrentVersion} {Version.Copyright}"
+                    $"{Application.ProductName} v{Application.ProductVersion} (c) {Application.CompanyName} {DateTime.Now.Year} | Clever2D v{Version.CurrentVersion} {Version.Copyright}"
                 };
 
                 if (!Directory.Exists(logDirectory))
@@ -74,10 +105,13 @@ namespace Clever2D.Engine
 
             File.AppendAllText(logFile, "\n" + message, Encoding.UTF8);
         }
+        /// <summary>
+        /// Returns the timestamp of the frame this gets called.
+        /// </summary>
         private static string GetTimestamp()
         {
             DateTime dateTime = DateTime.Now;
-            return $"{dateTime.ToString("MMM d")} {dateTime.ToLongTimeString()}";
+            return $"{dateTime:MMM d} {dateTime.ToLongTimeString()}";
         }
     }
 }

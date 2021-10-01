@@ -3,8 +3,14 @@ using System.Diagnostics;
 
 namespace Clever2D
 {
-    class Version
+    /// <summary>
+    /// The class that handles the Version of Clever.
+    /// </summary>
+    internal class Version
     {
+        /// <summary>
+        /// Returns the current version of Clever.
+        /// </summary>
         public static string CurrentVersion
         {
             get
@@ -29,6 +35,9 @@ namespace Clever2D
                 return "v" + version + release;
             }
         }
+        /// <summary>
+        /// Returns the copyright string of Celver.
+        /// </summary>
         public static string Copyright
         {
             get
@@ -38,6 +47,9 @@ namespace Clever2D
             }
         }
 
+        /// <summary>
+        /// The release state of a Version (Alpha, Beta, Release).
+        /// </summary>
         enum ReleaseState
         {
             Alpha, Beta, Release

@@ -5,21 +5,30 @@ using System.Timers;
 
 namespace Clever2D.Engine
 {
+    /// <summary>
+    /// The base class which manages all the Scenes.
+    /// </summary>
     public class SceneManager
     {
-        private static bool started = false;
-        public static bool Started
+        /// <summary>
+        /// Is the SceneManager initialized.
+        /// </summary>
+        private static bool isInitialized = false;
+        /// <summary>
+        /// Returns is the SceneManager initialized.
+        /// </summary>
+        public static bool IsInitialized
         {
             get
             {
-                return started;
+                return isInitialized;
             }
         }
 
         /// <summary>
         /// Start the game and load the first Scene.
         /// </summary>
-        public static void Start()
+        public static void Initialize()
         {
             if (SceneList.Length > 0)
             {
@@ -42,7 +51,7 @@ namespace Clever2D.Engine
         }
 
         /// <summary>
-        /// Get the Scene list of the SceneManager.
+        /// Returns the Scene list.
         /// </summary>
         public static Scene[] SceneList
         {
@@ -51,6 +60,9 @@ namespace Clever2D.Engine
                 return includedScenes.ToArray();
             }
         }
+        /// <summary>
+        /// The Scene list.
+        /// </summary>
         internal static List<Scene> includedScenes = new();
 
         /// <summary>
@@ -75,7 +87,13 @@ namespace Clever2D.Engine
             includedScenes.AddRange(scenes);
         }
 
+        /// <summary>
+        /// The loaded Scene.
+        /// </summary>
         private static Scene loadedScene;
+        /// <summary>
+        /// Returns the loaded Scene.
+        /// </summary>
         public static Scene LoadedScene
         {
             get
@@ -84,7 +102,12 @@ namespace Clever2D.Engine
             }
         }
 
-        public delegate void LoadedEventHandler(object sender, LoadedEventArgs e);
+        /// <summary>
+        /// EventHandler for the event OnLoaded.
+        /// </summary>
+        /// <param name="sender">The sender of this event.</param>
+        /// <param name="e">The arguments for this event.</param>
+        public delegate void LoadedEventHandler(object sender, SceneEventArgs e);
         /// <summary>
         /// This event gets called when the Scene is done loading.
         /// </summary>
@@ -101,7 +124,7 @@ namespace Clever2D.Engine
             {
                 if (loadedScene != null)
                 {
-                    loadedScene.Instances.Clear();
+                    loadedScene.SpawnedGameObjects.Clear();
                 }
 
                 loadedScene = scene;
@@ -111,9 +134,9 @@ namespace Clever2D.Engine
                     loadedScene.SpawnGameObject(obj);
                 }
 
-                started = true;
+                isInitialized = true;
 
-                OnLoaded(null, new LoadedEventArgs(loadedScene));
+                OnLoaded(null, new SceneEventArgs(loadedScene));
 
                 return true;
             }
@@ -125,14 +148,19 @@ namespace Clever2D.Engine
         }
     }
 
-    public class LoadedEventArgs
+    /// <summary>
+    /// Event arguments for Scene loading events.
+    /// </summary>
+    public class SceneEventArgs
     {
-        public LoadedEventArgs(Scene scene) { Scene = scene; }
-        public Scene Scene { get; }
-    }
-    public class SceneDrawEventArgs
-    {
-        public SceneDrawEventArgs(Scene scene) { Scene = scene; }
+        /// <summary>
+        /// Event arguments for Scene loading events.
+        /// </summary>
+        /// <param name="scene">The Scene this event call is for.</param>
+        public SceneEventArgs(Scene scene) { Scene = scene; }
+        /// <summary>
+        /// The Scene this event call is for.
+        /// </summary>
         public Scene Scene { get; }
     }
 }

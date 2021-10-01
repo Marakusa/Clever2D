@@ -17,13 +17,14 @@ namespace Example
 
             Time.Initialize();
 
-            ApplicationConfig config = new();
+            ApplicationConfig config = new()
+            {
+                ProductName = "Example Project",
+                CompanyName = "Company",
+                Version = "0.1.0"
+            };
 
             Player.Log("Loading configurations...");
-
-            config.ProjectName = "Example Project";
-            config.AuthorName = "Company";
-            config.Version = "0.1.0";
 
             Clever2D.Engine.Application.Config = config;
 
@@ -36,7 +37,7 @@ namespace Example
                 Eto.Forms.Application app = new(Eto.Platforms.Wpf);
 
                 app.Initialized += (sender, e) => {
-                    form = new MainForm(config.ProjectName, config.AuthorName, config.Version);
+                    form = new MainForm(config.ProductName, config.CompanyName, config.Version);
 
                     form.Shown += (object sender, EventArgs e) => {
                         SceneManager.AddScenes(new Scene[] {
@@ -50,9 +51,9 @@ namespace Example
 
                         form.Closing += MainForm_Closing;
 
-                        SceneManager.OnLoaded += (object sender, LoadedEventArgs e) =>
+                        SceneManager.OnLoaded += (object sender, SceneEventArgs e) =>
                         {
-                            if (SceneManager.Started)
+                            if (SceneManager.IsInitialized)
                             {
                                 Player.Log("\"" + SceneManager.LoadedScene.Name + "\" loaded.");
                             }
@@ -64,7 +65,7 @@ namespace Example
                             }
                         };
 
-                        SceneManager.Start();
+                        SceneManager.Initialize();
                     };
 
                     form.Show();

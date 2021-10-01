@@ -28,7 +28,7 @@ namespace Clever2D.Desktop
             Scene loadedScene = SceneManager.LoadedScene;
             if (loadedScene != null)
             {
-                var instances = loadedScene.Instances;
+                var instances = loadedScene.SpawnedGameObjects;
 
                 if (instances.Count > 0)
                 {

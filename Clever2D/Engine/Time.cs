@@ -8,11 +8,17 @@ using System.Timers;
 
 namespace Clever2D.Engine
 {
+    /// <summary>
+    /// The base class that manages the time of this Clever game.
+    /// </summary>
     public static class Time
     {
+        /// <summary>
+        /// The time at the beginning of the first frame.
+        /// </summary>
         private static long startTime = 0;
         /// <summary>
-        /// The time at the beginning of this frame.
+        /// Returns the time from the beginning of the first frame.
         /// </summary>
         public static float TotalTime
         {
@@ -22,9 +28,12 @@ namespace Clever2D.Engine
             }
         }
 
-        private static float deltaTime = 0f;
         /// <summary>
         /// The interval in seconds from the last frame to the current one.
+        /// </summary>
+        private static float deltaTime = 0f;
+        /// <summary>
+        /// Returns the interval in seconds from the last frame to the current one.
         /// </summary>
         public static float DeltaTime
         {
@@ -34,6 +43,9 @@ namespace Clever2D.Engine
             }
         }
 
+        /// <summary>
+        /// Initializes the Time class.
+        /// </summary>
         public static void Initialize()
         {
             startTime = DateTime.Now.Ticks;

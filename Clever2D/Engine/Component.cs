@@ -7,7 +7,13 @@ namespace Clever2D.Engine
     /// </summary>
     public abstract class Component
     {
+        /// <summary>
+        /// The GameObject where this component is assigned.
+        /// </summary>
         public GameObject gameObject;
+        /// <summary>
+        /// The Transform component attached to this GameObject.
+        /// </summary>
         public Transform transform;
 
         /// <summary>

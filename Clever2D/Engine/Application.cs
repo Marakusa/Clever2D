@@ -1,7 +1,17 @@
 ﻿namespace Clever2D.Engine
 {
+    /// <summary>
+    /// Access to application data.
+    /// </summary>
     public static class Application
     {
+        /// <summary>
+        /// Applications configuration.
+        /// </summary>
+        private static ApplicationConfig config = new();
+        /// <summary>
+        /// Get the Applications configuration.
+        /// </summary>
         public static ApplicationConfig Config
         {
             get
@@ -14,17 +24,55 @@
             }
         }
 
-        private static ApplicationConfig config = new();
+        /// <summary>
+        /// Returns application product name (Read Only).
+        /// </summary>
+        public static string ProductName
+        {
+            get
+            {
+                return Config.ProductName;
+            }
+        }
+        /// <summary>
+        /// Returns application company name (Read Only).
+        /// </summary>
+        public static string CompanyName
+        {
+            get
+            {
+                return Config.CompanyName;
+            }
+        }
+        /// <summary>
+        /// Returns application product version (Read Only).
+        /// </summary>
+        public static string ProductVersion
+        {
+            get
+            {
+                return Config.Version;
+            }
+        }
 
+        /// <summary>
+        /// Quits the application.
+        /// </summary>
         public static void Exit()
         {
             // TODO: Exit the application
         }
     }
 
+    /// <summary>
+    /// Configure an application.
+    /// </summary>
     public class ApplicationConfig
     {
-        public string ProjectName
+        /// <summary>
+        /// Returns application product name.
+        /// </summary>
+        public string ProductName
         {
             get
             {
@@ -32,10 +80,16 @@
             }
             set
             {
-                projectName = value;
+                if (projectName == "")
+                {
+                    projectName = value;
+                }
             }
         }
-        public string AuthorName
+        /// <summary>
+        /// Returns application company name.
+        /// </summary>
+        public string CompanyName
         {
             get
             {
@@ -43,9 +97,15 @@
             }
             set
             {
-                authorName = value;
+                if (authorName == "")
+                {
+                    authorName = value;
+                }
             }
         }
+        /// <summary>
+        /// Returns application product version.
+        /// </summary>
         public string Version
         {
             get
@@ -54,12 +114,15 @@
             }
             set
             {
-                version = value;
+                if (version == "")
+                {
+                    version = value;
+                }
             }
         }
 
-        private string projectName = "ExampleProject";
-        private string authorName = "ExampleCompany";
-        private string version = "0.1.0";
+        private string projectName = "";
+        private string authorName = "";
+        private string version = "";
     }
 }
