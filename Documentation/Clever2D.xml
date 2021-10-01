@@ -9,11 +9,6 @@
             The main window which will be displayed for the player.
             </summary>
         </member>
-        <member name="F:Clever2D.Core.MainWindow.canvas">
-            <summary>
-            Canvas where the game is drawn.
-            </summary>
-        </member>
         <member name="M:Clever2D.Core.MainWindow.#ctor">
             <summary>
             The main window which will be displayed for the player.

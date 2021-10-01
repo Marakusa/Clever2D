@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Clever2D.Engine
 {
@@ -71,7 +68,7 @@ namespace Clever2D.Engine
             if (logFile == "")
             {
                 logDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/" + Application.CompanyName + "/" + Application.ProductName + "/";
-                logFile = logDirectory + "/PlayerLog.txt";
+                logFile = logDirectory + "PlayerLog.txt";
                 
                 // Backup the of log file and remove old backup if exists
                 if (File.Exists(logFile))
@@ -83,7 +80,8 @@ namespace Clever2D.Engine
                 // Log startup lines
                 string[] logStart = new string[]
                 {
-                    $"{Application.ProductName} v{Application.ProductVersion} (c) {Application.CompanyName} {DateTime.Now.Year} | Clever2D v{Version.CurrentVersion} {Version.Copyright}"
+                    $"{Application.ProductName} v{Application.ProductVersion} (c) {Application.CompanyName} {DateTime.Now.Year} | Clever2D v{Version.CurrentVersion} {Version.Copyright}",
+                    $"Log file location: {logFile}"
                 };
 
                 if (!Directory.Exists(logDirectory))

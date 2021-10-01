@@ -111,6 +111,7 @@ namespace Clever2D.Core
             mainWindow.DeleteEvent += (object sender, DeleteEventArgs a) => { Gtk.Application.Quit(); };
             mainWindow.Shown += (object sender, EventArgs e) =>
             {
+                Time.Initialize();
                 OnInitialized.Invoke();
             };
             app.AddWindow(mainWindow);
@@ -159,13 +160,13 @@ namespace Clever2D.Core
         /// </summary>
         private void MainLoop()
         {
-            OnLoad.Invoke();
+            //OnLoad.Invoke();
 
             while (mainWindow.IsDrawable)
             {
                 try
                 {
-                    OnDraw.Invoke();
+                    //OnDraw.Invoke();
 
                     /*mainWindow.canvas.LineWidth = 0.5;
 
@@ -192,7 +193,9 @@ namespace Clever2D.Core
                     ((IDisposable)mainWindow.canvas.GetTarget()).Dispose();
                     ((IDisposable)mainWindow.canvas).Dispose();*/
 
-                    OnUpdate.Invoke();
+                    //OnUpdate.Invoke();
+                    //Player.Log(Time.TotalTime);
+                    Player.Log((Time.DeltaTime * 60f) + " FPS");
                     Thread.Sleep(1);
                 }
                 catch

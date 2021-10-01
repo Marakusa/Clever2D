@@ -1,8 +1,6 @@
 ﻿using System;
 using Clever2D.Core;
 using Clever2D.Engine;
-using Eto.Drawing;
-using Eto.Forms;
 
 namespace Example
 {
@@ -11,7 +9,7 @@ namespace Example
         [STAThread]
         static void Main(string[] args)
         {
-            Player.Log("Starting...");
+            Console.WriteLine("Starting...");
 
             Time.Initialize();
 
@@ -22,7 +20,7 @@ namespace Example
                 Version = "0.1.0"
             };
 
-            Clever2D.Engine.Application.Config = config;
+            Application.Config = config;
 
             OperatingSystem os = System.Environment.OSVersion;
 
