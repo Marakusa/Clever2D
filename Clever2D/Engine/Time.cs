@@ -58,7 +58,7 @@ namespace Clever2D.Engine
                 long frameStart = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                 long frameEnd = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-                tickTimer.Interval = 1000f;
+                tickTimer.Interval = 2000f;
                 tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
                 {
                     frameEnd = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
