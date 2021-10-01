@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
-using System.Reflection;
-using System.Diagnostics;
+using System.IO;
+using Clever2D.Engine;
 using Gtk;
+using LibGit2Sharp;
+using LibGit2Sharp.Handlers;
 using UI = Gtk.Builder.ObjectAttribute;
-using Cairo;
 
 namespace CleverInstaller
 {
@@ -17,6 +13,7 @@ namespace CleverInstaller
     {
         [UI] private Label _label1 = null;
         [UI] private Button _button1 = null;
+        [UI] private ProgressBar _progress1 = null;
 
         private int _counter;
 
@@ -32,13 +29,47 @@ namespace CleverInstaller
 
         private void Window_DeleteEvent(object sender, DeleteEventArgs a)
         {
-            Application.Quit();
+            Gtk.Application.Quit();
         }
 
-        private void Button1_Clicked(object sender, EventArgs a)
+        private async void Button1_Clicked(object sender, EventArgs a)
         {
+            progressHandler += ProgressChanged;
+            completedHandler += Completed;
+            await Task.Run(() =>
+            {
+                DirectoryInfo dir = new DirectoryInfo("bin/tmp/latest");
+                if (dir.Exists) dir.Delete(true);
+                
+                Repository.Clone("https://github.com/Marakusa/Clever2D.git", "bin/tmp/latest", new CloneOptions()
+                {
+                    BranchName = "development",
+                    OnTransferProgress = progressHandler,
+                    RepositoryOperationCompleted = completedHandler
+                });
+            });
             _counter++;
             _label1.Text = "Hello World! This button has been clicked " + _counter + " time(s).";
+            _progress1.Fraction = _counter / 100.00;
+        }
+
+        private RepositoryOperationCompleted completedHandler;
+        private void Completed(RepositoryOperationContext c)
+        {
+            Player.Log("Completed");
+        }
+        
+        private TransferProgressHandler progressHandler;
+        private bool ProgressChanged(TransferProgress t)
+        {
+            float received = t.ReceivedObjects;
+            float total = t.TotalObjects;
+            
+            Player.Log(received.ToString());
+            Player.Log(total.ToString());
+            //Player.Log(Math.Round(received / total * 100f).ToString());
+            _progress1.Fraction = (received / total);
+            return true;
         }
     }
 }
