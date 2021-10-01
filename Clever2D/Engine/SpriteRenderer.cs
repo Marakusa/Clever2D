@@ -1,9 +1,4 @@
-﻿using Eto.Drawing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Gtk;
 
 namespace Clever2D.Engine
 {

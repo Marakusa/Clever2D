@@ -34,11 +34,8 @@ namespace Clever2D.Input
         {
             if (!keysPressed.Contains(key))
             {
+                Player.Log(System.Threading.Thread.CurrentThread.ManagedThreadId);
                 keysPressed.Add(key);
-                Player.Log("Key up: " + key);
-                Player.LogWarn("Key up: " + key);
-                Player.LogError("Null is yes");
-                Player.LogError("Null is yes", new NullReferenceException());
             }
         }
         /// <summary>

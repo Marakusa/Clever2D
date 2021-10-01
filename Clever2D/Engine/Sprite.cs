@@ -1,5 +1,5 @@
 ﻿using System;
-using Eto.Drawing;
+using Gtk;
 
 namespace Clever2D.Engine
 {
@@ -34,7 +34,7 @@ namespace Clever2D.Engine
         public Sprite(string path)
         {
             this.path = Environment.CurrentDirectory + @"\" + path;
-            this.image = new Bitmap(Environment.CurrentDirectory + @"\" + path);
+            this.image = new Image(Environment.CurrentDirectory + @"\" + path);
         }
     }
 }

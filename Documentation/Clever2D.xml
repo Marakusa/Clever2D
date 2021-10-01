@@ -4,6 +4,102 @@
         <name>Clever2D</name>
     </assembly>
     <members>
+        <member name="T:Clever2D.Core.MainWindow">
+            <summary>
+            The main window which will be displayed for the player.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Core.MainWindow.canvas">
+            <summary>
+            Canvas where the game is drawn.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Core.MainWindow.#ctor">
+            <summary>
+            The main window which will be displayed for the player.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Core.Clever">
+            <summary>
+            The base core script of Clever2D game engine.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Core.Clever.CleverDraw">
+            <summary>
+            Delegate for Clever drawing.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.OnDraw">
+            <summary>
+            This event gets called when Clever starts to draw on the screen.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Core.Clever.CleverUpdate">
+            <summary>
+            Delegate for Clever frame update.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.OnUpdate">
+            <summary>
+            This event gets called after Clever updates a frame.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Core.Clever.CleverLoad">
+            <summary>
+            Delegate for Clever loaded core.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.OnLoad">
+            <summary>
+            This event gets called when Clever finishes loading the core and the window.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Core.Clever.Initialized">
+            <summary>
+            Delegate for Clever finishing initialization.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.OnInitialized">
+            <summary>
+            This event gets called when Clever finishes initialization.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Core.Clever.Initialize(Clever2D.Engine.ApplicationConfig)">
+            <summary>
+            Initializes the engine and starts the game. Call Start() method after this to start the engine.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Core.Clever.Start(Clever2D.Engine.Scene[])">
+            <summary>
+            Starts the engine and main loop.
+            </summary>
+            <param name="scenes">Scenes to load.</param>
+        </member>
+        <member name="M:Clever2D.Core.Clever.MainLoop">
+            <summary>
+            Core loop of Clever engine.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Core.Platform">
+            <summary>
+            Platform type.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Core.Platform.Windows">
+            <summary>
+            Windows based platform.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Core.Platform.Linux">
+            <summary>
+            Linux based platform (Partial support).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Core.Platform.MacOS">
+            <summary>
+            MacOS based platform (Not supported yet).
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.Application">
             <summary>
             Access to application data.
@@ -717,6 +813,26 @@
             Sets the given key as released for input checks.
             </summary>
             <param name="key">Key that has been released.</param>
+        </member>
+        <member name="T:Clever2D.Input.InputManager">
+            <summary>
+            Manages all the input.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Input.InputManager.Initialize(Gtk.Window)">
+            <summary>
+            Initializes the InputManager.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Input.InputManager.MainForm_KeyDown(System.Object,Gtk.KeyPressEventArgs)">
+            <summary>
+            Player presses a key.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Input.InputManager.MainForm_KeyUp(System.Object,Gtk.KeyReleaseEventArgs)">
+            <summary>
+            Player releases a key.
+            </summary>
         </member>
         <member name="T:Clever2D.Version">
             <summary>

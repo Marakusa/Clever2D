@@ -1,6 +1,5 @@
 using Eto.Drawing;
 using Eto.Forms;
-using Clever2D.Engine;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -9,73 +8,19 @@ namespace Clever2D.Desktop
 {
     public class MainForm : Form
     {
-        private Drawable canvas;
+        public Drawable canvas;
 
-        public MainForm(string projectName = "Example", string authorName = "Example", string version = "0.1.0")
+        public void CreateForm(string projectName = "Example", string authorName = "Example", string version = "0.1.0")
         {
-            Player.Log("Creating form...");
-
-            Title = $"{authorName} - {projectName} {version}";
-            MinimumSize = new Size(200, 200);
-            Size = new Size(800, 600);
-
-            BackgroundColor = new Color(0, 0, 0);
-
-            System.Threading.Thread graphicsThread = new(Draw);
-            graphicsThread.Start();
-        }
-
-        private void Paint(object sender, PaintEventArgs e)
-        {
-            Scene loadedScene = SceneManager.LoadedScene;
-            if (loadedScene != null)
+            Eto.Forms.Application.Instance.Invoke((Action)delegate
             {
-                var instances = loadedScene.SpawnedGameObjects;
+                Title = $"{authorName} - {projectName} {version}";
+                MinimumSize = new Size(200, 200);
+                Size = new Size(800, 600);
 
-                if (instances.Count > 0)
-                {
-                    foreach (var instance in instances)
-                    {
-                        SpriteRenderer renderer = instance.Value.GetComponent<SpriteRenderer>();
-                        if (renderer != null)
-                        {
-                            float scale = (Height / 600f) * 2f;
-                            Bitmap bitmap = new(renderer.Sprite.Path);
-                            Image image = new Bitmap(bitmap, (int)Math.Round(bitmap.Size.Width * scale), (int)Math.Round(bitmap.Size.Height * scale), ImageInterpolation.High);
-                            e.Graphics.DrawImage(image, new PointF(instance.Value.transform.position.x * scale * instance.Value.transform.scale.x, -instance.Value.transform.position.y * scale * instance.Value.transform.scale.y));
-                        }
-                    }
-                }
-            }
-
-            // TODO: move this to a OnPainted event
-            if (canvas != null)
-            {
-                canvas.Invalidate();
-            }
-        }
-        
-        private void Draw()
-        {
-            Thread thread = new(() =>
-            {
-                Eto.Forms.Application.Instance.Invoke((Action)delegate
-                {
-                    canvas = new(false);
-
-                    canvas.Paint += Paint;
-
-                    Content = canvas;
-
-                    this.Closed += (object sender, EventArgs e) =>
-                    {
-                        this.Unbind();
-                    };
-                    canvas.Invalidate();
-                });
+                BackgroundColor = new Color(0, 0, 0);
+                Console.WriteLine(System.Threading.Thread.CurrentThread.ManagedThreadId);
             });
-
-            thread.Start();
         }
     }
 }

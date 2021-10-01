@@ -1,7 +1,5 @@
-﻿using Eto.Forms;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Timers;
 
 namespace Clever2D.Engine
 {

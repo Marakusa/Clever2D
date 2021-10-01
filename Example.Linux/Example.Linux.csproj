@@ -24,7 +24,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Clever2D.Desktop\Clever2D.Desktop\Clever2D.Desktop.csproj" />
     <ProjectReference Include="..\Clever2D\Clever2D.csproj" />
   </ItemGroup>
 
