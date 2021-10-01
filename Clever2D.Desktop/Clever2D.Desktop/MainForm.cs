@@ -9,6 +9,8 @@ namespace Clever2D.Desktop
 {
     public class MainForm : Form
     {
+        private Drawable canvas;
+
         public MainForm(string projectName = "Example", string authorName = "Example", string version = "0.1.0")
         {
             Player.Log("Creating form...");
@@ -45,6 +47,12 @@ namespace Clever2D.Desktop
                     }
                 }
             }
+
+            // TODO: move this to a OnPainted event
+            if (canvas != null)
+            {
+                canvas.Invalidate();
+            }
         }
         
         private void Draw()
@@ -53,33 +61,17 @@ namespace Clever2D.Desktop
             {
                 Eto.Forms.Application.Instance.Invoke((Action)delegate
                 {
-                    Drawable canvas = new(false);
+                    canvas = new(false);
 
                     canvas.Paint += Paint;
 
                     Content = canvas;
 
-                    UITimer drawTimer = new();
-
-                    DateTime frameStart = DateTime.Now;
-                    DateTime frameEnd = DateTime.Now;
-
-                    drawTimer.Interval = 1f / 60f;
-                    drawTimer.Elapsed += (object sender, EventArgs e) =>
+                    this.Closed += (object sender, EventArgs e) =>
                     {
-                        this.Closed += (object sender, EventArgs e) =>
-                        {
-                            drawTimer.Stop();
-                            this.Unbind();
-                        };
-                        canvas.Invalidate();
-                        //frameEnd = DateTime.Now;
-                        //double fps = (60000f / (frameEnd - frameStart).TotalMilliseconds);
-                        //Player.Log(fps.ToString("0") + " fps");
-                        //frameStart = DateTime.Now;
+                        this.Unbind();
                     };
-
-                    drawTimer.Start();
+                    canvas.Invalidate();
                 });
             });
 
