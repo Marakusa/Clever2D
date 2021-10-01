@@ -9,9 +9,4 @@
 Issue Tracker: [https://github.com/Marakusa/Clever2D/issues](https://github.com/Marakusa/Clever2D/issues)
 
 ## TODO
-- [ ] Splash screen
-- [ ] UI
-- [ ] Animations
-- [ ] Full Linux support
-- [ ] Better rendering
-- [ ] Proper multithreading
+TODO list: [https://github.com/Marakusa/Clever2D/projects/1](https://github.com/Marakusa/Clever2D/projects/1)
