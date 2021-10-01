@@ -1,0 +1,742 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Clever2D</name>
+    </assembly>
+    <members>
+        <member name="T:Clever2D.Engine.Application">
+            <summary>
+            Access to application data.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Application.config">
+            <summary>
+            Applications configuration.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Application.Config">
+            <summary>
+            Get the Applications configuration.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Application.ProductName">
+            <summary>
+            Returns application product name (Read Only).
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Application.CompanyName">
+            <summary>
+            Returns application company name (Read Only).
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Application.ProductVersion">
+            <summary>
+            Returns application product version (Read Only).
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Application.Exit">
+            <summary>
+            Quits the application.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.ApplicationConfig">
+            <summary>
+            Configure an application.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.ApplicationConfig.ProductName">
+            <summary>
+            Returns application product name.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.ApplicationConfig.CompanyName">
+            <summary>
+            Returns application company name.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.ApplicationConfig.Version">
+            <summary>
+            Returns application product version.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.CleverScript">
+            <summary>
+            CleverScript is the base class from which every Clever script delivers.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.CleverScript.timer">
+            <summary>
+            A timer for Update functions.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.CleverScript.Start">
+            <summary>
+            Start is called on the frame when a script is enabled just before any Update methods are called.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.CleverScript.FixedUpdate">
+            <summary>
+            Frame-rate independ Update method.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Component">
+            <summary>
+            Base class for everything attached to GameObjects.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Component.gameObject">
+            <summary>
+            The GameObject where this component is assigned.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Component.transform">
+            <summary>
+            The Transform component attached to this GameObject.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Component.Destroy(Clever2D.Engine.Component)">
+            <summary>
+            Removes a GameObject, component or asset.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.GameObject">
+            <summary>
+            Base class for all entities in scenes.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.GameObject.InstanceId">
+            <summary>
+            Gets the instance ID of this GameObject.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.GameObject.name">
+            <summary>
+            The name of this GameObject.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.GameObject.tag">
+            <summary>
+            The assigned tag to this GameObject.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.GameObject.transform">
+            <summary>
+            The transform component of this GameObject.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.GameObject.components">
+            <summary>
+            Components of this GameObject.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.GetComponent``1">
+            <summary>
+            Retrieves and returns a Component of type T.
+            </summary>
+            <typeparam name="T">The type of the Compnent to retrieve.</typeparam>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.#ctor(System.String,System.String)">
+            <summary>
+            Base class for all entities in scenes.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.Spawn(Clever2D.Engine.GameObject)">
+            <summary>
+            Spawns the GameObject into the loaded scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.Spawn(Clever2D.Engine.GameObject,Clever2D.Engine.Vector2)">
+            <summary>
+            Spawns the GameObject into the loaded scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.Spawn(Clever2D.Engine.GameObject,Clever2D.Engine.Vector2,Clever2D.Engine.Vector2)">
+            <summary>
+            Spawns the GameObject into the loaded scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.SpawnGameObject(Clever2D.Engine.GameObject,Clever2D.Engine.Vector2,Clever2D.Engine.Vector2)">
+            <summary>
+            Sends the spawn request of the GameObject to the loaded scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.Destroy(Clever2D.Engine.GameObject)">
+            <summary>
+            Removes a GameObject, component or asset.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Player">
+            <summary>
+            The base class for the Clever Player which controls the logging.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Player.logFile">
+            <summary>
+            Path to the currently active log file.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Player.logDirectory">
+            <summary>
+            Path to the currently active log files directory.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Player.Log(System.Object)">
+            <summary>
+            Logs a message into the log file and Console.
+            </summary>
+            <param name="value">String or object to be displayed in the logs.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Player.LogWarn(System.Object)">
+            <summary>
+            Logs a warning into the log file and Console.
+            </summary>
+            <param name="value">String or object to be displayed in the logs.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Player.LogError(System.Object)">
+            <summary>
+            Logs an error into the log file and Console.
+            </summary>
+            <param name="value">String or object to be displayed in the logs.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Player.LogError(System.Object,System.Exception)">
+            <summary>
+            Logs an error into the log file and Console.
+            </summary>
+            <param name="value">String or object to be displayed in the logs.</param>
+            <param name="e">Exception to be displayed in the logs.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Player.WriteLog(System.String,System.ConsoleColor)">
+            <summary>
+            Base method to save the log message into the log file and to display it in the Console.
+            </summary>
+            <param name="message">String to be displayed in the logs.</param>
+            <param name="color">Color of the log message in Console.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Player.GetTimestamp">
+            <summary>
+            Returns the timestamp of the frame this gets called.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Scene">
+            <summary>
+            Collection of entities and components.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Scene.Name">
+            <summary>
+            Name of the scene.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Scene.SceneId">
+            <summary>
+            Get the ID of the scene.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Scene.nextId">
+            <summary>
+            The instance ID of the next instance.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Scene.availableIds">
+            <summary>
+            List of all IDs of destroyed spawned GameObjects. These will be used by the next spawned GameObjects that are going to be spawned.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Scene.spawnedGameObjects">
+            <summary>
+            List of all spawned GameObjects.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Scene.SpawnedGameObjects">
+            <summary>
+            Returns the list of all spawned GameObjects.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Scene.SpawnGameObject(Clever2D.Engine.GameObject)">
+            <summary>
+            Spawn a GameObejct to this Scene if loaded.
+            </summary>
+            <param name="gameObject">The GameObject to spawn.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Scene.DestroyGameObject(Clever2D.Engine.GameObject)">
+            <summary>
+            Destroy a GameObejct in this Scene if loaded.
+            </summary>
+            <param name="gameObject">The GameObject to destroy.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Scene.AddGameObject(System.Int32,Clever2D.Engine.GameObject)">
+            <summary>
+            Add a GameObject being spawned into the spawned GameObjects list.
+            </summary>
+            <param name="id">The instance ID of the GameObject.</param>
+            <param name="gameObject">The spawned GameObject.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Scene.RemoveGameObject(Clever2D.Engine.GameObject)">
+            <summary>
+            Removes a GameObject added into the spawned GameObjects list.
+            </summary>
+            <param name="gameObject">The spawned GameObject to be removed.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Scene.LoadScene">
+            <summary>
+            Loads this scene.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Scene.SceneGameObjects">
+            <summary>
+            List of the GameObjects in this Scene.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.SceneManager">
+            <summary>
+            The base class which manages all the Scenes.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SceneManager.isInitialized">
+            <summary>
+            Is the SceneManager initialized.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.SceneManager.IsInitialized">
+            <summary>
+            Returns is the SceneManager initialized.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SceneManager.Initialize">
+            <summary>
+            Start the game and load the first Scene.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.SceneManager.SceneList">
+            <summary>
+            Returns the Scene list.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SceneManager.includedScenes">
+            <summary>
+            The Scene list.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SceneManager.AddScene(Clever2D.Engine.Scene)">
+            <summary>
+            Add a Scene to the SceneManagers Scene list.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SceneManager.AddScenes(Clever2D.Engine.Scene[])">
+            <summary>
+            Add multiple Scenes to the SceneManagers Scene list.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SceneManager.AddScenes(System.Collections.Generic.List{Clever2D.Engine.Scene})">
+            <summary>
+            Add multiple Scenes to the SceneManagers Scene list.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SceneManager.loadedScene">
+            <summary>
+            The loaded Scene.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.SceneManager.LoadedScene">
+            <summary>
+            Returns the loaded Scene.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.SceneManager.LoadedEventHandler">
+            <summary>
+            EventHandler for the event OnLoaded.
+            </summary>
+            <param name="sender">The sender of this event.</param>
+            <param name="e">The arguments for this event.</param>
+        </member>
+        <member name="E:Clever2D.Engine.SceneManager.OnLoaded">
+            <summary>
+            This event gets called when the Scene is done loading.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SceneManager.LoadScene(Clever2D.Engine.Scene)">
+            <summary>
+            Load a scene.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.SceneEventArgs">
+            <summary>
+            Event arguments for Scene loading events.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SceneEventArgs.#ctor(Clever2D.Engine.Scene)">
+            <summary>
+            Event arguments for Scene loading events.
+            </summary>
+            <param name="scene">The Scene this event call is for.</param>
+        </member>
+        <member name="P:Clever2D.Engine.SceneEventArgs.Scene">
+            <summary>
+            The Scene this event call is for.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Sprite">
+            <summary>
+            Represents a Sprite object for use in 2D gameplay.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Sprite.image">
+            <summary>
+            Image assigned to this Sprite.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Sprite.path">
+            <summary>
+            Path to the source of the image of this Sprite.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Sprite.Path">
+            <summary>
+            Returns the path to the source of the image of this Sprite.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String)">
+            <summary>
+            Represents a Sprite object for use in 2D gameplay.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.SpriteRenderer">
+            <summary>
+            Component that manages the Sprite wanted to be rendered in a GameObject.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteRenderer.sprite">
+            <summary>
+            The assigned Sprite to this SpriteRenderer.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.SpriteRenderer.Sprite">
+            <summary>
+            Returns the assigned Sprite to this SpriteRenderer.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.SpriteRenderer.Image">
+            <summary>
+            Returns the assigned Sprites image of this SpriteRenderer.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SpriteRenderer.#ctor(Clever2D.Engine.Sprite)">
+            <summary>
+            Component that manages the Sprite wanted to be rendered in a GameObject.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Time">
+            <summary>
+            The base class that manages the time of this Clever game.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Time.startTime">
+            <summary>
+            The time at the beginning of the first frame.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Time.TotalTime">
+            <summary>
+            Returns the time from the beginning of the first frame.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Time.deltaTime">
+            <summary>
+            The interval in seconds from the last frame to the current one.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Time.DeltaTime">
+            <summary>
+            Returns the interval in seconds from the last frame to the current one.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Time.Initialize">
+            <summary>
+            Initializes the Time class.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Transform">
+            <summary>
+            Component that handles the GameObjects position, rotation and scale in the Scene.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Transform.position">
+            <summary>
+            Position of the GameObject this Component is assigned to.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Transform.rotation">
+            <summary>
+            Rotation of the GameObject this Component is assigned to.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Transform.scale">
+            <summary>
+            Scale of the GameObject this Component is assigned to.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Transform.#ctor">
+            <summary>
+            Component that handles the GameObjects position, rotation and scale in the Scene.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Vector">
+            <summary>
+            The base class of all Vector types.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector.x">
+            <summary>
+            X component of the vector.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector.y">
+            <summary>
+            Y component of the vector.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector.z">
+            <summary>
+            Z component of the vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.ToString">
+            <summary>
+            Returns a formatted string for this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.Equals(System.Object)">
+            <summary>
+            Returns true if the given vector is exactly equal to this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.GetHashCode">
+            <summary>
+            Gets the hash code for the Vector value.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.Normalize">
+            <summary>
+            Makes this vector have a magnitude of 1.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Vector.Magnitude">
+            <summary>
+            Gets the magnitude of this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.ToVector2">
+            <summary>
+            Converts any Vector value to Vector2.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.ToVector3">
+            <summary>
+            Converts any Vector value to Vector3.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Vector2">
+            <summary>
+            Representation of 2D vectors and points.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.#ctor">
+            <summary>
+            Representation of 2D vectors and points.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.#ctor(System.Single)">
+            <summary>
+            Representation of 2D vectors and points.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.#ctor(System.Single,System.Single)">
+            <summary>
+            Representation of 2D vectors and points.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector2.right">
+            <summary>
+            Shorthand for writing Vector2(1, 0).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector2.left">
+            <summary>
+            Shorthand for writing Vector2(-1, 0).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector2.up">
+            <summary>
+            Shorthand for writing Vector2(0, 1).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector2.down">
+            <summary>
+            Shorthand for writing Vector2(0, -1).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector2.one">
+            <summary>
+            Shorthand for writing Vector2(1, 1).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector2.zero">
+            <summary>
+            Shorthand for writing Vector2(0, 0).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector2.positiveInfinity">
+            <summary>
+            Shorthand for writing Vector2(float.PositiveInfinity, float.PositiveInfinity).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector2.negativeInfinity">
+            <summary>
+            Shorthand for writing Vector2(float.NegativeInfinity, float.NegativeInfinity).
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.Set(System.Single,System.Single)">
+            <summary>
+            Set x and y components of an existing Vector2.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Vector2.Normalized">
+            <summary>
+            Gets this vector with a magnitude of 1.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Vector3">
+            <summary>
+            Representation of 3D vectors and points.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.#ctor">
+            <summary>
+            Representation of 3D vectors and points.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.#ctor(System.Single)">
+            <summary>
+            Representation of 3D vectors and points.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.#ctor(System.Single,System.Single)">
+            <summary>
+            Representation of 3D vectors and points.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Representation of 3D vectors and points.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.right">
+            <summary>
+            Shorthand for writing Vector3(1, 0, 0).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.left">
+            <summary>
+            Shorthand for writing Vector3(-1, 0, 0).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.up">
+            <summary>
+            Shorthand for writing Vector3(0, 1, 0).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.down">
+            <summary>
+            Shorthand for writing Vector3(0, -1, 0).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.forward">
+            <summary>
+            Shorthand for writing Vector3(0, 0, 1).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.back">
+            <summary>
+            Shorthand for writing Vector3(0, 0, -1).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.one">
+            <summary>
+            Shorthand for writing Vector3(1, 1, 1).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.zero">
+            <summary>
+            Shorthand for writing Vector3(0, 0, 0).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.positiveInfinity">
+            <summary>
+            Shorthand for writing Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Vector3.negativeInfinity">
+            <summary>
+            Shorthand for writing Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity).
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.Set(System.Single,System.Single,System.Single)">
+            <summary>
+            Set x and y components of an existing Vector3.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Vector3.Normalized">
+            <summary>
+            Gets this vector with a magnitude of 1.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Input.Input">
+            <summary>
+            The base class that handles all Input in the Clever game.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Input.Input.keysPressed">
+            <summary>
+            List of all keys pressed at the moment.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Input.Input.GetKey(System.String)">
+            <summary>
+            Returns a bool value if the given key is pressed at the moment.
+            </summary>
+            <param name="key">Key to be checked for input.</param>
+        </member>
+        <member name="M:Clever2D.Input.Input.KeyPressed(System.String)">
+            <summary>
+            Sets the given key as pressed for input checks.
+            </summary>
+            <param name="key">Key that has been pressed.</param>
+        </member>
+        <member name="M:Clever2D.Input.Input.KeyReleased(System.String)">
+            <summary>
+            Sets the given key as released for input checks.
+            </summary>
+            <param name="key">Key that has been released.</param>
+        </member>
+        <member name="T:Clever2D.Version">
+            <summary>
+            The class that handles the Version of Clever.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Version.CurrentVersion">
+            <summary>
+            Returns the current version of Clever.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Version.Copyright">
+            <summary>
+            Returns the copyright string of Celver.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Version.ReleaseState">
+            <summary>
+            The release state of a Version (Alpha, Beta, Release).
+            </summary>
+        </member>
+    </members>
+</doc>
