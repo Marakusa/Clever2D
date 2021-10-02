@@ -111,7 +111,6 @@ namespace Clever2D.Core
             mainWindow.DeleteEvent += (object sender, DeleteEventArgs a) => { Engine.Application.Exit(); };
             mainWindow.Shown += (object sender, EventArgs e) =>
             {
-                Time.Initialize();
                 OnInitialized.Invoke();
             };
             app.AddWindow(mainWindow);
@@ -135,6 +134,8 @@ namespace Clever2D.Core
             });
             inputThread.Start();
 
+            Time.Initialize();
+            
             SceneManager.OnLoaded += (object sender, SceneEventArgs e) =>
             {
                 if (SceneManager.IsInitialized)
@@ -195,7 +196,7 @@ namespace Clever2D.Core
 
                     //OnUpdate.Invoke();
                     //Player.Log(Time.TotalTime);
-                    Player.Log((Time.DeltaTime * 60f) + " FPS");
+                    //Player.Log(GetFPS("0.00 FPS"));
                     Thread.Sleep(1);
                 }
                 catch
@@ -203,6 +204,11 @@ namespace Clever2D.Core
                     Player.LogWarn("Game is loading...");
                 }
             }
+        }
+
+        public static string GetFPS(string format = "0.00")
+        {
+            return (1f / (Time.DeltaTime / 1000f)).ToString(format);
         }
 
         /*private void Paint()

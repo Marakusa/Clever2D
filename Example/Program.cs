@@ -11,8 +11,6 @@ namespace Example
         {
             Console.WriteLine("Starting...");
 
-            Time.Initialize();
-
             ApplicationConfig config = new()
             {
                 ProductName = "Example Project",

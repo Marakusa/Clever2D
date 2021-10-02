@@ -51,25 +51,19 @@ namespace Clever2D.Engine
         {
             startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-            Thread thread = new(() =>
+            long frameStart = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+            System.Timers.Timer tickTimer = new();
+
+            tickTimer.Interval = 1f;
+            tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
             {
-                System.Timers.Timer tickTimer = new();
-
-                long frameStart = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                 long frameEnd = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                deltaTime = frameEnd - frameStart;
+                frameStart = frameEnd;
+            };
 
-                tickTimer.Interval = 2000f;
-                tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
-                {
-                    frameEnd = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                    deltaTime = (float)(frameEnd - frameStart);
-                    frameStart = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                };
-
-                tickTimer.Start();
-            });
-
-            thread.Start();
+            tickTimer.Start();
         }
     }
 }
