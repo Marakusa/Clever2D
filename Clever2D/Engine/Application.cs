@@ -60,7 +60,8 @@
         /// </summary>
         public static void Exit()
         {
-            // TODO: Exit the application
+            Player.Log("Exiting...");
+            Gtk.Application.Quit();
         }
     }
 

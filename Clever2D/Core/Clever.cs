@@ -108,7 +108,7 @@ namespace Clever2D.Core
             app.Register(GLib.Cancellable.Current);
 
             mainWindow = new MainWindow();
-            mainWindow.DeleteEvent += (object sender, DeleteEventArgs a) => { Gtk.Application.Quit(); };
+            mainWindow.DeleteEvent += (object sender, DeleteEventArgs a) => { Engine.Application.Exit(); };
             mainWindow.Shown += (object sender, EventArgs e) =>
             {
                 Time.Initialize();
