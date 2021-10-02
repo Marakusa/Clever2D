@@ -75,6 +75,12 @@
             Core loop of Clever engine.
             </summary>
         </member>
+        <member name="M:Clever2D.Core.Clever.GetFPS(System.String)">
+            <summary>
+            Returns the main threads fps
+            </summary>
+            <param name="format">Format the fps output.</param>
+        </member>
         <member name="T:Clever2D.Core.Platform">
             <summary>
             Platform type.

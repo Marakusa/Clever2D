@@ -5,6 +5,6 @@ sleep 2
 dotnet publish Example.csproj --runtime win-x64 --output bin/publish/win-x64
 echo "Building for Linux in 2 seconds..."
 sleep 2
-dotnet publish Example.csproj --runtime ubuntu.18.04-x64 --output bin/publish/linux-x64
+dotnet publish Example.csproj --runtime linux-x64 --output bin/publish/linux-x64
 echo "Done!"
 rm -rf bin/Debug/

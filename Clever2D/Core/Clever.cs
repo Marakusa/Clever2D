@@ -10,6 +10,8 @@ using System.Timers;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 using Cairo;
+using SkiaSharp;
+using SixLabors.ImageSharp;
 
 namespace Clever2D.Core
 {
@@ -19,6 +21,7 @@ namespace Clever2D.Core
     public class MainWindow : Window
     {
         [UI] private Box _box = null;
+        [UI] public Context _canvas = null;
 
         /// <summary>
         /// The main window which will be displayed for the player.
@@ -47,6 +50,48 @@ namespace Clever2D.Core
             }*/
 
             builder.Autoconnect(this);
+            
+            try
+            {
+                SKImageInfo imageInfo = new(100, 100);
+                using (SKSurface surface = SKSurface.Create(imageInfo))
+                {
+                    SKCanvas canvas = surface.Canvas;
+                
+                    canvas.Clear(SKColor.Parse("ff0000"));
+                
+                    using (SKPaint paint = new())
+                    {
+                        paint.Color = SKColor.Parse("00ffff");
+                        paint.StrokeWidth = 15;
+                        paint.Style = SKPaintStyle.Stroke;
+                        canvas.DrawCircle(50, 50, 30, paint);
+                    }
+
+                    using (SKImage image = surface.Snapshot())
+                    {
+                        using (SKData data = image.Encode(SKEncodedImageFormat.Png, 100))
+                        {
+                            using (System.IO.MemoryStream stream = new(data.ToArray()))
+                            {
+                                SixLabors.ImageSharp.Image img = SixLabors.ImageSharp.Image.Load(stream);
+                                //_canvas.(img);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Player.LogError(ex.Message, ex);
+            }
+
+            /*_canvas = new(_box.Handle);
+            
+            _canvas.LineWidth = 0.5;
+            _canvas.SetSourceRGB(255, 255, 255);
+            _canvas.Rectangle(0, 0, 10, 10);
+            _canvas.Stroke();*/
         }
     }
 
@@ -169,31 +214,6 @@ namespace Clever2D.Core
                 {
                     //OnDraw.Invoke();
 
-                    /*mainWindow.canvas.LineWidth = 0.5;
-
-                    int width, height;
-                    width = 30;
-                    height = 30;
-
-                    mainWindow.canvas.Translate(width / 2, height / 2);
-                    mainWindow.canvas.Arc(0, 0, 120, 0, 2 * Math.PI);
-                    mainWindow.canvas.Stroke();
-
-                    mainWindow.canvas.Save();
-
-                    for (int i = 0; i < 36; i++)
-                    {
-                        mainWindow.canvas.Rotate(i * Math.PI / 36);
-                        mainWindow.canvas.Scale(0.3, 1);
-                        mainWindow.canvas.Arc(0, 0, 120, 0, 2 * Math.PI);
-                        mainWindow.canvas.Restore();
-                        mainWindow.canvas.Stroke();
-                        mainWindow.canvas.Save();
-                    }
-
-                    ((IDisposable)mainWindow.canvas.GetTarget()).Dispose();
-                    ((IDisposable)mainWindow.canvas).Dispose();*/
-
                     //OnUpdate.Invoke();
                     //Player.Log(Time.TotalTime);
                     //Player.Log(GetFPS("0.00 FPS"));
@@ -206,7 +226,11 @@ namespace Clever2D.Core
             }
         }
 
-        public static string GetFPS(string format = "0.00")
+        /// <summary>
+        /// Returns the main threads fps
+        /// </summary>
+        /// <param name="format">Format the fps output.</param>
+        public static string GetFPS(string format = "0.00 fps")
         {
             return (1f / (Time.DeltaTime / 1000f)).ToString(format);
         }
