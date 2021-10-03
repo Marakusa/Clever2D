@@ -10,10 +10,10 @@ namespace Clever2D.Input
         /// <summary>
         /// Initializes the InputManager.
         /// </summary>
-        public void Initialize(Window window)
+        public void Initialize()
         {
-            window.KeyPressEvent += MainForm_KeyDown;
-            window.KeyReleaseEvent += MainForm_KeyUp;
+            //window.KeyPressEvent += MainForm_KeyDown;
+            //window.KeyReleaseEvent += MainForm_KeyUp;
         }
 
         /// <summary>
