@@ -13,29 +13,34 @@ namespace Clever2D.Core
     /// </summary>
     public class Clever
     {
-        internal IntPtr WindowHandle { get; private set; } = IntPtr.Zero;
-        private IntPtr renderer = IntPtr.Zero;
+        internal static IntPtr WindowHandle { get; private set; } = IntPtr.Zero;
+        private static IntPtr renderer = IntPtr.Zero;
+        internal static IntPtr Renderer
+        {
+            get { return renderer; }
+            private set { renderer = value; }
+        }
         
-        private bool focused;
-        private bool Focused
+        private static bool focused;
+        private static bool Focused
         {
             get { return focused; }
             set { focused = value; }
         }
-        private bool Quit { get; set; } = false;
-        private bool CurrentState { get; set; } = false;
+        private static bool Quit { get; set; } = false;
+        private static WindowState CurrentState { get; set; } = WindowState.Windowed;
         
-        private Thread mainLoopThread = null;
-        private Thread inputThread = null;
+        private static Thread mainLoopThread = null;
+        private static Thread inputThread = null;
 
         private const int defaultWidth = 1366;
         private const int defaultHeight = 768;
         
-        private Size size = new Size(defaultWidth, defaultHeight);
+        private static Size size = new Size(defaultWidth, defaultHeight);
         /// <summary>
         /// Returns or sets the window's internal size, before scaling.
         /// </summary>
-        public Size Size
+        public static Size Size
         {
             get => size;
             private set
@@ -43,31 +48,31 @@ namespace Clever2D.Core
                 if (value.Equals(size)) return;
 
                 size = value;
-                ScheduleEvent(() => Resized?.Invoke());
+                ScheduleEvent(() => Resized?.Invoke(size));
             }
         }
         
-        private Vector2Int position;
+        private static Point position;
         /// <summary>
         /// Returns or sets the window's position in screen space.
         /// </summary>
-        public Vector2Int Position
+        public static Point Position
         {
             get => position;
             set
             {
                 position = value;
-                ScheduleCommand(() => SDL.SDL_SetWindowPosition(WindowHandle, value.x, value.y));
+                ScheduleCommand(() => SDL.SDL_SetWindowPosition(WindowHandle, value.X, value.Y));
             }
         }
         
-        private readonly Size sizeFullscreen = new Size(1920, 1080);
-        private readonly Size sizeWindowed = new Size(defaultWidth, defaultHeight);
+        private static readonly Size sizeFullscreen = new Size(1920, 1080);
+        private static readonly Size sizeWindowed = new Size(defaultWidth, defaultHeight);
         
-        private readonly Scheduler commandScheduler = new();
-        private readonly Scheduler eventScheduler = new();
+        private static readonly Scheduler commandScheduler = new();
+        private static readonly Scheduler eventScheduler = new();
         
-        protected void ScheduleCommand(Action action) => commandScheduler.Add(action, false);
+        protected static void ScheduleCommand(Action action) => commandScheduler.Add(action, false);
 
         /// <summary>
         /// Delegate for Clever finishing initialization.
@@ -76,12 +81,12 @@ namespace Clever2D.Core
         /// <summary>
         /// This event gets called when Clever finishes initialization.
         /// </summary>
-        public event Initialized OnInitialized;
+        public static event Initialized OnInitialized;
 
         /// <summary>
         /// Initializes the engine and starts the game. Call Start() method after this to start the engine.
         /// </summary>
-        public void Initialize(ApplicationConfig config)
+        public static void Initialize(ApplicationConfig config)
         {
             Engine.Application.Config = config;
 
@@ -101,26 +106,38 @@ namespace Clever2D.Core
             
             renderer = SDL.SDL_CreateRenderer(WindowHandle, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
             
-            IntPtr bitmapSurface = SDL.SDL_LoadBMP("img/hello.bmp");
-            IntPtr bitmapTex = SDL.SDL_CreateTextureFromSurface(renderer, bitmapSurface);
-            SDL.SDL_FreeSurface(bitmapSurface);
-
-            SetScreenState += (bool state) =>
+            SetScreenState += (WindowState state) =>
             {
                 CurrentState = state;
-                if (CurrentState)
-                {
-                    var closestMode = GetClosestDisplayMode(sizeFullscreen, 144, 0);
 
-                    Size = new Size(closestMode.w, closestMode.h);
+                SDL.SDL_DisplayMode closestMode = GetClosestDisplayMode(sizeFullscreen, 144, 0);
 
-                    SDL.SDL_SetWindowDisplayMode(WindowHandle, ref closestMode);
-                    SDL.SDL_SetWindowFullscreen(WindowHandle, (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN);
-                }
-                else
+                switch (CurrentState)
                 {
-                    SDL.SDL_SetWindowBordered(WindowHandle, SDL.SDL_bool.SDL_TRUE);
-                    SDL.SDL_SetWindowFullscreen(WindowHandle, (uint)SDL.SDL_bool.SDL_FALSE);
+                    case WindowState.Fullscreen:
+                        
+                        Size = new Size(closestMode.w, closestMode.h);
+
+                        SDL.SDL_SetWindowDisplayMode(WindowHandle, ref closestMode);
+                        SDL.SDL_SetWindowFullscreen(WindowHandle, (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN);
+                        
+                        break;
+                    /*case WindowState.Borderless:
+                        
+                        Size = new Size(closestMode.w, closestMode.h);
+
+                        SDL.SDL_SetWindowBordered(WindowHandle, SDL.SDL_bool.SDL_FALSE);
+                        SDL.SDL_SetWindowFullscreen(WindowHandle, (uint)SDL.SDL_WindowFlags.SDL_WINDOW_MAXIMIZED);
+                        
+                        break;*/
+                    case WindowState.Windowed:
+                        
+                        Size = new Size(defaultWidth, defaultHeight);
+
+                        SDL.SDL_SetWindowBordered(WindowHandle, SDL.SDL_bool.SDL_TRUE);
+                        SDL.SDL_SetWindowFullscreen(WindowHandle, (uint)SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
+                        
+                        break;
                 }
             };
             //Resized += () =>
@@ -135,6 +152,8 @@ namespace Clever2D.Core
             else
             {
                 SDL.SDL_Event e;
+
+                OnInitialized?.Invoke();
                 
                 while (!Quit)
                 {
@@ -147,7 +166,6 @@ namespace Clever2D.Core
                             case SDL.SDL_EventType.SDL_QUIT:
                             case SDL.SDL_EventType.SDL_APP_TERMINATING:
                                 HandleQuitEvent(e.quit);
-                                Quit = true;
                                 break;
 
                             case SDL.SDL_EventType.SDL_WINDOWEVENT:
@@ -190,18 +208,54 @@ namespace Clever2D.Core
                     }
                     
                     eventScheduler.Update();
+                    
+                    SDL.SDL_SetRenderDrawColor(renderer, 30, 30, 100, 255);
+            
+                    SDL.SDL_RenderClear(renderer);
+
+                    Scene loadedScene = SceneManager.LoadedScene;
+                    
+                    if (loadedScene != null)
+                    {
+                        var instances = loadedScene.SpawnedGameObjects;
+
+                        if (instances.Count > 0)
+                        {
+                            foreach (var instance in instances)
+                            {
+                                SpriteRenderer spriteRenderer = instance.Value.GetComponent<SpriteRenderer>();
+                                
+                                if (spriteRenderer != null)
+                                {
+                                    float scale = (Size.Height / 600f) * 2f;
+                                    
+                                    SDL.SDL_Rect tRect;
+                                    tRect.x = (int)Math.Round(instance.Value.transform.position.x * scale * instance.Value.transform.scale.x);
+                                    tRect.y = (int)Math.Round(instance.Value.transform.position.y * scale * instance.Value.transform.scale.y);
+                                    tRect.w = (int)Math.Round(spriteRenderer.Sprite.rect.w * scale);
+                                    tRect.h = (int)Math.Round(spriteRenderer.Sprite.rect.h * scale);
+                                    //tRect.x = 100;
+                                    //tRect.y = 100;
+                                    //tRect.w = 64;
+                                    //tRect.h = 64;
+
+                                    SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
+                                    //SDL.SDL_RenderCopy(renderer, playerTexture, IntPtr.Zero, IntPtr.Zero);
+                                }
+                            }
+                        }
+                    }
+                    
+                    SDL.SDL_RenderPresent(renderer);
 
                     Update?.Invoke();
-
-                    SDL.SDL_RenderClear(renderer);
-                    SDL.SDL_RenderCopy(renderer, bitmapTex, IntPtr.Zero, IntPtr.Zero);
-                    SDL.SDL_RenderPresent(renderer);
                 }
+
+                Destroying?.Invoke();
                 
-                SDL.SDL_DestroyTexture(bitmapTex);
                 SDL.SDL_DestroyRenderer(renderer);
                 SDL.SDL_DestroyWindow(WindowHandle);
-                
+
                 SDL.SDL_Quit();
             }
         }
@@ -209,7 +263,7 @@ namespace Clever2D.Core
         /// Starts the engine and main loop.
         /// </summary>
         /// <param name="scenes">Scenes to load.</param>
-        public void Start(Scene[] scenes)
+        public static void Start(Scene[] scenes)
         {
             SceneManager.AddScenes(scenes);
             Player.Log("Scenes loaded.");
@@ -243,7 +297,7 @@ namespace Clever2D.Core
             //mainLoopThread.Start();
         }
 
-        private SDL.SDL_DisplayMode GetClosestDisplayMode(Size size, int refreshRate, int displayIndex)
+        private static SDL.SDL_DisplayMode GetClosestDisplayMode(Size size, int refreshRate, int displayIndex)
         {
             var targetMode = new SDL.SDL_DisplayMode { w = size.Width, h = size.Height, refresh_rate = refreshRate };
 
@@ -269,19 +323,37 @@ namespace Clever2D.Core
         /// <summary>
         /// Invoked once every window event loop.
         /// </summary>
-        public event Action Update;
+        public static event Action Update;
 
+        /// <summary>
+        /// Invoked when the application has started to destroy.
+        /// </summary>
+        public static event Action Destroying;
+
+        /// <summary>
+        /// Delegate handler for window position change.
+        /// </summary>
+        public delegate void WindowMovedHandler(Point position);
+        /// <summary>
+        /// Invoked after the window has moved.
+        /// </summary>
+        public static event WindowMovedHandler Moved;
+        
+        /// <summary>
+        /// Delegate handler for window size change.
+        /// </summary>
+        public delegate void WindowResizedHandler(Size size);
         /// <summary>
         /// Invoked after the window has resized.
         /// </summary>
-        public event Action Resized;
+        public static event WindowResizedHandler Resized;
         
-        private void HandleQuitEvent(SDL.SDL_QuitEvent e)
+        private static void HandleQuitEvent(SDL.SDL_QuitEvent e)
         {
             Quit = true;
         }
         
-        private void HandleDropEvent(SDL.SDL_DropEvent evtDrop)
+        private static void HandleDropEvent(SDL.SDL_DropEvent evtDrop)
         {
             // TODO: HandleDropEvent
             /*switch (evtDrop.type)
@@ -295,13 +367,13 @@ namespace Clever2D.Core
             }*/
         }
 
-        private void HandleMouseWheelEvent(SDL.SDL_MouseWheelEvent evtWheel)
+        private static void HandleMouseWheelEvent(SDL.SDL_MouseWheelEvent evtWheel)
         {
             // TODO: HandleMouseWheelEvent
             //ScheduleEvent(() => TriggerMouseWheel(new Vector2(evtWheel.x, evtWheel.y), false));
         }
         
-        private void HandleMouseButtonEvent(SDL.SDL_MouseButtonEvent evtButton)
+        private static void HandleMouseButtonEvent(SDL.SDL_MouseButtonEvent evtButton)
         {
             // TODO: HandleMouseButtonEvent
             /*MouseButton button = mouseButtonFromEvent(evtButton.button);
@@ -318,7 +390,7 @@ namespace Clever2D.Core
             }*/
         }
 
-        private void HandleMouseMotionEvent(SDL.SDL_MouseMotionEvent evtMotion)
+        private static void HandleMouseMotionEvent(SDL.SDL_MouseMotionEvent evtMotion)
         {
             // TODO: HandleMouseButtonEvent
             /*if (SDL.SDL_GetRelativeMouseMode() == SDL.SDL_bool.SDL_FALSE)
@@ -327,7 +399,7 @@ namespace Clever2D.Core
                 ScheduleEvent(() => MouseMoveRelative?.Invoke(new Vector2(evtMotion.xrel * Scale, evtMotion.yrel * Scale)));*/
         }
 
-        private void HandleTextInputEvent(SDL.SDL_TextInputEvent evtText)
+        private static void HandleTextInputEvent(SDL.SDL_TextInputEvent evtText)
         {
             // TODO: HandleMouseButtonEvent
             /*var ptr = new IntPtr(evtText.text);
@@ -340,11 +412,11 @@ namespace Clever2D.Core
                 ScheduleEvent(() => KeyTyped?.Invoke(c));*/
         }
 
-        private void HandleTextEditingEvent(SDL.SDL_TextEditingEvent evtEdit)
+        private static void HandleTextEditingEvent(SDL.SDL_TextEditingEvent evtEdit)
         {
         }
 
-        private void HandleKeyboardEvent(SDL.SDL_KeyboardEvent evtKey)
+        private static void HandleKeyboardEvent(SDL.SDL_KeyboardEvent evtKey)
         {
             switch (evtKey.type)
             {
@@ -352,7 +424,10 @@ namespace Clever2D.Core
                     switch (evtKey.keysym.sym)
                     {
                         case SDL.SDL_Keycode.SDLK_F11:
-                            ScheduleEvent(() => SetScreenState?.Invoke(!CurrentState));
+                            if (CurrentState == WindowState.Windowed)
+                                ScheduleEvent(() => SetScreenState?.Invoke(WindowState.Fullscreen));
+                            else if (CurrentState == WindowState.Fullscreen)
+                                ScheduleEvent(() => SetScreenState?.Invoke(WindowState.Windowed));
                             break;
                     }
                     break;
@@ -378,12 +453,53 @@ namespace Clever2D.Core
                     break;
             }*/
         }
-        private delegate void ScreenState(bool state);
+        private delegate void ScreenState(WindowState state);
 
-        private event ScreenState SetScreenState;
+        private static event ScreenState SetScreenState;
 
-        private void HandleWindowEvent(SDL.SDL_WindowEvent evtWindow)
+        private static void HandleWindowEvent(SDL.SDL_WindowEvent evtWindow)
         {
+            switch (evtWindow.windowEvent)
+            {
+                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MOVED:
+                    
+                    SDL.SDL_GetWindowPosition(WindowHandle, out int x, out int y);
+                    var newPosition = new Point(x, y);
+
+                    if (!newPosition.Equals(Position))
+                    {
+                        position = newPosition;
+                        ScheduleEvent(() => Moved?.Invoke(newPosition));
+                    }
+
+                    break;
+
+                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_SIZE_CHANGED:
+                    
+                    SDL.SDL_GetWindowSize(WindowHandle, out int w, out int h);
+                    var newSize = new Size(w, h);
+
+                    if (!newSize.Equals(Size))
+                    {
+                        size = newSize;
+                        ScheduleEvent(() => Resized?.Invoke(newSize));
+                    }
+
+                    break;
+
+                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESTORED:
+                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
+                    ScheduleEvent(() => Focused = true);
+                    break;
+
+                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MINIMIZED:
+                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
+                    ScheduleEvent(() => Focused = false);
+                    break;
+
+                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_CLOSE:
+                    break;
+            }
             // TODO: HandleMouseButtonEvent
             /*updateWindowSpecifics();
 
@@ -438,7 +554,7 @@ namespace Clever2D.Core
         /// Adds an Action to the Scheduler expected to handle event callbacks.
         /// </summary>
         /// <param name="action">The Action to execute.</param>
-        private void ScheduleEvent(Action action) => eventScheduler.Add(action, false);
+        private static void ScheduleEvent(Action action) => eventScheduler.Add(action, false);
 
         /// <summary>
         /// Returns the main threads fps
@@ -448,29 +564,10 @@ namespace Clever2D.Core
         {
             return (1f / (Time.DeltaTime / 1000f)).ToString(format);
         }
+    }
 
-        /*private void Paint()
-        {
-            Scene loadedScene = SceneManager.LoadedScene;
-            if (loadedScene != null)
-            {
-                var instances = loadedScene.SpawnedGameObjects;
-
-                if (instances.Count > 0)
-                {
-                    foreach (var instance in instances)
-                    {
-                        SpriteRenderer renderer = instance.Value.GetComponent<SpriteRenderer>();
-                        if (renderer != null)
-                        {
-                            float scale = (main.Height / 600f) * 2f;
-                            Bitmap bitmap = new(renderer.Sprite.Path);
-                            Image image = new Bitmap(bitmap, (int)Math.Round(bitmap.Size.Width * scale), (int)Math.Round(bitmap.Size.Height * scale), ImageInterpolation.High);
-                            e.Graphics.DrawImage(image, new PointF(instance.Value.transform.position.x * scale * instance.Value.transform.scale.x, -instance.Value.transform.position.y * scale * instance.Value.transform.scale.y));
-                        }
-                    }
-                }
-            }
-        }*/
+    public enum WindowState
+    {
+        Windowed, /*Borderless, */Fullscreen
     }
 }

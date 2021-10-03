@@ -1,5 +1,6 @@
 ﻿using System;
-using Gtk;
+using Clever2D.Core;
+using SDL2;
 
 namespace Clever2D.Engine
 {
@@ -11,7 +12,11 @@ namespace Clever2D.Engine
         /// <summary>
         /// Image assigned to this Sprite.
         /// </summary>
-        public Image image;
+        public IntPtr image;
+        /// <summary>
+        /// Rect of the assigned image to this object which contains the size of the texture.
+        /// </summary>
+        public SDL.SDL_Rect rect;
 
         /// <summary>
         /// Path to the source of the image of this Sprite.
@@ -33,8 +38,19 @@ namespace Clever2D.Engine
         /// </summary>
         public Sprite(string path)
         {
-            this.path = Environment.CurrentDirectory + @"\" + path;
-            this.image = new Image(Environment.CurrentDirectory + @"\" + path);
+            this.path = Environment.CurrentDirectory + "/Example/bin/Debug/net5.0-windows/assets/" + path;
+            
+            rect.x = 0;
+            rect.y = 0;
+            rect.w = 16;
+            rect.h = 16;
+
+            this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, this.path);
+
+            Clever.Destroying += () =>
+            {
+                SDL.SDL_DestroyTexture(this.image);
+            };
         }
     }
 }

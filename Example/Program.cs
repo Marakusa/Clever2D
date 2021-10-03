@@ -22,15 +22,14 @@ namespace Example
 
             OperatingSystem os = System.Environment.OSVersion;
 
-            Clever clever = new();
-            clever.OnInitialized += () =>
+            Clever.OnInitialized += () =>
             {
-                clever.Start(new Scene[] {
+                Clever.Start(new Scene[] {
                     new MainScene()
                 });
             };
 
-            clever.Initialize(config);
+            Clever.Initialize(config);
         }
     }
 }
