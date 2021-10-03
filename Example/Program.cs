@@ -1,6 +1,7 @@
 ﻿using System;
 using Clever2D.Core;
 using Clever2D.Engine;
+using SDL2;
 
 namespace Example
 {

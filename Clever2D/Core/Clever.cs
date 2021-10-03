@@ -13,7 +13,10 @@ namespace Clever2D.Core
     /// </summary>
     public class Clever
     {
-        public static string executableDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        /// <summary>
+        /// Executable directory (path to .exe without the executable file).
+        /// </summary>
+        public static readonly string executableDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         
         internal static IntPtr WindowHandle { get; private set; } = IntPtr.Zero;
         private static IntPtr renderer = IntPtr.Zero;
@@ -74,6 +77,10 @@ namespace Clever2D.Core
         private static readonly Scheduler commandScheduler = new();
         private static readonly Scheduler eventScheduler = new();
         
+        /// <summary>
+        /// Registers a new scheduled command.
+        /// </summary>
+        /// <param name="action">Scheduled action.</param>
         protected static void ScheduleCommand(Action action) => commandScheduler.Add(action, false);
 
         /// <summary>
@@ -575,8 +582,19 @@ namespace Clever2D.Core
         }
     }
 
+    /// <summary>
+    /// Window state.
+    /// </summary>
     public enum WindowState
     {
-        Windowed, /*Borderless, */Fullscreen
+        /// <summary>
+        /// Windowed state.
+        /// </summary>
+        Windowed, 
+        /*Borderless, */
+        /// <summary>
+        /// Fullscreen state.
+        /// </summary>
+        Fullscreen
     }
 }

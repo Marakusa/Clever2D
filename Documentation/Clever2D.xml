@@ -9,6 +9,11 @@
             The base core script of Clever2D game engine.
             </summary>
         </member>
+        <member name="F:Clever2D.Core.Clever.executableDirectory">
+            <summary>
+            Executable directory (path to .exe without the executable file).
+            </summary>
+        </member>
         <member name="P:Clever2D.Core.Clever.Size">
             <summary>
             Returns or sets the window's internal size, before scaling.
@@ -18,6 +23,12 @@
             <summary>
             Returns or sets the window's position in screen space.
             </summary>
+        </member>
+        <member name="M:Clever2D.Core.Clever.ScheduleCommand(System.Action)">
+            <summary>
+            Registers a new scheduled command.
+            </summary>
+            <param name="action">Scheduled action.</param>
         </member>
         <member name="T:Clever2D.Core.Clever.Initialized">
             <summary>
@@ -101,6 +112,21 @@
             Returns the main threads fps
             </summary>
             <param name="format">Format the fps output.</param>
+        </member>
+        <member name="T:Clever2D.Core.WindowState">
+            <summary>
+            Window state.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Core.WindowState.Windowed">
+            <summary>
+            Windowed state.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Core.WindowState.Fullscreen">
+            <summary>
+            Fullscreen state.
+            </summary>
         </member>
         <member name="T:Clever2D.Core.ExtensionMethods">
             <summary>
@@ -1347,6 +1373,19 @@
             <summary>
             The release state of a Version (Alpha, Beta, Release).
             </summary>
+        </member>
+        <member name="M:SDL2.SDL.SDL_GetNumTouchDevices">
+            \brief Get the number of registered touch devices.
+        </member>
+        <member name="M:SDL2.SDL.SDL_GetTouchDevice(System.Int32)">
+            \brief Get the touch ID with the given index, or 0 if the index is invalid.
+        </member>
+        <member name="M:SDL2.SDL.SDL_GetNumTouchFingers(System.Int64)">
+            \brief Get the number of active fingers for a given touch device.
+        </member>
+        <member name="M:SDL2.SDL.SDL_GetTouchFinger(System.Int64,System.Int32)">
+            \brief Get the finger object of the given touch, with the given index.
+            Returns pointer to SDL_Finger.
         </member>
     </members>
 </doc>

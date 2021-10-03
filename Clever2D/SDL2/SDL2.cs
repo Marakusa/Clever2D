@@ -157,10 +157,10 @@ namespace SDL2
 
 		/* malloc/free are used by the marshaler! -flibit */
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr SDL_malloc(IntPtr size);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void SDL_free(IntPtr memblock);
 
 		/* Buffer.BlockCopy is not available in every runtime yet. Also,
@@ -168,7 +168,7 @@ namespace SDL2
 		 * strange ways. So, we expose this to get around all that.
 		 * -flibit
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_memcpy(IntPtr dst, IntPtr src, IntPtr len);
 
 		#endregion
@@ -186,17 +186,17 @@ namespace SDL2
 		public const UInt32 SDL_RWOPS_MEMORY	= 4; /* Memory stream */
 		public const UInt32 SDL_RWOPS_MEMORY_RO = 5; /* Read-Only memory stream */
 
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate long SDLRWopsSizeCallback(IntPtr context);
 
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate long SDLRWopsSeekCallback(
 			IntPtr context,
 			long offset,
 			int whence
 		);
 
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate IntPtr SDLRWopsReadCallback(
 			IntPtr context,
 			IntPtr ptr,
@@ -204,7 +204,7 @@ namespace SDL2
 			IntPtr maxnum
 		);
 
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate IntPtr SDLRWopsWriteCallback(
 			IntPtr context,
 			IntPtr ptr,
@@ -212,7 +212,7 @@ namespace SDL2
 			IntPtr num
 		);
 
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int SDLRWopsCloseCallback(
 			IntPtr context
 		);
@@ -236,7 +236,7 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to an SDL_RWops* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_RWFromFile", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_RWFromFile", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe IntPtr INTERNAL_SDL_RWFromFile(
 			byte* file,
 			byte* mode
@@ -257,35 +257,35 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to an SDL_RWops* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_AllocRW();
 
 		/* area refers to an SDL_RWops* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FreeRW(IntPtr area);
 
 		/* fp refers to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_RWFromFP(IntPtr fp, SDL_bool autoclose);
 
 		/* mem refers to a void*, IntPtr to an SDL_RWops* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_RWFromMem(IntPtr mem, int size);
 
 		/* mem refers to a const void*, IntPtr to an SDL_RWops* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_RWFromConstMem(IntPtr mem, int size);
 
 		/* context refers to an SDL_RWops*.
 		 * Only available in SDL 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern long SDL_RWsize(IntPtr context);
 
 		/* context refers to an SDL_RWops*.
 		 * Only available in SDL 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern long SDL_RWseek(
 			IntPtr context,
 			long offset,
@@ -295,13 +295,13 @@ namespace SDL2
 		/* context refers to an SDL_RWops*.
 		 * Only available in SDL 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern long SDL_RWtell(IntPtr context);
 
 		/* context refers to an SDL_RWops*, ptr refers to a void*.
 		 * Only available in SDL 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern long SDL_RWread(
 			IntPtr context,
 			IntPtr ptr,
@@ -312,7 +312,7 @@ namespace SDL2
 		/* context refers to an SDL_RWops*, ptr refers to a const void*.
 		 * Only available in SDL 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern long SDL_RWwrite(
 			IntPtr context,
 			IntPtr ptr,
@@ -322,61 +322,61 @@ namespace SDL2
 
 		/* Read endian functions */
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte SDL_ReadU8(IntPtr src);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt16 SDL_ReadLE16(IntPtr src);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt16 SDL_ReadBE16(IntPtr src);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_ReadLE32(IntPtr src);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_ReadBE32(IntPtr src);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt64 SDL_ReadLE64(IntPtr src);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt64 SDL_ReadBE64(IntPtr src);
 
 		/* Write endian functions */
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_WriteU8(IntPtr dst, byte value);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_WriteLE16(IntPtr dst, UInt16 value);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_WriteBE16(IntPtr dst, UInt16 value);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_WriteLE32(IntPtr dst, UInt32 value);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_WriteBE32(IntPtr dst, UInt32 value);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_WriteLE64(IntPtr dst, UInt64 value);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_WriteBE64(IntPtr dst, UInt64 value);
 
 		/* context refers to an SDL_RWops*
 		 * Only available in SDL 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern long SDL_RWclose(IntPtr context);
 
 		/* datasize refers to a size_t*
 		 * IntPtr refers to a void*
 		 * Only available in SDL 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LoadFile", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LoadFile", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe IntPtr INTERNAL_SDL_LoadFile(byte* file, out IntPtr datasize);
 		public static unsafe IntPtr SDL_LoadFile(string file, out IntPtr datasize)
 		{
@@ -390,14 +390,14 @@ namespace SDL2
 
 		#region SDL_main.h
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetMainReady();
 
 		/* This is used as a function pointer to a C main() function */
 		public delegate int SDL_main_func(int argc, IntPtr argv);
 
 		/* Use this function with UWP to call your C# Main() function! */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_WinRTRunApp(
 			SDL_main_func mainFunction,
 			IntPtr reserved
@@ -406,7 +406,7 @@ namespace SDL2
 		/* Use this function with iOS to call your C# Main() function!
 		 * Only available in SDL 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UIKitRunApp(
 			int argc,
 			IntPtr argv,
@@ -432,26 +432,26 @@ namespace SDL2
 			SDL_INIT_GAMECONTROLLER | SDL_INIT_SENSOR
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_Init(uint flags);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_InitSubSystem(uint flags);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_Quit();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_QuitSubSystem(uint flags);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_WasInit(uint flags);
 
 		#endregion
 
 		#region SDL_platform.h
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetPlatform", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetPlatform", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetPlatform();
 		public static string SDL_GetPlatform()
 		{
@@ -718,10 +718,10 @@ namespace SDL2
 			SDL_HINT_OVERRIDE
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_ClearHints();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetHint", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetHint", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe IntPtr INTERNAL_SDL_GetHint(byte* name);
 		public static unsafe string SDL_GetHint(string name)
 		{
@@ -734,7 +734,7 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_SetHint", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SetHint", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe SDL_bool INTERNAL_SDL_SetHint(
 			byte* name,
 			byte* value
@@ -753,7 +753,7 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_SetHintWithPriority", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SetHintWithPriority", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe SDL_bool INTERNAL_SDL_SetHintWithPriority(
 			byte* name,
 			byte* value,
@@ -778,7 +778,7 @@ namespace SDL2
 		}
 
 		/* Only available in 2.0.5 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetHintBoolean", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetHintBoolean", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe SDL_bool INTERNAL_SDL_GetHintBoolean(
 			byte* name,
 			SDL_bool default_value
@@ -799,10 +799,10 @@ namespace SDL2
 
 		#region SDL_error.h
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_ClearError();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetError", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetError", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetError();
 		public static string SDL_GetError()
 		{
@@ -810,7 +810,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_SetError", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SetError", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_SetError(byte* fmtAndArglist);
 		public static unsafe void SDL_SetError(string fmtAndArglist)
 		{
@@ -824,7 +824,7 @@ namespace SDL2
 		/* IntPtr refers to a char*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetErrorMsg(IntPtr errstr, int maxlength);
 
 		#endregion
@@ -878,7 +878,7 @@ namespace SDL2
 		}
 
 		/* userdata refers to a void*, message to a const char* */
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void SDL_LogOutputFunction(
 			IntPtr userdata,
 			int category,
@@ -887,7 +887,7 @@ namespace SDL2
 		);
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_Log", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_Log", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_Log(byte* fmtAndArglist);
 		public static unsafe void SDL_Log(string fmtAndArglist)
 		{
@@ -899,7 +899,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LogVerbose", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LogVerbose", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_LogVerbose(
 			int category,
 			byte* fmtAndArglist
@@ -917,7 +917,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LogDebug", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LogDebug", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_LogDebug(
 			int category,
 			byte* fmtAndArglist
@@ -935,7 +935,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LogInfo", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LogInfo", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_LogInfo(
 			int category,
 			byte* fmtAndArglist
@@ -953,7 +953,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LogWarn", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LogWarn", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_LogWarn(
 			int category,
 			byte* fmtAndArglist
@@ -971,7 +971,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LogError", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LogError", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_LogError(
 			int category,
 			byte* fmtAndArglist
@@ -989,7 +989,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LogCritical", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LogCritical", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_LogCritical(
 			int category,
 			byte* fmtAndArglist
@@ -1007,7 +1007,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LogMessage", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LogMessage", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_LogMessage(
 			int category,
 			SDL_LogPriority priority,
@@ -1028,7 +1028,7 @@ namespace SDL2
 		}
 
 		/* Use string.Format for arglists */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LogMessageV", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LogMessageV", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_LogMessageV(
 			int category,
 			SDL_LogPriority priority,
@@ -1048,27 +1048,27 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_LogPriority SDL_LogGetPriority(
 			int category
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_LogSetPriority(
 			int category,
 			SDL_LogPriority priority
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_LogSetAllPriority(
 			SDL_LogPriority priority
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_LogResetPriorities();
 
 		/* userdata refers to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		private static extern void SDL_LogGetOutputFunction(
 			out IntPtr callback,
 			out IntPtr userdata
@@ -1096,7 +1096,7 @@ namespace SDL2
 		}
 
 		/* userdata refers to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_LogSetOutputFunction(
 			SDL_LogOutputFunction callback,
 			IntPtr userdata
@@ -1184,7 +1184,7 @@ namespace SDL2
 			public SDL_MessageBoxColorScheme? colorScheme;	/* Can be NULL to use system settings */
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_ShowMessageBox", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_ShowMessageBox", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int INTERNAL_SDL_ShowMessageBox([In()] ref INTERNAL_SDL_MessageBoxData messageboxdata, out int buttonid);
 
 		/* Ripped from Jameson's LpUtf8StrMarshaler */
@@ -1247,7 +1247,7 @@ namespace SDL2
 		}
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_ShowSimpleMessageBox", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_ShowSimpleMessageBox", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe int INTERNAL_SDL_ShowSimpleMessageBox(
 			SDL_MessageBoxFlags flags,
 			byte* title,
@@ -1317,17 +1317,17 @@ namespace SDL2
 			return (SDL_COMPILEDVERSION >= SDL_VERSIONNUM(X, Y, Z));
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GetVersion(out SDL_version ver);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetRevision", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetRevision", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetRevision();
 		public static string SDL_GetRevision()
 		{
 			return UTF8_ToManaged(INTERNAL_SDL_GetRevision());
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetRevisionNumber();
 
 		#endregion
@@ -1514,11 +1514,11 @@ namespace SDL2
 		/* win refers to an SDL_Window*, area to a const SDL_Point*, data to a void*.
 		 * Only available in 2.0.4 or higher.
 		 */
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate SDL_HitTestResult SDL_HitTest(IntPtr win, IntPtr area, IntPtr data);
 
 		/* IntPtr refers to an SDL_Window* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_CreateWindow", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_CreateWindow", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe IntPtr INTERNAL_SDL_CreateWindow(
 			byte* title,
 			int x,
@@ -1545,7 +1545,7 @@ namespace SDL2
 		}
 
 		/* window refers to an SDL_Window*, renderer to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_CreateWindowAndRenderer(
 			int width,
 			int height,
@@ -1555,61 +1555,61 @@ namespace SDL2
 		);
 
 		/* data refers to some native window type, IntPtr to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateWindowFrom(IntPtr data);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_DestroyWindow(IntPtr window);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_DisableScreenSaver();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_EnableScreenSaver();
 
 		/* IntPtr refers to an SDL_DisplayMode. Just use closest. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetClosestDisplayMode(
 			int displayIndex,
 			ref SDL_DisplayMode mode,
 			out SDL_DisplayMode closest
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetCurrentDisplayMode(
 			int displayIndex,
 			out SDL_DisplayMode mode
 		);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetCurrentVideoDriver", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetCurrentVideoDriver", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetCurrentVideoDriver();
 		public static string SDL_GetCurrentVideoDriver()
 		{
 			return UTF8_ToManaged(INTERNAL_SDL_GetCurrentVideoDriver());
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetDesktopDisplayMode(
 			int displayIndex,
 			out SDL_DisplayMode mode
 		);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetDisplayName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetDisplayName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetDisplayName(int index);
 		public static string SDL_GetDisplayName(int index)
 		{
 			return UTF8_ToManaged(INTERNAL_SDL_GetDisplayName(index));
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetDisplayBounds(
 			int displayIndex,
 			out SDL_Rect rect
 		);
 
 		/* Only available in 2.0.4 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetDisplayDPI(
 			int displayIndex,
 			out float ddpi,
@@ -1618,12 +1618,12 @@ namespace SDL2
 		);
 
 		/* Only available in 2.0.9 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_DisplayOrientation SDL_GetDisplayOrientation(
 			int displayIndex
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetDisplayMode(
 			int displayIndex,
 			int modeIndex,
@@ -1631,24 +1631,24 @@ namespace SDL2
 		);
 
 		/* Only available in 2.0.5 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetDisplayUsableBounds(
 			int displayIndex,
 			out SDL_Rect rect
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetNumDisplayModes(
 			int displayIndex
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetNumVideoDisplays();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetNumVideoDrivers();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetVideoDriver", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetVideoDriver", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetVideoDriver(
 			int index
 		);
@@ -1658,7 +1658,7 @@ namespace SDL2
 		}
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern float SDL_GetWindowBrightness(
 			IntPtr window
 		);
@@ -1666,7 +1666,7 @@ namespace SDL2
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowOpacity(
 			IntPtr window,
 			float opacity
@@ -1675,7 +1675,7 @@ namespace SDL2
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetWindowOpacity(
 			IntPtr window,
 			out float out_opacity
@@ -1684,7 +1684,7 @@ namespace SDL2
 		/* modal_window and parent_window refer to an SDL_Window*s
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowModalFor(
 			IntPtr modal_window,
 			IntPtr parent_window
@@ -1693,11 +1693,11 @@ namespace SDL2
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowInputFocus(IntPtr window);
 
 		/* window refers to an SDL_Window*, IntPtr to a void* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetWindowData", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetWindowData", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe IntPtr INTERNAL_SDL_GetWindowData(
 			IntPtr window,
 			byte* name
@@ -1715,28 +1715,28 @@ namespace SDL2
 		}
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetWindowDisplayIndex(
 			IntPtr window
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetWindowDisplayMode(
 			IntPtr window,
 			out SDL_DisplayMode mode
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_GetWindowFlags(IntPtr window);
 
 		/* IntPtr refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetWindowFromID(uint id);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetWindowGammaRamp(
 			IntPtr window,
 			[Out()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U2, SizeConst = 256)]
@@ -1748,33 +1748,33 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GetWindowGrab(IntPtr window);
 
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GetWindowKeyboardGrab(IntPtr window);
 
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GetWindowMouseGrab(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_GetWindowID(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_GetWindowPixelFormat(
 			IntPtr window
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GetWindowMaximumSize(
 			IntPtr window,
 			out int max_w,
@@ -1782,7 +1782,7 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GetWindowMinimumSize(
 			IntPtr window,
 			out int min_w,
@@ -1790,7 +1790,7 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GetWindowPosition(
 			IntPtr window,
 			out int x,
@@ -1798,7 +1798,7 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GetWindowSize(
 			IntPtr window,
 			out int w,
@@ -1806,11 +1806,11 @@ namespace SDL2
 		);
 
 		/* IntPtr refers to an SDL_Surface*, window to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetWindowSurface(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetWindowTitle", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetWindowTitle", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetWindowTitle(
 			IntPtr window
 		);
@@ -1822,7 +1822,7 @@ namespace SDL2
 		}
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GL_BindTexture(
 			IntPtr texture,
 			out float texw,
@@ -1830,14 +1830,14 @@ namespace SDL2
 		);
 
 		/* IntPtr and window refer to an SDL_GLContext and SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GL_CreateContext(IntPtr window);
 
 		/* context refers to an SDL_GLContext */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GL_DeleteContext(IntPtr context);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GL_LoadLibrary", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GL_LoadLibrary", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe int INTERNAL_SDL_GL_LoadLibrary(byte* path);
 		public static unsafe int SDL_GL_LoadLibrary(string path)
 		{
@@ -1850,7 +1850,7 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to a function pointer, proc to a const char* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GL_GetProcAddress(IntPtr proc);
 
 		/* IntPtr refers to a function pointer */
@@ -1863,10 +1863,10 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GL_UnloadLibrary();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GL_ExtensionSupported", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GL_ExtensionSupported", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe SDL_bool INTERNAL_SDL_GL_ExtensionSupported(
 			byte* extension
 		);
@@ -1880,44 +1880,44 @@ namespace SDL2
 		}
 
 		/* Only available in SDL 2.0.2 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GL_ResetAttributes();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GL_GetAttribute(
 			SDL_GLattr attr,
 			out int value
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GL_GetSwapInterval();
 
 		/* window and context refer to an SDL_Window* and SDL_GLContext */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GL_MakeCurrent(
 			IntPtr window,
 			IntPtr context
 		);
 
 		/* IntPtr refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GL_GetCurrentWindow();
 
 		/* IntPtr refers to an SDL_Context */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GL_GetCurrentContext();
 
 		/* window refers to an SDL_Window*.
 		 * Only available in SDL 2.0.1 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GL_GetDrawableSize(
 			IntPtr window,
 			out int w,
 			out int h
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GL_SetAttribute(
 			SDL_GLattr attr,
 			int value
@@ -1930,49 +1930,49 @@ namespace SDL2
 			return SDL_GL_SetAttribute(attr, (int)profile);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GL_SetSwapInterval(int interval);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GL_SwapWindow(IntPtr window);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GL_UnbindTexture(IntPtr texture);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_HideWindow(IntPtr window);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IsScreenSaverEnabled();
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_MaximizeWindow(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_MinimizeWindow(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_RaiseWindow(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_RestoreWindow(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowBrightness(
 			IntPtr window,
 			float brightness
 		);
 
 		/* IntPtr and userdata are void*, window is an SDL_Window* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_SetWindowData", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SetWindowData", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe IntPtr INTERNAL_SDL_SetWindowData(
 			IntPtr window,
 			byte* name,
@@ -1993,7 +1993,7 @@ namespace SDL2
 		}
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowDisplayMode(
 			IntPtr window,
 			ref SDL_DisplayMode mode
@@ -2001,21 +2001,21 @@ namespace SDL2
 
 		/* window refers to an SDL_Window* */
 		/* NULL overload - use the window's dimensions and the desktop's format and refresh rate */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowDisplayMode(
 			IntPtr window,
 			IntPtr mode
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowFullscreen(
 			IntPtr window,
 			uint flags
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowGammaRamp(
 			IntPtr window,
 			[In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U2, SizeConst = 256)]
@@ -2027,7 +2027,7 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowGrab(
 			IntPtr window,
 			SDL_bool grabbed
@@ -2036,7 +2036,7 @@ namespace SDL2
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowKeyboardGrab(
 			IntPtr window,
 			SDL_bool grabbed
@@ -2045,7 +2045,7 @@ namespace SDL2
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowMouseGrab(
 			IntPtr window,
 			SDL_bool grabbed
@@ -2053,14 +2053,14 @@ namespace SDL2
 
 
 		/* window refers to an SDL_Window*, icon to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowIcon(
 			IntPtr window,
 			IntPtr icon
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowMaximumSize(
 			IntPtr window,
 			int max_w,
@@ -2068,7 +2068,7 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowMinimumSize(
 			IntPtr window,
 			int min_w,
@@ -2076,7 +2076,7 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowPosition(
 			IntPtr window,
 			int x,
@@ -2084,7 +2084,7 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowSize(
 			IntPtr window,
 			int w,
@@ -2092,14 +2092,14 @@ namespace SDL2
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowBordered(
 			IntPtr window,
 			SDL_bool bordered
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetWindowBordersSize(
 			IntPtr window,
 			out int top,
@@ -2111,7 +2111,7 @@ namespace SDL2
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowResizable(
 			IntPtr window,
 			SDL_bool resizable
@@ -2120,14 +2120,14 @@ namespace SDL2
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowAlwaysOnTop(
 			IntPtr window,
 			SDL_bool on_top
 		);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_SetWindowTitle", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SetWindowTitle", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe void INTERNAL_SDL_SetWindowTitle(
 			IntPtr window,
 			byte* title
@@ -2145,22 +2145,22 @@ namespace SDL2
 		}
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_ShowWindow(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UpdateWindowSurface(IntPtr window);
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UpdateWindowSurfaceRects(
 			IntPtr window,
 			[In] SDL_Rect[] rects,
 			int numrects
 		);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_VideoInit", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_VideoInit", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe int INTERNAL_SDL_VideoInit(
 			byte* driver_name
 		);
@@ -2173,13 +2173,13 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_VideoQuit();
 
 		/* window refers to an SDL_Window*, callback_data to a void*
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetWindowHitTest(
 			IntPtr window,
 			SDL_HitTest callback,
@@ -2189,13 +2189,13 @@ namespace SDL2
 		/* IntPtr refers to an SDL_Window*
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetGrabbedWindow();
 
 		/* window refers to an SDL_Window*
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_FlashWindow(
 			IntPtr window,
 			SDL_FlashOperation operation
@@ -2240,7 +2240,7 @@ namespace SDL2
 		}
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_BlendMode SDL_ComposeCustomBlendMode(
 			SDL_BlendFactor srcColorFactor,
 			SDL_BlendFactor dstColorFactor,
@@ -2255,7 +2255,7 @@ namespace SDL2
 		#region SDL_vulkan.h
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_Vulkan_LoadLibrary", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_Vulkan_LoadLibrary", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe int INTERNAL_SDL_Vulkan_LoadLibrary(
 			byte* path
 		);
@@ -2270,18 +2270,18 @@ namespace SDL2
 		}
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_Vulkan_GetVkGetInstanceProcAddr();
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_Vulkan_UnloadLibrary();
 
 		/* window refers to an SDL_Window*, pNames to a const char**.
 		 * Only available in 2.0.6 or higher.
 		 * This overload allows for IntPtr.Zero (null) to be passed for pNames.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_Vulkan_GetInstanceExtensions(
 			IntPtr window,
 			out uint pCount,
@@ -2291,7 +2291,7 @@ namespace SDL2
 		/* window refers to an SDL_Window*, pNames to a const char**.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_Vulkan_GetInstanceExtensions(
 			IntPtr window,
 			out uint pCount,
@@ -2303,7 +2303,7 @@ namespace SDL2
 		 * surface refers to a VkSurfaceKHR.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_Vulkan_CreateSurface(
 			IntPtr window,
 			IntPtr instance,
@@ -2313,7 +2313,7 @@ namespace SDL2
 		/* window refers to an SDL_Window*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_Vulkan_GetDrawableSize(
 			IntPtr window,
 			out int w,
@@ -2325,20 +2325,20 @@ namespace SDL2
 		#region SDL_metal.h
 
 		/* Only available in 2.0.11 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_Metal_CreateView(
 			IntPtr window
 		);
 
 		/* Only available in 2.0.11 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_Metal_DestroyView(
 			IntPtr view
 		);
 
 		/* view refers to an SDL_MetalView.
 		 * Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_Metal_GetLayer(
 			IntPtr view
 		);
@@ -2346,7 +2346,7 @@ namespace SDL2
 		/* window refers to an SDL_Window*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_Metal_GetDrawableSize(
 			IntPtr window,
 			out int w,
@@ -2409,7 +2409,7 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to an SDL_Renderer*, window to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateRenderer(
 			IntPtr window,
 			int index,
@@ -2417,11 +2417,11 @@ namespace SDL2
 		);
 
 		/* IntPtr refers to an SDL_Renderer*, surface to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateSoftwareRenderer(IntPtr surface);
 
 		/* IntPtr refers to an SDL_Texture*, renderer to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateTexture(
 			IntPtr renderer,
 			uint format,
@@ -2434,25 +2434,25 @@ namespace SDL2
 		 * renderer refers to an SDL_Renderer*
 		 * surface refers to an SDL_Surface*
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateTextureFromSurface(
 			IntPtr renderer,
 			IntPtr surface
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_DestroyRenderer(IntPtr renderer);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_DestroyTexture(IntPtr texture);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetNumRenderDrivers();
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetRenderDrawBlendMode(
 			IntPtr renderer,
 			out SDL_BlendMode blendMode
@@ -2461,7 +2461,7 @@ namespace SDL2
 		/* texture refers to an SDL_Texture*
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetTextureScaleMode(
 			IntPtr texture,
 			SDL_ScaleMode scaleMode
@@ -2470,14 +2470,14 @@ namespace SDL2
 		/* texture refers to an SDL_Texture*
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetTextureScaleMode(
 			IntPtr texture,
 			out SDL_ScaleMode scaleMode
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetRenderDrawColor(
 			IntPtr renderer,
 			out byte r,
@@ -2486,25 +2486,25 @@ namespace SDL2
 			out byte a
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetRenderDriverInfo(
 			int index,
 			out SDL_RendererInfo info
 		);
 
 		/* IntPtr refers to an SDL_Renderer*, window to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetRenderer(IntPtr window);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetRendererInfo(
 			IntPtr renderer,
 			out SDL_RendererInfo info
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetRendererOutputSize(
 			IntPtr renderer,
 			out int w,
@@ -2512,21 +2512,21 @@ namespace SDL2
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetTextureAlphaMod(
 			IntPtr texture,
 			out byte alpha
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetTextureBlendMode(
 			IntPtr texture,
 			out SDL_BlendMode blendMode
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetTextureColorMod(
 			IntPtr texture,
 			out byte r,
@@ -2535,7 +2535,7 @@ namespace SDL2
 		);
 
 		/* texture refers to an SDL_Texture*, pixels to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_LockTexture(
 			IntPtr texture,
 			ref SDL_Rect rect,
@@ -2548,7 +2548,7 @@ namespace SDL2
 		 * the rectangle is passed as NULL.
 		 * This overload allows for IntPtr.Zero to be passed for rect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_LockTexture(
 			IntPtr texture,
 			IntPtr rect,
@@ -2559,7 +2559,7 @@ namespace SDL2
 		/* texture refers to an SDL_Texture*, surface to an SDL_Surface*
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_LockTextureToSurface(
 			IntPtr texture,
 			ref SDL_Rect rect,
@@ -2572,7 +2572,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero to be passed for rect.
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_LockTextureToSurface(
 			IntPtr texture,
 			IntPtr rect,
@@ -2580,7 +2580,7 @@ namespace SDL2
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_QueryTexture(
 			IntPtr texture,
 			out uint format,
@@ -2590,11 +2590,11 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderClear(IntPtr renderer);
 
 		/* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopy(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2607,7 +2607,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopy(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2620,7 +2620,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopy(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2633,7 +2633,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for both SDL_Rects.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopy(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2642,7 +2642,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2658,7 +2658,7 @@ namespace SDL2
 		 * source, destination, and/or center are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2674,7 +2674,7 @@ namespace SDL2
 		 * source, destination, and/or center are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2690,7 +2690,7 @@ namespace SDL2
 		 * source, destination, and/or center are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for center.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2707,7 +2707,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero (null) to be passed for both
 		 * srcrect and dstrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2724,7 +2724,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero (null) to be passed for both
 		 * srcrect and center.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2741,7 +2741,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero (null) to be passed for both
 		 * dstrect and center.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2758,7 +2758,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero (null) to be passed for all
 		 * three parameters.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2770,7 +2770,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawLine(
 			IntPtr renderer,
 			int x1,
@@ -2780,7 +2780,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawLines(
 			IntPtr renderer,
 			[In] SDL_Point[] points,
@@ -2788,7 +2788,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawPoint(
 			IntPtr renderer,
 			int x,
@@ -2796,7 +2796,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawPoints(
 			IntPtr renderer,
 			[In] SDL_Point[] points,
@@ -2804,7 +2804,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawRect(
 			IntPtr renderer,
 			ref SDL_Rect rect
@@ -2813,14 +2813,14 @@ namespace SDL2
 		/* renderer refers to an SDL_Renderer*, rect to an SDL_Rect*.
 		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawRect(
 			IntPtr renderer,
 			IntPtr rect
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawRects(
 			IntPtr renderer,
 			[In] SDL_Rect[] rects,
@@ -2828,7 +2828,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderFillRect(
 			IntPtr renderer,
 			ref SDL_Rect rect
@@ -2837,14 +2837,14 @@ namespace SDL2
 		/* renderer refers to an SDL_Renderer*, rect to an SDL_Rect*.
 		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderFillRect(
 			IntPtr renderer,
 			IntPtr rect
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderFillRects(
 			IntPtr renderer,
 			[In] SDL_Rect[] rects,
@@ -2856,7 +2856,7 @@ namespace SDL2
 		/* This region only available in SDL 2.0.10 or higher. */
 
 		/* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2869,7 +2869,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2882,7 +2882,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2895,7 +2895,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for both SDL_Rects.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2904,7 +2904,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2920,7 +2920,7 @@ namespace SDL2
 		 * source, destination, and/or center are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyEx(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2936,7 +2936,7 @@ namespace SDL2
 		 * source, destination, and/or center are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyExF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2952,7 +2952,7 @@ namespace SDL2
 		 * source, destination, and/or center are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for center.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyExF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2969,7 +2969,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero (null) to be passed for both
 		 * srcrect and dstrect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyExF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -2986,7 +2986,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero (null) to be passed for both
 		 * srcrect and center.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyExF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -3003,7 +3003,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero (null) to be passed for both
 		 * dstrect and center.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyExF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -3020,7 +3020,7 @@ namespace SDL2
 		 * This overload allows for IntPtr.Zero (null) to be passed for all
 		 * three parameters.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderCopyExF(
 			IntPtr renderer,
 			IntPtr texture,
@@ -3032,7 +3032,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawPointF(
 			IntPtr renderer,
 			float x,
@@ -3040,7 +3040,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawPointsF(
 			IntPtr renderer,
 			[In] SDL_FPoint[] points,
@@ -3048,7 +3048,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawLineF(
 			IntPtr renderer,
 			float x1,
@@ -3058,7 +3058,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawLinesF(
 			IntPtr renderer,
 			[In] SDL_FPoint[] points,
@@ -3066,7 +3066,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawRectF(
 			IntPtr renderer,
 			ref SDL_FRect rect
@@ -3075,14 +3075,14 @@ namespace SDL2
 		/* renderer refers to an SDL_Renderer*, rect to an SDL_Rect*.
 		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawRectF(
 			IntPtr renderer,
 			IntPtr rect
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderDrawRectsF(
 			IntPtr renderer,
 			[In] SDL_FRect[] rects,
@@ -3090,7 +3090,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderFillRectF(
 			IntPtr renderer,
 			ref SDL_FRect rect
@@ -3099,14 +3099,14 @@ namespace SDL2
 		/* renderer refers to an SDL_Renderer*, rect to an SDL_Rect*.
 		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderFillRectF(
 			IntPtr renderer,
 			IntPtr rect
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderFillRectsF(
 			IntPtr renderer,
 			[In] SDL_FRect[] rects,
@@ -3116,14 +3116,14 @@ namespace SDL2
 		#endregion
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_RenderGetClipRect(
 			IntPtr renderer,
 			out SDL_Rect rect
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_RenderGetLogicalSize(
 			IntPtr renderer,
 			out int w,
@@ -3131,7 +3131,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_RenderGetScale(
 			IntPtr renderer,
 			out float scaleX,
@@ -3139,18 +3139,18 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderGetViewport(
 			IntPtr renderer,
 			out SDL_Rect rect
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_RenderPresent(IntPtr renderer);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderReadPixels(
 			IntPtr renderer,
 			ref SDL_Rect rect,
@@ -3160,7 +3160,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderSetClipRect(
 			IntPtr renderer,
 			ref SDL_Rect rect
@@ -3169,14 +3169,14 @@ namespace SDL2
 		/* renderer refers to an SDL_Renderer*
 		 * This overload allows for IntPtr.Zero (null) to be passed for rect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderSetClipRect(
 			IntPtr renderer,
 			IntPtr rect
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderSetLogicalSize(
 			IntPtr renderer,
 			int w,
@@ -3184,7 +3184,7 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderSetScale(
 			IntPtr renderer,
 			float scaleX,
@@ -3194,28 +3194,28 @@ namespace SDL2
 		/* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderSetIntegerScale(
 			IntPtr renderer,
 			SDL_bool enable
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderSetViewport(
 			IntPtr renderer,
 			ref SDL_Rect rect
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetRenderDrawBlendMode(
 			IntPtr renderer,
 			SDL_BlendMode blendMode
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetRenderDrawColor(
 			IntPtr renderer,
 			byte r,
@@ -3225,28 +3225,28 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetRenderTarget(
 			IntPtr renderer,
 			IntPtr texture
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetTextureAlphaMod(
 			IntPtr texture,
 			byte alpha
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetTextureBlendMode(
 			IntPtr texture,
 			SDL_BlendMode blendMode
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetTextureColorMod(
 			IntPtr texture,
 			byte r,
@@ -3255,11 +3255,11 @@ namespace SDL2
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_UnlockTexture(IntPtr texture);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UpdateTexture(
 			IntPtr texture,
 			ref SDL_Rect rect,
@@ -3268,7 +3268,7 @@ namespace SDL2
 		);
 
 		/* texture refers to an SDL_Texture* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UpdateTexture(
 			IntPtr texture,
 			IntPtr rect,
@@ -3279,7 +3279,7 @@ namespace SDL2
 		/* texture refers to an SDL_Texture*
 		 * Only available in 2.0.1 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UpdateYUVTexture(
 			IntPtr texture,
 			ref SDL_Rect rect,
@@ -3295,7 +3295,7 @@ namespace SDL2
 		 * yPlane and uvPlane refer to const Uint*.
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UpdateNVTexture(
 			IntPtr texture,
 			ref SDL_Rect rect,
@@ -3306,19 +3306,19 @@ namespace SDL2
 		);
 
 		/* renderer refers to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_RenderTargetSupported(
 			IntPtr renderer
 		);
 
 		/* IntPtr refers to an SDL_Texture*, renderer to an SDL_Renderer* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetRenderTarget(IntPtr renderer);
 
 		/* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.8 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_RenderGetMetalLayer(
 			IntPtr renderer
 		);
@@ -3326,7 +3326,7 @@ namespace SDL2
 		/* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.8 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_RenderGetMetalCommandEncoder(
 			IntPtr renderer
 		);
@@ -3334,13 +3334,13 @@ namespace SDL2
 		/* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_RenderIsClipEnabled(IntPtr renderer);
 
 		/* renderer refers to an SDL_Renderer*
 		 * Only available in 2.0.10 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_RenderFlush(IntPtr renderer);
 
 		#endregion
@@ -3841,14 +3841,14 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to an SDL_PixelFormat* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_AllocFormat(uint pixel_format);
 
 		/* IntPtr refers to an SDL_Palette* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_AllocPalette(int ncolors);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_CalculateGammaRamp(
 			float gamma,
 			[Out()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U2, SizeConst = 256)]
@@ -3856,14 +3856,14 @@ namespace SDL2
 		);
 
 		/* format refers to an SDL_PixelFormat* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FreeFormat(IntPtr format);
 
 		/* palette refers to an SDL_Palette* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FreePalette(IntPtr palette);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetPixelFormatName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetPixelFormatName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetPixelFormatName(
 			uint format
 		);
@@ -3875,7 +3875,7 @@ namespace SDL2
 		}
 
 		/* format refers to an SDL_PixelFormat* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GetRGB(
 			uint pixel,
 			IntPtr format,
@@ -3885,7 +3885,7 @@ namespace SDL2
 		);
 
 		/* format refers to an SDL_PixelFormat* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GetRGBA(
 			uint pixel,
 			IntPtr format,
@@ -3896,7 +3896,7 @@ namespace SDL2
 		);
 
 		/* format refers to an SDL_PixelFormat* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_MapRGB(
 			IntPtr format,
 			byte r,
@@ -3905,7 +3905,7 @@ namespace SDL2
 		);
 
 		/* format refers to an SDL_PixelFormat* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_MapRGBA(
 			IntPtr format,
 			byte r,
@@ -3914,7 +3914,7 @@ namespace SDL2
 			byte a
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_MasksToPixelFormatEnum(
 			int bpp,
 			uint Rmask,
@@ -3923,7 +3923,7 @@ namespace SDL2
 			uint Amask
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_PixelFormatEnumToMasks(
 			uint format,
 			out int bpp,
@@ -3934,7 +3934,7 @@ namespace SDL2
 		);
 
 		/* palette refers to an SDL_Palette* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetPaletteColors(
 			IntPtr palette,
 			[In] SDL_Color[] colors,
@@ -3943,7 +3943,7 @@ namespace SDL2
 		);
 
 		/* format and palette refer to an SDL_PixelFormat* and SDL_Palette* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetPixelFormatPalette(
 			IntPtr format,
 			IntPtr palette
@@ -3998,7 +3998,7 @@ namespace SDL2
 				SDL_bool.SDL_FALSE;
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_EnclosePoints(
 			[In] SDL_Point[] points,
 			int count,
@@ -4006,20 +4006,20 @@ namespace SDL2
 			out SDL_Rect result
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasIntersection(
 			ref SDL_Rect A,
 			ref SDL_Rect B
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IntersectRect(
 			ref SDL_Rect A,
 			ref SDL_Rect B,
 			out SDL_Rect result
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IntersectRectAndLine(
 			ref SDL_Rect rect,
 			ref int X1,
@@ -4047,7 +4047,7 @@ namespace SDL2
 				SDL_bool.SDL_FALSE;
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_UnionRect(
 			ref SDL_Rect A,
 			ref SDL_Rect B,
@@ -4092,7 +4092,7 @@ namespace SDL2
 		}
 
 		/* src and dst refer to an SDL_Surface* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlit", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlit", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_BlitSurface(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4105,7 +4105,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlit", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlit", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_BlitSurface(
 			IntPtr src,
 			IntPtr srcrect,
@@ -4118,7 +4118,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlit", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlit", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_BlitSurface(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4131,7 +4131,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for both SDL_Rects.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlit", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlit", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_BlitSurface(
 			IntPtr src,
 			IntPtr srcrect,
@@ -4140,7 +4140,7 @@ namespace SDL2
 		);
 
 		/* src and dst refer to an SDL_Surface* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlitScaled", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlitScaled", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_BlitScaled(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4153,7 +4153,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for srcrect.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlitScaled", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlitScaled", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_BlitScaled(
 			IntPtr src,
 			IntPtr srcrect,
@@ -4166,7 +4166,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for dstrect.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlitScaled", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlitScaled", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_BlitScaled(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4179,7 +4179,7 @@ namespace SDL2
 		 * source and destination rectangles are passed as NULL.
 		 * This overload allows for IntPtr.Zero (null) to be passed for both SDL_Rects.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlitScaled", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_UpperBlitScaled", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_BlitScaled(
 			IntPtr src,
 			IntPtr srcrect,
@@ -4188,7 +4188,7 @@ namespace SDL2
 		);
 
 		/* src and dst are void* pointers */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_ConvertPixels(
 			int width,
 			int height,
@@ -4204,7 +4204,7 @@ namespace SDL2
 		 * src refers to an SDL_Surface*
 		 * fmt refers to an SDL_PixelFormat*
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_ConvertSurface(
 			IntPtr src,
 			IntPtr fmt,
@@ -4212,7 +4212,7 @@ namespace SDL2
 		);
 
 		/* IntPtr refers to an SDL_Surface*, src to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_ConvertSurfaceFormat(
 			IntPtr src,
 			uint pixel_format,
@@ -4220,7 +4220,7 @@ namespace SDL2
 		);
 
 		/* IntPtr refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateRGBSurface(
 			uint flags,
 			int width,
@@ -4233,7 +4233,7 @@ namespace SDL2
 		);
 
 		/* IntPtr refers to an SDL_Surface*, pixels to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateRGBSurfaceFrom(
 			IntPtr pixels,
 			int width,
@@ -4249,7 +4249,7 @@ namespace SDL2
 		/* IntPtr refers to an SDL_Surface*
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateRGBSurfaceWithFormat(
 			uint flags,
 			int width,
@@ -4261,7 +4261,7 @@ namespace SDL2
 		/* IntPtr refers to an SDL_Surface*, pixels to a void*
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateRGBSurfaceWithFormatFrom(
 			IntPtr pixels,
 			int width,
@@ -4272,7 +4272,7 @@ namespace SDL2
 		);
 
 		/* dst refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_FillRect(
 			IntPtr dst,
 			ref SDL_Rect rect,
@@ -4282,7 +4282,7 @@ namespace SDL2
 		/* dst refers to an SDL_Surface*.
 		 * This overload allows passing NULL to rect.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_FillRect(
 			IntPtr dst,
 			IntPtr rect,
@@ -4290,7 +4290,7 @@ namespace SDL2
 		);
 
 		/* dst refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_FillRects(
 			IntPtr dst,
 			[In] SDL_Rect[] rects,
@@ -4299,11 +4299,11 @@ namespace SDL2
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FreeSurface(IntPtr surface);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GetClipRect(
 			IntPtr surface,
 			out SDL_Rect rect
@@ -4312,32 +4312,32 @@ namespace SDL2
 		/* surface refers to an SDL_Surface*.
 		 * Only available in 2.0.9 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasColorKey(IntPtr surface);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetColorKey(
 			IntPtr surface,
 			out uint key
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetSurfaceAlphaMod(
 			IntPtr surface,
 			out byte alpha
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetSurfaceBlendMode(
 			IntPtr surface,
 			out SDL_BlendMode blendMode
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetSurfaceColorMod(
 			IntPtr surface,
 			out byte r,
@@ -4348,7 +4348,7 @@ namespace SDL2
 		/* These are for SDL_LoadBMP, which is a macro in the SDL headers. */
 		/* IntPtr refers to an SDL_Surface* */
 		/* THIS IS AN RWops FUNCTION! */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LoadBMP_RW", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LoadBMP_RW", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_LoadBMP_RW(
 			IntPtr src,
 			int freesrc
@@ -4360,11 +4360,11 @@ namespace SDL2
 		}
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_LockSurface(IntPtr surface);
 
 		/* src and dst refer to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_LowerBlit(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4373,7 +4373,7 @@ namespace SDL2
 		);
 
 		/* src and dst refer to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_LowerBlitScaled(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4384,7 +4384,7 @@ namespace SDL2
 		/* These are for SDL_SaveBMP, which is a macro in the SDL headers. */
 		/* IntPtr refers to an SDL_Surface* */
 		/* THIS IS AN RWops FUNCTION! */
-		[DllImport(nativeLibName, EntryPoint = "SDL_SaveBMP_RW", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SaveBMP_RW", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int INTERNAL_SDL_SaveBMP_RW(
 			IntPtr surface,
 			IntPtr src,
@@ -4397,14 +4397,14 @@ namespace SDL2
 		}
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_SetClipRect(
 			IntPtr surface,
 			ref SDL_Rect rect
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetColorKey(
 			IntPtr surface,
 			int flag,
@@ -4412,21 +4412,21 @@ namespace SDL2
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetSurfaceAlphaMod(
 			IntPtr surface,
 			byte alpha
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetSurfaceBlendMode(
 			IntPtr surface,
 			SDL_BlendMode blendMode
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetSurfaceColorMod(
 			IntPtr surface,
 			byte r,
@@ -4435,14 +4435,14 @@ namespace SDL2
 		);
 
 		/* surface refers to an SDL_Surface*, palette to an SDL_Palette* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetSurfacePalette(
 			IntPtr surface,
 			IntPtr palette
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetSurfaceRLE(
 			IntPtr surface,
 			int flag
@@ -4451,13 +4451,13 @@ namespace SDL2
 		/* surface refers to an SDL_Surface*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasSurfaceRLE(
 			IntPtr surface
 		);
 
 		/* src and dst refer to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SoftStretch(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4468,7 +4468,7 @@ namespace SDL2
 		/* src and dst refer to an SDL_Surface*
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SoftStretchLinear(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4477,11 +4477,11 @@ namespace SDL2
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_UnlockSurface(IntPtr surface);
 
 		/* src and dst refer to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UpperBlit(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4490,7 +4490,7 @@ namespace SDL2
 		);
 
 		/* src and dst refer to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_UpperBlitScaled(
 			IntPtr src,
 			ref SDL_Rect srcrect,
@@ -4499,24 +4499,24 @@ namespace SDL2
 		);
 
 		/* surface and IntPtr refer to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_DuplicateSurface(IntPtr surface);
 
 		#endregion
 
 		#region SDL_clipboard.h
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasClipboardText();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetClipboardText", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetClipboardText", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetClipboardText();
 		public static string SDL_GetClipboardText()
 		{
 			return UTF8_ToManaged(INTERNAL_SDL_GetClipboardText(), true);
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_SetClipboardText", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SetClipboardText", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe int INTERNAL_SDL_SetClipboardText(
 			byte* text
 		);
@@ -5117,14 +5117,14 @@ namespace SDL2
 			private fixed byte padding[56];
 		}
 
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int SDL_EventFilter(
 			IntPtr userdata, // void*
 			IntPtr sdlevent // SDL_Event* event, lolC#
 		);
 
 		/* Pump the event loop, getting events from the input devices*/
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_PumpEvents();
 
 		public enum SDL_eventaction
@@ -5134,7 +5134,7 @@ namespace SDL2
 			SDL_GETEVENT
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_PeepEvents(
 			[Out] SDL_Event[] events,
 			int numevents,
@@ -5144,51 +5144,51 @@ namespace SDL2
 		);
 
 		/* Checks to see if certain events are in the event queue */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasEvent(SDL_EventType type);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasEvents(
 			SDL_EventType minType,
 			SDL_EventType maxType
 		);
 
 		/* Clears events from the event queue */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FlushEvent(SDL_EventType type);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FlushEvents(
 			SDL_EventType min,
 			SDL_EventType max
 		);
 
 		/* Polls for currently pending events */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_PollEvent(out SDL_Event _event);
 
 		/* Waits indefinitely for the next event */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_WaitEvent(out SDL_Event _event);
 
 		/* Waits until the specified timeout (in ms) for the next event
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_WaitEventTimeout(out SDL_Event _event, int timeout);
 
 		/* Add an event to the event queue */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_PushEvent(ref SDL_Event _event);
 
 		/* userdata refers to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetEventFilter(
 			SDL_EventFilter filter,
 			IntPtr userdata
 		);
 
 		/* userdata refers to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		private static extern SDL_bool SDL_GetEventFilter(
 			out IntPtr filter,
 			out IntPtr userdata
@@ -5214,21 +5214,21 @@ namespace SDL2
 		}
 
 		/* userdata refers to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_AddEventWatch(
 			SDL_EventFilter filter,
 			IntPtr userdata
 		);
 
 		/* userdata refers to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_DelEventWatch(
 			SDL_EventFilter filter,
 			IntPtr userdata
 		);
 
 		/* userdata refers to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FilterEvents(
 			SDL_EventFilter filter,
 			IntPtr userdata
@@ -5241,7 +5241,7 @@ namespace SDL2
 		public const int SDL_ENABLE = 		1;
 
 		/* This function allows you to enable/disable certain events */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte SDL_EventState(SDL_EventType type, int state);
 
 		/* Get the state of an event */
@@ -5251,7 +5251,7 @@ namespace SDL2
 		}
 
 		/* Allocate a set of user-defined events */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_RegisterEvents(int numevents);
 		#endregion
 
@@ -5856,35 +5856,35 @@ namespace SDL2
 
 		/* Get the window which has kbd focus */
 		/* Return type is an SDL_Window pointer */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetKeyboardFocus();
 
 		/* Get a snapshot of the keyboard state. */
 		/* Return value is a pointer to a UInt8 array */
 		/* Numkeys returns the size of the array if non-null */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetKeyboardState(out int numkeys);
 
 		/* Get the current key modifier state for the keyboard. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_Keymod SDL_GetModState();
 
 		/* Set the current key modifier state */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetModState(SDL_Keymod modstate);
 
 		/* Get the key code corresponding to the given scancode
 		 * with the current keyboard layout.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode);
 
 		/* Get the scancode for the given keycode */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_Scancode SDL_GetScancodeFromKey(SDL_Keycode key);
 
 		/* Wrapper for SDL_GetScancodeName */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetScancodeName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetScancodeName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetScancodeName(SDL_Scancode scancode);
 		public static string SDL_GetScancodeName(SDL_Scancode scancode)
 		{
@@ -5894,7 +5894,7 @@ namespace SDL2
 		}
 
 		/* Get a scancode from a human-readable name */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetScancodeFromName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetScancodeFromName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe SDL_Scancode INTERNAL_SDL_GetScancodeFromName(
 			byte* name
 		);
@@ -5908,7 +5908,7 @@ namespace SDL2
 		}
 
 		/* Wrapper for SDL_GetKeyName */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetKeyName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetKeyName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetKeyName(SDL_Keycode key);
 		public static string SDL_GetKeyName(SDL_Keycode key)
 		{
@@ -5916,7 +5916,7 @@ namespace SDL2
 		}
 
 		/* Get a key code from a human-readable name */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetKeyFromName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetKeyFromName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe SDL_Keycode INTERNAL_SDL_GetKeyFromName(
 			byte* name
 		);
@@ -5930,28 +5930,28 @@ namespace SDL2
 		}
 
 		/* Start accepting Unicode text input events, show keyboard */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_StartTextInput();
 
 		/* Check if unicode input events are enabled */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IsTextInputActive();
 
 		/* Stop receiving any text input events, hide onscreen kbd */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_StopTextInput();
 
 		/* Set the rectangle used for text input, hint for IME */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetTextInputRect(ref SDL_Rect rect);
 
 		/* Does the platform support an on-screen keyboard? */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasScreenKeyboardSupport();
 
 		/* Is the on-screen keyboard shown for a given window? */
 		/* window is an SDL_Window pointer */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IsScreenKeyboardShown(IntPtr window);
 
 		#endregion
@@ -5982,89 +5982,89 @@ namespace SDL2
 
 		/* Get the window which currently has mouse focus */
 		/* Return value is an SDL_Window pointer */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetMouseFocus();
 
 		/* Get the current state of the mouse */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetMouseState(out int x, out int y);
 
 		/* Get the current state of the mouse */
 		/* This overload allows for passing NULL to x */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetMouseState(IntPtr x, out int y);
 
 		/* Get the current state of the mouse */
 		/* This overload allows for passing NULL to y */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetMouseState(out int x, IntPtr y);
 
 		/* Get the current state of the mouse */
 		/* This overload allows for passing NULL to both x and y */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetMouseState(IntPtr x, IntPtr y);
 
 		/* Get the current state of the mouse, in relation to the desktop.
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetGlobalMouseState(out int x, out int y);
 
 		/* Get the current state of the mouse, in relation to the desktop.
 		 * Only available in 2.0.4 or higher.
 		 * This overload allows for passing NULL to x.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetGlobalMouseState(IntPtr x, out int y);
 
 		/* Get the current state of the mouse, in relation to the desktop.
 		 * Only available in 2.0.4 or higher.
 		 * This overload allows for passing NULL to y.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetGlobalMouseState(out int x, IntPtr y);
 
 		/* Get the current state of the mouse, in relation to the desktop.
 		 * Only available in 2.0.4 or higher.
 		 * This overload allows for passing NULL to both x and y
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetGlobalMouseState(IntPtr x, IntPtr y);
 
 		/* Get the mouse state with relative coords*/
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetRelativeMouseState(out int x, out int y);
 
 		/* Set the mouse cursor's position (within a window) */
 		/* window is an SDL_Window pointer */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_WarpMouseInWindow(IntPtr window, int x, int y);
 
 		/* Set the mouse cursor's position in global screen space.
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_WarpMouseGlobal(int x, int y);
 
 		/* Enable/Disable relative mouse mode (grabs mouse, rel coords) */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetRelativeMouseMode(SDL_bool enabled);
 
 		/* Capture the mouse, to track input outside an SDL window.
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_CaptureMouse(SDL_bool enabled);
 
 		/* Query if the relative mouse mode is enabled */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GetRelativeMouseMode();
 
 		/* Create a cursor from bitmap data (amd mask) in MSB format.
 		 * data and mask are byte arrays, and w must be a multiple of 8.
 		 * return value is an SDL_Cursor pointer.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateCursor(
 			IntPtr data,
 			IntPtr mask,
@@ -6077,7 +6077,7 @@ namespace SDL2
 		/* Create a cursor from an SDL_Surface.
 		 * IntPtr refers to an SDL_Cursor*, surface to an SDL_Surface*
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateColorCursor(
 			IntPtr surface,
 			int hot_x,
@@ -6087,29 +6087,29 @@ namespace SDL2
 		/* Create a cursor from a system cursor id.
 		 * return value is an SDL_Cursor pointer
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_CreateSystemCursor(SDL_SystemCursor id);
 
 		/* Set the active cursor.
 		 * cursor is an SDL_Cursor pointer
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetCursor(IntPtr cursor);
 
 		/* Return the active cursor
 		 * return value is an SDL_Cursor pointer
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetCursor();
 
 		/* Frees a cursor created with one of the CreateCursor functions.
 		 * cursor in an SDL_Cursor pointer
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FreeCursor(IntPtr cursor);
 
 		/* Toggle whether or not the cursor is shown */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_ShowCursor(int toggle);
 
 		public static uint SDL_BUTTON(uint X)
@@ -6155,30 +6155,30 @@ namespace SDL2
 		/**
 		 *  \brief Get the number of registered touch devices.
  		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetNumTouchDevices();
 
 		/**
 		 *  \brief Get the touch ID with the given index, or 0 if the index is invalid.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern long SDL_GetTouchDevice(int index);
 
 		/**
 		 *  \brief Get the number of active fingers for a given touch device.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetNumTouchFingers(long touchID);
 
 		/**
 		 *  \brief Get the finger object of the given touch, with the given index.
 		 *  Returns pointer to SDL_Finger.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetTouchFinger(long touchID, int index);
 
 		/* Only available in 2.0.10 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_TouchDeviceType SDL_GetTouchDeviceType(Int64 touchID);
 
 		#endregion
@@ -6225,7 +6225,7 @@ namespace SDL2
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.9 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickRumble(
 			IntPtr joystick,
 			UInt16 low_frequency_rumble,
@@ -6236,7 +6236,7 @@ namespace SDL2
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickRumbleTriggers(
 			IntPtr joystick,
 			UInt16 left_rumble,
@@ -6245,14 +6245,14 @@ namespace SDL2
 		);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_JoystickClose(IntPtr joystick);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickEventState(int state);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern short SDL_JoystickGetAxis(
 			IntPtr joystick,
 			int axis
@@ -6261,7 +6261,7 @@ namespace SDL2
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_JoystickGetAxisInitialState(
 			IntPtr joystick,
 			int axis,
@@ -6269,7 +6269,7 @@ namespace SDL2
 		);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickGetBall(
 			IntPtr joystick,
 			int ball,
@@ -6278,21 +6278,21 @@ namespace SDL2
 		);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte SDL_JoystickGetButton(
 			IntPtr joystick,
 			int button
 		);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte SDL_JoystickGetHat(
 			IntPtr joystick,
 			int hat
 		);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_JoystickName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_JoystickName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_JoystickName(
 			IntPtr joystick
 		);
@@ -6303,7 +6303,7 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_JoystickNameForIndex", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_JoystickNameForIndex", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_JoystickNameForIndex(
 			int device_index
 		);
@@ -6315,52 +6315,52 @@ namespace SDL2
 		}
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickNumAxes(IntPtr joystick);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickNumBalls(IntPtr joystick);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickNumButtons(IntPtr joystick);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickNumHats(IntPtr joystick);
 
 		/* IntPtr refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_JoystickOpen(int device_index);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_JoystickUpdate();
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_NumJoysticks();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Guid SDL_JoystickGetDeviceGUID(
 			int device_index
 		);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Guid SDL_JoystickGetGUID(
 			IntPtr joystick
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_JoystickGetGUIDString(
 			Guid guid,
 			byte[] pszGUID,
 			int cbGUID
 		);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_JoystickGetGUIDFromString", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_JoystickGetGUIDFromString", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe Guid INTERNAL_SDL_JoystickGetGUIDFromString(
 			byte* pchGUID
 		);
@@ -6374,49 +6374,49 @@ namespace SDL2
 		}
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_JoystickGetDeviceVendor(int device_index);
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_JoystickGetDeviceProduct(int device_index);
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_JoystickGetDeviceProductVersion(int device_index);
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_JoystickType SDL_JoystickGetDeviceType(int device_index);
 
 		/* int refers to an SDL_JoystickID.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickGetDeviceInstanceID(int device_index);
 
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_JoystickGetVendor(IntPtr joystick);
 
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_JoystickGetProduct(IntPtr joystick);
 
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_JoystickGetProductVersion(IntPtr joystick);
 
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_JoystickGetSerial", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_JoystickGetSerial", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_JoystickGetSerial(
 			IntPtr joystick
 		);
@@ -6431,21 +6431,21 @@ namespace SDL2
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_JoystickType SDL_JoystickGetType(IntPtr joystick);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_JoystickGetAttached(IntPtr joystick);
 
 		/* int refers to an SDL_JoystickID, joystick to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickInstanceID(IntPtr joystick);
 
 		/* joystick refers to an SDL_Joystick*.
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_JoystickPowerLevel SDL_JoystickCurrentPowerLevel(
 			IntPtr joystick
 		);
@@ -6453,27 +6453,27 @@ namespace SDL2
 		/* int refers to an SDL_JoystickID, IntPtr to an SDL_Joystick*.
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_JoystickFromInstanceID(int instance_id);
 
 		/* Only available in 2.0.7 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_LockJoysticks();
 
 		/* Only available in 2.0.7 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_UnlockJoysticks();
 
 		/* IntPtr refers to an SDL_Joystick*.
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_JoystickFromPlayerIndex(int player_index);
 
 		/* IntPtr refers to an SDL_Joystick*.
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_JoystickSetPlayerIndex(
 			IntPtr joystick,
 			int player_index
@@ -6482,7 +6482,7 @@ namespace SDL2
 		/* Int32 refers to an SDL_JoystickType.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickAttachVirtual(
 			Int32 type,
 			int naxes,
@@ -6491,17 +6491,17 @@ namespace SDL2
 		);
 
 		/* Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickDetachVirtual(int device_index);
 
 		/* Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_JoystickIsVirtual(int device_index);
 
 		/* IntPtr refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickSetVirtualAxis(
 			IntPtr joystick,
 			int axis,
@@ -6511,7 +6511,7 @@ namespace SDL2
 		/* IntPtr refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickSetVirtualButton(
 			IntPtr joystick,
 			int button,
@@ -6521,7 +6521,7 @@ namespace SDL2
 		/* IntPtr refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickSetVirtualHat(
 			IntPtr joystick,
 			int hat,
@@ -6531,13 +6531,13 @@ namespace SDL2
 		/* IntPtr refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_JoystickHasLED(IntPtr joystick);
 
 		/* IntPtr refers to an SDL_Joystick*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickSetLED(
 			IntPtr joystick,
 			byte red,
@@ -6549,7 +6549,7 @@ namespace SDL2
 		 * data refers to a const void*.
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickSendEffect(
 			IntPtr joystick,
 			IntPtr data,
@@ -6658,7 +6658,7 @@ namespace SDL2
 			public int unionVal1;
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerAddMapping", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerAddMapping", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe int INTERNAL_SDL_GameControllerAddMapping(
 			byte* mappingString
 		);
@@ -6674,11 +6674,11 @@ namespace SDL2
 		}
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerNumMappings();
 
 		/* Only available in 2.0.6 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForIndex", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForIndex", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerMappingForIndex(int mapping_index);
 		public static string SDL_GameControllerMappingForIndex(int mapping_index)
 		{
@@ -6691,7 +6691,7 @@ namespace SDL2
 		}
 
 		/* THIS IS AN RWops FUNCTION! */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerAddMappingsFromRW", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerAddMappingsFromRW", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int INTERNAL_SDL_GameControllerAddMappingsFromRW(
 			IntPtr rw,
 			int freerw
@@ -6702,7 +6702,7 @@ namespace SDL2
 			return INTERNAL_SDL_GameControllerAddMappingsFromRW(rwops, 1);
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForGUID", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForGUID", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerMappingForGUID(
 			Guid guid
 		);
@@ -6715,7 +6715,7 @@ namespace SDL2
 		}
 
 		/* gamecontroller refers to an SDL_GameController* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMapping", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMapping", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerMapping(
 			IntPtr gamecontroller
 		);
@@ -6730,10 +6730,10 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IsGameController(int joystick_index);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerNameForIndex", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerNameForIndex", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerNameForIndex(
 			int joystick_index
 		);
@@ -6746,7 +6746,7 @@ namespace SDL2
 		}
 
 		/* Only available in 2.0.9 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForDeviceIndex", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerMappingForDeviceIndex", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerMappingForDeviceIndex(
 			int joystick_index
 		);
@@ -6760,11 +6760,11 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to an SDL_GameController* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GameControllerOpen(int joystick_index);
 
 		/* gamecontroller refers to an SDL_GameController* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerName(
 			IntPtr gamecontroller
 		);
@@ -6779,7 +6779,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_GameControllerGetVendor(
 			IntPtr gamecontroller
 		);
@@ -6787,7 +6787,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_GameControllerGetProduct(
 			IntPtr gamecontroller
 		);
@@ -6795,7 +6795,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.6 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern ushort SDL_GameControllerGetProductVersion(
 			IntPtr gamecontroller
 		);
@@ -6803,7 +6803,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetSerial", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetSerial", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerGetSerial(
 			IntPtr gamecontroller
 		);
@@ -6816,7 +6816,7 @@ namespace SDL2
 		}
 
 		/* gamecontroller refers to an SDL_GameController* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GameControllerGetAttached(
 			IntPtr gamecontroller
 		);
@@ -6824,18 +6824,18 @@ namespace SDL2
 		/* IntPtr refers to an SDL_Joystick*
 		 * gamecontroller refers to an SDL_GameController*
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GameControllerGetJoystick(
 			IntPtr gamecontroller
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerEventState(int state);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GameControllerUpdate();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetAxisFromString", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetAxisFromString", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe SDL_GameControllerAxis INTERNAL_SDL_GameControllerGetAxisFromString(
 			byte* pchString
 		);
@@ -6849,7 +6849,7 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetStringForAxis", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetStringForAxis", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerGetStringForAxis(
 			SDL_GameControllerAxis axis
 		);
@@ -6864,7 +6864,7 @@ namespace SDL2
 		}
 
 		/* gamecontroller refers to an SDL_GameController* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetBindForAxis", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetBindForAxis", CallingConvention = CallingConvention.Cdecl)]
 		private static extern INTERNAL_SDL_GameControllerButtonBind INTERNAL_SDL_GameControllerGetBindForAxis(
 			IntPtr gamecontroller,
 			SDL_GameControllerAxis axis
@@ -6886,13 +6886,13 @@ namespace SDL2
 		}
 
 		/* gamecontroller refers to an SDL_GameController* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern short SDL_GameControllerGetAxis(
 			IntPtr gamecontroller,
 			SDL_GameControllerAxis axis
 		);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetButtonFromString", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetButtonFromString", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe SDL_GameControllerButton INTERNAL_SDL_GameControllerGetButtonFromString(
 			byte* pchString
 		);
@@ -6906,7 +6906,7 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetStringForButton", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetStringForButton", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GameControllerGetStringForButton(
 			SDL_GameControllerButton button
 		);
@@ -6919,7 +6919,7 @@ namespace SDL2
 		}
 
 		/* gamecontroller refers to an SDL_GameController* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetBindForButton", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GameControllerGetBindForButton", CallingConvention = CallingConvention.Cdecl)]
 		private static extern INTERNAL_SDL_GameControllerButtonBind INTERNAL_SDL_GameControllerGetBindForButton(
 			IntPtr gamecontroller,
 			SDL_GameControllerButton button
@@ -6941,7 +6941,7 @@ namespace SDL2
 		}
 
 		/* gamecontroller refers to an SDL_GameController* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern byte SDL_GameControllerGetButton(
 			IntPtr gamecontroller,
 			SDL_GameControllerButton button
@@ -6950,7 +6950,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.9 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerRumble(
 			IntPtr gamecontroller,
 			UInt16 low_frequency_rumble,
@@ -6961,7 +6961,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerRumbleTriggers(
 			IntPtr gamecontroller,
 			UInt16 left_rumble,
@@ -6970,7 +6970,7 @@ namespace SDL2
 		);
 
 		/* gamecontroller refers to an SDL_GameController* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GameControllerClose(
 			IntPtr gamecontroller
 		);
@@ -6978,11 +6978,11 @@ namespace SDL2
 		/* int refers to an SDL_JoystickID, IntPtr to an SDL_GameController*.
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GameControllerFromInstanceID(int joyid);
 
 		/* Only available in 2.0.11 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_GameControllerType SDL_GameControllerTypeForIndex(
 			int joystick_index
 		);
@@ -6990,7 +6990,7 @@ namespace SDL2
 		/* IntPtr refers to an SDL_GameController*.
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_GameControllerType SDL_GameControllerGetType(
 			IntPtr gamecontroller
 		);
@@ -6998,7 +6998,7 @@ namespace SDL2
 		/* IntPtr refers to an SDL_GameController*.
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GameControllerFromPlayerIndex(
 			int player_index
 		);
@@ -7006,7 +7006,7 @@ namespace SDL2
 		/* IntPtr refers to an SDL_GameController*.
 		 * Only available in 2.0.11 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_GameControllerSetPlayerIndex(
 			IntPtr gamecontroller,
 			int player_index
@@ -7015,7 +7015,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GameControllerHasLED(
 			IntPtr gamecontroller
 		);
@@ -7023,7 +7023,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerSetLED(
 			IntPtr gamecontroller,
 			byte red,
@@ -7034,7 +7034,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GameControllerHasAxis(
 			IntPtr gamecontroller,
 			SDL_GameControllerAxis axis
@@ -7043,7 +7043,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GameControllerHasButton(
 			IntPtr gamecontroller,
 			SDL_GameControllerButton button
@@ -7052,7 +7052,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerGetNumTouchpads(
 			IntPtr gamecontroller
 		);
@@ -7060,7 +7060,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerGetNumTouchpadFingers(
 			IntPtr gamecontroller,
 			int touchpad
@@ -7069,7 +7069,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerGetTouchpadFinger(
 			IntPtr gamecontroller,
 			int touchpad,
@@ -7083,7 +7083,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GameControllerHasSensor(
 			IntPtr gamecontroller,
 			SDL_SensorType type
@@ -7092,7 +7092,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerSetSensorEnabled(
 			IntPtr gamecontroller,
 			SDL_SensorType type,
@@ -7102,7 +7102,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GameControllerIsSensorEnabled(
 			IntPtr gamecontroller,
 			SDL_SensorType type
@@ -7112,7 +7112,7 @@ namespace SDL2
 		 * data refers to a float*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerGetSensorData(
 			IntPtr gamecontroller,
 			SDL_SensorType type,
@@ -7123,7 +7123,7 @@ namespace SDL2
 		/* gamecontroller refers to an SDL_GameController*.
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern float SDL_GameControllerGetSensorDataRate(
 			IntPtr gamecontroller,
 			SDL_SensorType type
@@ -7133,7 +7133,7 @@ namespace SDL2
 		 * data refers to a const void*.
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GameControllerSendEffect(
 			IntPtr gamecontroller,
 			IntPtr data,
@@ -7321,36 +7321,36 @@ namespace SDL2
 		}
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_HapticClose(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_HapticDestroyEffect(
 			IntPtr haptic,
 			int effect
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticEffectSupported(
 			IntPtr haptic,
 			ref SDL_HapticEffect effect
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticGetEffectStatus(
 			IntPtr haptic,
 			int effect
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticIndex(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_HapticName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_HapticName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_HapticName(int device_index);
 		public static string SDL_HapticName(int device_index)
 		{
@@ -7358,55 +7358,55 @@ namespace SDL2
 		}
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticNewEffect(
 			IntPtr haptic,
 			ref SDL_HapticEffect effect
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticNumAxes(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticNumEffects(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticNumEffectsPlaying(IntPtr haptic);
 
 		/* IntPtr refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_HapticOpen(int device_index);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticOpened(int device_index);
 
 		/* IntPtr refers to an SDL_Haptic*, joystick to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_HapticOpenFromJoystick(
 			IntPtr joystick
 		);
 
 		/* IntPtr refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_HapticOpenFromMouse();
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticPause(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_HapticQuery(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticRumbleInit(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticRumblePlay(
 			IntPtr haptic,
 			float strength,
@@ -7414,15 +7414,15 @@ namespace SDL2
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticRumbleStop(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticRumbleSupported(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticRunEffect(
 			IntPtr haptic,
 			int effect,
@@ -7430,36 +7430,36 @@ namespace SDL2
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticSetAutocenter(
 			IntPtr haptic,
 			int autocenter
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticSetGain(
 			IntPtr haptic,
 			int gain
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticStopAll(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticStopEffect(
 			IntPtr haptic,
 			int effect
 		);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticUnpause(IntPtr haptic);
 
 		/* haptic refers to an SDL_Haptic* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_HapticUpdateEffect(
 			IntPtr haptic,
 			int effect,
@@ -7467,13 +7467,13 @@ namespace SDL2
 		);
 
 		/* joystick refers to an SDL_Joystick* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_JoystickIsHaptic(IntPtr joystick);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_MouseIsHaptic();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_NumHaptics();
 
 		#endregion
@@ -7492,37 +7492,37 @@ namespace SDL2
 
 		public const float SDL_STANDARD_GRAVITY = 9.80665f;
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_NumSensors();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_SensorGetDeviceName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SensorGetDeviceName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_SensorGetDeviceName(int device_index);
 		public static string SDL_SensorGetDeviceName(int device_index)
 		{
 			return UTF8_ToManaged(INTERNAL_SDL_SensorGetDeviceName(device_index));
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_SensorType SDL_SensorGetDeviceType(int device_index);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SensorGetDeviceNonPortableType(int device_index);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Int32 SDL_SensorGetDeviceInstanceID(int device_index);
 
 		/* IntPtr refers to an SDL_Sensor* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_SensorOpen(int device_index);
 
 		/* IntPtr refers to an SDL_Sensor* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_SensorFromInstanceID(
 			Int32 instance_id
 		);
 
 		/* sensor refers to an SDL_Sensor* */
-		[DllImport(nativeLibName, EntryPoint = "SDL_SensorGetName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_SensorGetName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_SensorGetName(IntPtr sensor);
 		public static string SDL_SensorGetName(IntPtr sensor)
 		{
@@ -7530,19 +7530,19 @@ namespace SDL2
 		}
 
 		/* sensor refers to an SDL_Sensor* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_SensorType SDL_SensorGetType(IntPtr sensor);
 
 		/* sensor refers to an SDL_Sensor* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SensorGetNonPortableType(IntPtr sensor);
 
 		/* sensor refers to an SDL_Sensor* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Int32 SDL_SensorGetInstanceID(IntPtr sensor);
 
 		/* sensor refers to an SDL_Sensor* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SensorGetData(
 			IntPtr sensor,
 			float[] data,
@@ -7550,18 +7550,18 @@ namespace SDL2
 		);
 
 		/* sensor refers to an SDL_Sensor* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SensorClose(IntPtr sensor);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SensorUpdate();
 
 		/* Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_LockSensors();
 
 		/* Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_UnlockSensors();
 
 		#endregion
@@ -7666,14 +7666,14 @@ namespace SDL2
 		}
 
 		/* userdata refers to a void*, stream to a Uint8 */
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void SDL_AudioCallback(
 			IntPtr userdata,
 			IntPtr stream,
 			int len
 		);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_AudioInit", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_AudioInit", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe int INTERNAL_SDL_AudioInit(
 			byte* driver_name
 		);
@@ -7686,21 +7686,21 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_AudioQuit();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_CloseAudio();
 
 		/* dev refers to an SDL_AudioDeviceID */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_CloseAudioDevice(uint dev);
 
 		/* audio_buf refers to a malloc()'d buffer from SDL_LoadWAV */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FreeWAV(IntPtr audio_buf);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetAudioDeviceName", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetAudioDeviceName", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetAudioDeviceName(
 			int index,
 			int iscapture
@@ -7715,12 +7715,12 @@ namespace SDL2
 		}
 
 		/* dev refers to an SDL_AudioDeviceID */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_AudioStatus SDL_GetAudioDeviceStatus(
 			uint dev
 		);
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetAudioDriver", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetAudioDriver", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetAudioDriver(int index);
 		public static string SDL_GetAudioDriver(int index)
 		{
@@ -7729,25 +7729,25 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_AudioStatus SDL_GetAudioStatus();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetCurrentAudioDriver", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetCurrentAudioDriver", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetCurrentAudioDriver();
 		public static string SDL_GetCurrentAudioDriver()
 		{
 			return UTF8_ToManaged(INTERNAL_SDL_GetCurrentAudioDriver());
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetNumAudioDevices(int iscapture);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetNumAudioDrivers();
 
 		/* audio_buf refers to a malloc()'d buffer, IntPtr to an SDL_AudioSpec* */
 		/* THIS IS AN RWops FUNCTION! */
-		[DllImport(nativeLibName, EntryPoint = "SDL_LoadWAV_RW", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_LoadWAV_RW", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_LoadWAV_RW(
 			IntPtr src,
 			int freesrc,
@@ -7771,14 +7771,14 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_LockAudio();
 
 		/* dev refers to an SDL_AudioDeviceID */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_LockAudioDevice(uint dev);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_MixAudio(
 			[Out()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 2)]
 				byte[] dst,
@@ -7790,7 +7790,7 @@ namespace SDL2
 
 		/* format refers to an SDL_AudioFormat */
 		/* This overload allows raw pointers to be passed for dst and src. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_MixAudioFormat(
 			IntPtr dst,
 			IntPtr src,
@@ -7800,7 +7800,7 @@ namespace SDL2
 		);
 
 		/* format refers to an SDL_AudioFormat */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_MixAudioFormat(
 			[Out()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 3)]
 				byte[] dst,
@@ -7811,13 +7811,13 @@ namespace SDL2
 			int volume
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_OpenAudio(
 			ref SDL_AudioSpec desired,
 			out SDL_AudioSpec obtained
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_OpenAudio(
 			ref SDL_AudioSpec desired,
 			IntPtr obtained
@@ -7825,7 +7825,7 @@ namespace SDL2
 
 		/* uint refers to an SDL_AudioDeviceID */
 		/* This overload allows for IntPtr.Zero (null) to be passed for device. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern unsafe uint SDL_OpenAudioDevice(
 			IntPtr device,
 			int iscapture,
@@ -7835,7 +7835,7 @@ namespace SDL2
 		);
 
 		/* uint refers to an SDL_AudioDeviceID */
-		[DllImport(nativeLibName, EntryPoint = "SDL_OpenAudioDevice", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_OpenAudioDevice", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe uint INTERNAL_SDL_OpenAudioDevice(
 			byte* device,
 			int iscapture,
@@ -7861,27 +7861,27 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_PauseAudio(int pause_on);
 
 		/* dev refers to an SDL_AudioDeviceID */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_PauseAudioDevice(
 			uint dev,
 			int pause_on
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_UnlockAudio();
 
 		/* dev refers to an SDL_AudioDeviceID */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_UnlockAudioDevice(uint dev);
 
 		/* dev refers to an SDL_AudioDeviceID, data to a void*
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_QueueAudio(
 			uint dev,
 			IntPtr data,
@@ -7891,7 +7891,7 @@ namespace SDL2
 		/* dev refers to an SDL_AudioDeviceID, data to a void*
 		 * Only available in 2.0.5 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_DequeueAudio(
 			uint dev,
 			IntPtr data,
@@ -7901,20 +7901,20 @@ namespace SDL2
 		/* dev refers to an SDL_AudioDeviceID
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetQueuedAudioSize(uint dev);
 
 		/* dev refers to an SDL_AudioDeviceID
 		 * Only available in 2.0.4 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_ClearQueuedAudio(uint dev);
 
 		/* src_format and dst_format refer to SDL_AudioFormats.
 		 * IntPtr refers to an SDL_AudioStream*.
 		 * Only available in 2.0.7 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_NewAudioStream(
 			ushort src_format,
 			byte src_channels,
@@ -7927,7 +7927,7 @@ namespace SDL2
 		/* stream refers to an SDL_AudioStream*, buf to a void*.
 		 * Only available in 2.0.7 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_AudioStreamPut(
 			IntPtr stream,
 			IntPtr buf,
@@ -7937,7 +7937,7 @@ namespace SDL2
 		/* stream refers to an SDL_AudioStream*, buf to a void*.
 		 * Only available in 2.0.7 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_AudioStreamGet(
 			IntPtr stream,
 			IntPtr buf,
@@ -7947,23 +7947,23 @@ namespace SDL2
 		/* stream refers to an SDL_AudioStream*.
 		 * Only available in 2.0.7 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_AudioStreamAvailable(IntPtr stream);
 
 		/* stream refers to an SDL_AudioStream*.
 		 * Only available in 2.0.7 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_AudioStreamClear(IntPtr stream);
 
 		/* stream refers to an SDL_AudioStream*.
 		 * Only available in 2.0.7 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_FreeAudioStream(IntPtr stream);
 
 		/* Only available in 2.0.16 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetAudioDeviceSpec(
 			int index,
 			int iscapture,
@@ -7987,27 +7987,27 @@ namespace SDL2
 		}
 
 		/* Delays the thread's processing based on the milliseconds parameter */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_Delay(UInt32 ms);
 
 		/* Returns the milliseconds that have passed since SDL was initialized */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt32 SDL_GetTicks();
 
 		/* Get the current value of the high resolution counter */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt64 SDL_GetPerformanceCounter();
 
 		/* Get the count per second of the high resolution counter */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern UInt64 SDL_GetPerformanceFrequency();
 
 		/* param refers to a void* */
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate UInt32 SDL_TimerCallback(UInt32 interval, IntPtr param);
 
 		/* int refers to an SDL_TimerID, param to a void* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_AddTimer(
 			UInt32 interval,
 			SDL_TimerCallback callback,
@@ -8015,7 +8015,7 @@ namespace SDL2
 		);
 
 		/* id refers to an SDL_TimerID */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_RemoveTimer(int id);
 
 		#endregion
@@ -8024,7 +8024,7 @@ namespace SDL2
 
 		/* Windows */
 
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate IntPtr SDL_WindowsMessageHook(
 			IntPtr userdata,
 			IntPtr hWnd,
@@ -8033,7 +8033,7 @@ namespace SDL2
 			long lParam
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SetWindowsMessageHook(
 			SDL_WindowsMessageHook callback,
 			IntPtr userdata
@@ -8043,22 +8043,22 @@ namespace SDL2
 		 * IntPtr refers to an IDirect3DDevice9*
 		 * Only available in 2.0.1 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_RenderGetD3D9Device(IntPtr renderer);
 
 		/* renderer refers to an SDL_Renderer*
 		 * IntPtr refers to an ID3D11Device*
 		 * Only available in 2.0.16 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_RenderGetD3D11Device(IntPtr renderer);
 
 		/* iOS */
 
-		[UnmanagedFunctionPointer(CallingConvention.Winapi)]
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void SDL_iPhoneAnimationCallback(IntPtr p);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_iPhoneSetAnimationCallback(
 			IntPtr window, /* SDL_Window* */
 			int interval,
@@ -8066,7 +8066,7 @@ namespace SDL2
 			IntPtr callbackParam
 		);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_iPhoneSetEventPump(SDL_bool enabled);
 
 		/* Android */
@@ -8075,26 +8075,26 @@ namespace SDL2
 		public const int SDL_ANDROID_EXTERNAL_STORAGE_WRITE = 0x02;
 
 		/* IntPtr refers to a JNIEnv* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_AndroidGetJNIEnv();
 
 		/* IntPtr refers to a jobject */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_AndroidGetActivity();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IsAndroidTV();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IsChromebook();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IsDeXMode();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_AndroidBackButton();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_AndroidGetInternalStoragePath", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_AndroidGetInternalStoragePath", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_AndroidGetInternalStoragePath();
 
 		public static string SDL_AndroidGetInternalStoragePath()
@@ -8104,10 +8104,10 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_AndroidGetExternalStorageState();
 
-		[DllImport(nativeLibName, EntryPoint = "SDL_AndroidGetExternalStoragePath", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_AndroidGetExternalStoragePath", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_AndroidGetExternalStoragePath();
 
 		public static string SDL_AndroidGetExternalStoragePath()
@@ -8117,11 +8117,11 @@ namespace SDL2
 			);
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetAndroidSDKVersion();
 
 		/* Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_AndroidRequestPermission", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_AndroidRequestPermission", CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern SDL_bool INTERNAL_SDL_AndroidRequestPermission(
 			byte* permission
 		);
@@ -8137,7 +8137,7 @@ namespace SDL2
 		}
 
 		/* Only available in 2.0.16 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern int INTERNAL_SDL_AndroidShowToast(
 			byte* message,
 			int duration,
@@ -8174,10 +8174,10 @@ namespace SDL2
 			SDL_WINRT_DEVICEFAMILY_XBOX
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_WinRT_DeviceFamily SDL_WinRTGetDeviceFamily();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_IsTablet();
 
 		#endregion
@@ -8334,7 +8334,7 @@ namespace SDL2
 		}
 
 		/* window refers to an SDL_Window* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_GetWindowWMInfo(
 			IntPtr window,
 			ref SDL_SysWMinfo info
@@ -8345,7 +8345,7 @@ namespace SDL2
 		#region SDL_filesystem.h
 
 		/* Only available in 2.0.1 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetBasePath", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetBasePath", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr INTERNAL_SDL_GetBasePath();
 		public static string SDL_GetBasePath()
 		{
@@ -8353,7 +8353,7 @@ namespace SDL2
 		}
 
 		/* Only available in 2.0.1 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_GetPrefPath", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_GetPrefPath", CallingConvention = CallingConvention.Cdecl)]
 		private static extern unsafe IntPtr INTERNAL_SDL_GetPrefPath(
 			byte* org,
 			byte* app
@@ -8388,7 +8388,7 @@ namespace SDL2
 			SDL_POWERSTATE_CHARGED
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_PowerState SDL_GetPowerInfo(
 			out int secs,
 			out int pct
@@ -8398,73 +8398,73 @@ namespace SDL2
 
 		#region SDL_cpuinfo.h
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetCPUCount();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetCPUCacheLineSize();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasRDTSC();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasAltiVec();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasMMX();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_Has3DNow();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasSSE();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasSSE2();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasSSE3();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasSSE41();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasSSE42();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasAVX();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasAVX2();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasAVX512F();
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern SDL_bool SDL_HasNEON();
 
 		/* Only available in 2.0.1 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_GetSystemRAM();
 
 		/* Only available in SDL 2.0.10 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern uint SDL_SIMDGetAlignment();
 
 		/* Only available in SDL 2.0.10 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_SIMDAlloc(uint len);
 
 		/* Only available in SDL 2.0.14 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_SIMDRealloc(IntPtr ptr, uint len);
 
 		/* Only available in SDL 2.0.10 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_SIMDFree(IntPtr ptr);
 
 		/* Only available in SDL 2.0.11 or higher. */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SDL_HasARMSIMD();
 
 		#endregion
@@ -8481,7 +8481,7 @@ namespace SDL2
 		/* IntPtr refers to an SDL_Locale*.
 		 * Only available in 2.0.14 or higher.
 		 */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SDL_GetPreferredLocales();
 
 		#endregion
@@ -8489,7 +8489,7 @@ namespace SDL2
 		#region SDL_misc.h
 
 		/* Only available in 2.0.14 or higher. */
-		[DllImport(nativeLibName, EntryPoint = "SDL_OpenURL", CallingConvention = CallingConvention.Winapi)]
+		[DllImport(nativeLibName, EntryPoint = "SDL_OpenURL", CallingConvention = CallingConvention.Cdecl)]
 		private static unsafe extern int INTERNAL_SDL_OpenURL(byte* url);
 		public static unsafe int SDL_OpenURL(string url)
 		{

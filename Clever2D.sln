@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clever2D", "Clever2D\Clever
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.csproj", "{A292CAE8-65DB-4607-BFA1-D9C4434B07CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleverInstaller", "CleverInstaller\CleverInstaller.csproj", "{4982AB51-CB89-4FE0-A61A-F55AB307DC7D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDL2", "SDL2\SDL2.csproj", "{CAECB4A9-8863-4AC4-949A-1F6941A1E020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleverInstaller", "CleverInstaller\CleverInstaller.csproj", "{4982AB51-CB89-4FE0-A61A-F55AB307DC7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +41,6 @@ Global
 		{4982AB51-CB89-4FE0-A61A-F55AB307DC7D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4982AB51-CB89-4FE0-A61A-F55AB307DC7D}.Release|x64.ActiveCfg = Release|Any CPU
 		{4982AB51-CB89-4FE0-A61A-F55AB307DC7D}.Release|x64.Build.0 = Release|Any CPU
-		{CAECB4A9-8863-4AC4-949A-1F6941A1E020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CAECB4A9-8863-4AC4-949A-1F6941A1E020}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CAECB4A9-8863-4AC4-949A-1F6941A1E020}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CAECB4A9-8863-4AC4-949A-1F6941A1E020}.Debug|x64.Build.0 = Debug|Any CPU
-		{CAECB4A9-8863-4AC4-949A-1F6941A1E020}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CAECB4A9-8863-4AC4-949A-1F6941A1E020}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CAECB4A9-8863-4AC4-949A-1F6941A1E020}.Release|x64.ActiveCfg = Release|Any CPU
-		{CAECB4A9-8863-4AC4-949A-1F6941A1E020}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
