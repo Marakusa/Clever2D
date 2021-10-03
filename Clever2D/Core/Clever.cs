@@ -106,7 +106,8 @@ namespace Clever2D.Core
             
             renderer = SDL.SDL_CreateRenderer(WindowHandle, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
             
-            SetScreenState += (WindowState state) =>
+            // TODO: Fix fullscreen
+            /*SetScreenState += (WindowState state) =>
             {
                 CurrentState = state;
 
@@ -122,14 +123,6 @@ namespace Clever2D.Core
                         SDL.SDL_SetWindowFullscreen(WindowHandle, (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN);
                         
                         break;
-                    /*case WindowState.Borderless:
-                        
-                        Size = new Size(closestMode.w, closestMode.h);
-
-                        SDL.SDL_SetWindowBordered(WindowHandle, SDL.SDL_bool.SDL_FALSE);
-                        SDL.SDL_SetWindowFullscreen(WindowHandle, (uint)SDL.SDL_WindowFlags.SDL_WINDOW_MAXIMIZED);
-                        
-                        break;*/
                     case WindowState.Windowed:
                         
                         Size = new Size(defaultWidth, defaultHeight);
@@ -139,7 +132,7 @@ namespace Clever2D.Core
                         
                         break;
                 }
-            };
+            };*/
             //Resized += () =>
             //{
             //    
@@ -210,7 +203,6 @@ namespace Clever2D.Core
                     eventScheduler.Update();
                     
                     SDL.SDL_SetRenderDrawColor(renderer, 30, 30, 100, 255);
-            
                     SDL.SDL_RenderClear(renderer);
 
                     Scene loadedScene = SceneManager.LoadedScene;
@@ -423,12 +415,12 @@ namespace Clever2D.Core
                 case SDL.SDL_EventType.SDL_KEYDOWN:
                     switch (evtKey.keysym.sym)
                     {
-                        case SDL.SDL_Keycode.SDLK_F11:
+                        /*case SDL.SDL_Keycode.SDLK_F11:
                             if (CurrentState == WindowState.Windowed)
                                 ScheduleEvent(() => SetScreenState?.Invoke(WindowState.Fullscreen));
                             else if (CurrentState == WindowState.Fullscreen)
                                 ScheduleEvent(() => SetScreenState?.Invoke(WindowState.Windowed));
-                            break;
+                            break;*/
                     }
                     break;
 
