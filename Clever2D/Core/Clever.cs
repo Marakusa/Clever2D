@@ -4,7 +4,6 @@ using Clever2D.Threading;
 using System;
 using System.Drawing;
 using System.Threading;
-using System.Xml.Schema;
 using SDL2;
 
 namespace Clever2D.Core
