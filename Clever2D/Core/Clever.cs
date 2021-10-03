@@ -13,6 +13,8 @@ namespace Clever2D.Core
     /// </summary>
     public class Clever
     {
+        public static string executableDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        
         internal static IntPtr WindowHandle { get; private set; } = IntPtr.Zero;
         private static IntPtr renderer = IntPtr.Zero;
         internal static IntPtr Renderer

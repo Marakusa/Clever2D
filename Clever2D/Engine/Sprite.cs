@@ -40,7 +40,7 @@ namespace Clever2D.Engine
         /// </summary>
         public Sprite(string path)
         {
-            path = Environment.CurrentDirectory + "/Example/bin/Debug/net5.0-windows/assets/" + path;
+            path = Clever.executableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {
@@ -62,7 +62,7 @@ namespace Clever2D.Engine
         /// </summary>
         public Sprite(string path, Vector2Int size)
         {
-            path = Environment.CurrentDirectory + "/Example/bin/Debug/net5.0-windows/assets/" + path;
+            path = Clever.executableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {
@@ -88,7 +88,7 @@ namespace Clever2D.Engine
         /// <param name="offset">Offset of the rendering area of the texture (scales from 0 to 1).</param>
         public Sprite(string path, Vector2Int size, Vector2 offset)
         {
-            path = Environment.CurrentDirectory + "/Example/bin/Debug/net5.0-windows/assets/" + path;
+            path = Clever.executableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {
