@@ -68,7 +68,7 @@ namespace SDL2
 			X.patch = SDL_IMAGE_PATCHLEVEL;
 		}
 
-		[DllImport(nativeLibName, EntryPoint = "IMG_Linked_Version", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, EntryPoint = "IMG_Linked_Version", CallingConvention = CallingConvention.Winapi)]
 		private static extern IntPtr INTERNAL_IMG_Linked_Version();
 		public static SDL.SDL_version IMG_Linked_Version()
 		{
@@ -81,14 +81,14 @@ namespace SDL2
 			return result;
 		}
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern int IMG_Init(IMG_InitFlags flags);
 
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern void IMG_Quit();
 
 		/* IntPtr refers to an SDL_Surface* */
-		[DllImport(nativeLibName, EntryPoint = "IMG_Load", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, EntryPoint = "IMG_Load", CallingConvention = CallingConvention.Winapi)]
 		private static extern unsafe IntPtr INTERNAL_IMG_Load(
 			byte* file
 		);
@@ -104,7 +104,7 @@ namespace SDL2
 
 		/* src refers to an SDL_RWops*, IntPtr to an SDL_Surface* */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern IntPtr IMG_Load_RW(
 			IntPtr src,
 			int freesrc
@@ -112,7 +112,7 @@ namespace SDL2
 
 		/* src refers to an SDL_RWops*, IntPtr to an SDL_Surface* */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, EntryPoint = "IMG_LoadTyped_RW", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, EntryPoint = "IMG_LoadTyped_RW", CallingConvention = CallingConvention.Winapi)]
 		private static extern unsafe IntPtr INTERNAL_IMG_LoadTyped_RW(
 			IntPtr src,
 			int freesrc,
@@ -133,7 +133,7 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to an SDL_Texture*, renderer to an SDL_Renderer* */
-		[DllImport(nativeLibName, EntryPoint = "IMG_LoadTexture", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, EntryPoint = "IMG_LoadTexture", CallingConvention = CallingConvention.Winapi)]
 		private static extern unsafe IntPtr INTERNAL_IMG_LoadTexture(
 			IntPtr renderer,
 			byte* file
@@ -156,7 +156,7 @@ namespace SDL2
 		 * IntPtr to an SDL_Texture*.
 		 */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern IntPtr IMG_LoadTexture_RW(
 			IntPtr renderer,
 			IntPtr src,
@@ -168,7 +168,7 @@ namespace SDL2
 		 * IntPtr to an SDL_Texture*.
 		 */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, EntryPoint = "IMG_LoadTextureTyped_RW", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, EntryPoint = "IMG_LoadTextureTyped_RW", CallingConvention = CallingConvention.Winapi)]
 		private static extern unsafe IntPtr INTERNAL_IMG_LoadTextureTyped_RW(
 			IntPtr renderer,
 			IntPtr src,
@@ -193,14 +193,14 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to an SDL_Surface* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern IntPtr IMG_ReadXPMFromArray(
 			[In()] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
 				string[] xpm
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, EntryPoint = "IMG_SavePNG", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, EntryPoint = "IMG_SavePNG", CallingConvention = CallingConvention.Winapi)]
 		private static extern unsafe int INTERNAL_IMG_SavePNG(
 			IntPtr surface,
 			byte* file
@@ -218,7 +218,7 @@ namespace SDL2
 
 		/* surface refers to an SDL_Surface*, dst to an SDL_RWops* */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern int IMG_SavePNG_RW(
 			IntPtr surface,
 			IntPtr dst,
@@ -226,7 +226,7 @@ namespace SDL2
 		);
 
 		/* surface refers to an SDL_Surface* */
-		[DllImport(nativeLibName, EntryPoint = "IMG_SaveJPG", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, EntryPoint = "IMG_SaveJPG", CallingConvention = CallingConvention.Winapi)]
 		private static extern unsafe int INTERNAL_IMG_SaveJPG(
 			IntPtr surface,
 			byte* file,
@@ -246,7 +246,7 @@ namespace SDL2
 
 		/* surface refers to an SDL_Surface*, dst to an SDL_RWops* */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern int IMG_SaveJPG_RW(
 			IntPtr surface,
 			IntPtr dst,
@@ -277,7 +277,7 @@ namespace SDL2
 		}
 
 		/* IntPtr refers to an IMG_Animation* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern IntPtr IMG_LoadAnimation(
 			[In()] [MarshalAs(UnmanagedType.LPStr)]
 				string file
@@ -285,7 +285,7 @@ namespace SDL2
 
 		/* IntPtr refers to an IMG_Animation*, src to an SDL_RWops* */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern IntPtr IMG_LoadAnimation_RW(
 			IntPtr src,
 			int freesrc
@@ -293,7 +293,7 @@ namespace SDL2
 
 		/* IntPtr refers to an IMG_Animation*, src to an SDL_RWops* */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern IntPtr IMG_LoadAnimationTyped_RW(
 			IntPtr src,
 			int freesrc,
@@ -302,12 +302,12 @@ namespace SDL2
 		);
 
 		/* anim refers to an IMG_Animation* */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern void IMG_FreeAnimation(IntPtr anim);
 
 		/* IntPtr refers to an IMG_Animation*, src to an SDL_RWops* */
 		/* THIS IS A PUBLIC RWops FUNCTION! */
-		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Winapi)]
 		public static extern IntPtr IMG_LoadGIFAnimation_RW(IntPtr src);
 
 		#endregion
