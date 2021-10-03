@@ -1,10 +1,5 @@
 ﻿using Clever2D.Engine;
-using Eto.Drawing;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Example
 {
@@ -31,7 +26,7 @@ namespace Example
                         rotation = new Vector2(0f, 0f),
                         scale = new Vector2(1f, 1f)
                     },
-                    new SpriteRenderer(new Sprite("assets/resources/Stars.gif"))
+                    new SpriteRenderer(new Sprite("resources/Stars.gif"))
                 },
                 tag = "Background"
             },
@@ -49,7 +44,7 @@ namespace Example
                     {
                         speed = 2f
                     },
-                    new SpriteRenderer(new Sprite("assets/resources/Sword.png"))
+                    new SpriteRenderer(new Sprite("resources/Sword.png"))
                 },
                 tag = "Player"
             }/*,

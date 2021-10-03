@@ -2,29 +2,16 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
   </PropertyGroup>
   
-  <PropertyGroup>
-    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-  </PropertyGroup>
-  
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.5.11" />
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.5.11" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Clever2D.Desktop\Clever2D.Desktop\Clever2D.Desktop.csproj" />
     <ProjectReference Include="..\Clever2D\Clever2D.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="assets\resources\Sword.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\resources\Stars.gif">
+    <None Update="assets\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

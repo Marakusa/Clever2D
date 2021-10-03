@@ -24,7 +24,8 @@ namespace Clever2D.Engine
         {
             get
             {
-                return (float)((DateTime.Now.Ticks - startTime) / 1000f);
+                long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                return (float)((milliseconds - startTime) / 1000f);
             }
         }
 
@@ -48,27 +49,21 @@ namespace Clever2D.Engine
         /// </summary>
         public static void Initialize()
         {
-            startTime = DateTime.Now.Ticks;
+            startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-            Thread thread = new(() =>
+            long frameStart = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+            System.Timers.Timer tickTimer = new();
+
+            tickTimer.Interval = 1f;
+            tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
             {
-                System.Timers.Timer tickTimer = new();
+                long frameEnd = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                deltaTime = (frameEnd - frameStart) / 1000f;
+                frameStart = frameEnd;
+            };
 
-                DateTime frameStart = DateTime.Now;
-                DateTime frameEnd = DateTime.Now;
-
-                tickTimer.Interval = 1f / 60f;
-                tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
-                {
-                    frameEnd = DateTime.Now;
-                    deltaTime = (float)(frameEnd - frameStart).TotalMilliseconds / 1000f;
-                    frameStart = DateTime.Now;
-                };
-
-                tickTimer.Start();
-            });
-
-            thread.Start();
+            tickTimer.Start();
         }
     }
 }

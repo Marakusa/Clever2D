@@ -1,11 +1,4 @@
-﻿using Eto.Drawing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Clever2D.Engine
+﻿namespace Clever2D.Engine
 {
     /// <summary>
     /// Component that manages the Sprite wanted to be rendered in a GameObject.
@@ -17,7 +10,7 @@ namespace Clever2D.Engine
         /// </summary>
         private Sprite sprite;
         /// <summary>
-        /// Returns the assigned Sprite to this SpriteRenderer.
+        /// Returns the assigned image to this SpriteRenderer.
         /// </summary>
         public Sprite Sprite
         {
@@ -28,16 +21,6 @@ namespace Clever2D.Engine
             set
             {
                 sprite = value;
-            }
-        }
-        /// <summary>
-        /// Returns the assigned Sprites image of this SpriteRenderer.
-        /// </summary>
-        public Image Image
-        {
-            get
-            {
-                return sprite.image;
             }
         }
 

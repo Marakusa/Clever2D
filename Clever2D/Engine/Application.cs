@@ -1,4 +1,6 @@
-﻿namespace Clever2D.Engine
+﻿using Clever2D.Core;
+
+namespace Clever2D.Engine
 {
     /// <summary>
     /// Access to application data.
@@ -60,7 +62,8 @@
         /// </summary>
         public static void Exit()
         {
-            // TODO: Exit the application
+            Player.Log("Exiting...");
+            Clever.Quit = true;
         }
     }
 

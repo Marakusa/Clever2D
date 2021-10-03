@@ -1,15 +1,15 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Clever2D")]
+[assembly: AssemblyTitle("CleverInstaller")]
 [assembly: AssemblyDescription(".NET based 2D game engine written in C#")]
 [assembly: AssemblyCompany("Aquatic Studios")]
-[assembly: AssemblyProduct("Clever2D")]
+[assembly: AssemblyProduct("CleverInstaller")]
 [assembly: AssemblyCopyright("Aquatic Studios � 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("2021.2.1.2")]
+[assembly: AssemblyVersion("0.1.0")]
 
 // In SDK-style projects such as this one, several assembly attributes that were historically
 // defined in this file are now automatically added during build and populated with
