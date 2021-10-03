@@ -16,7 +16,7 @@ namespace Example
 
         public readonly List<GameObject> sceneGameObjects = new()
         {
-            /*new GameObject("Background")
+            new GameObject("Background")
             {
                 components = new List<Component>()
                 {
@@ -29,7 +29,7 @@ namespace Example
                     new SpriteRenderer(new Sprite("resources/Stars.gif"))
                 },
                 tag = "Background"
-            },*/
+            },
             new GameObject("Player")
             {
                 components = new List<Component>()

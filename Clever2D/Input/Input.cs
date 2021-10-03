@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SDL2;
 
 namespace Clever2D.Input
 {
@@ -13,41 +14,12 @@ namespace Clever2D.Input
     public static class Input
     {
         /// <summary>
-        /// List of all keys pressed at the moment.
-        /// </summary>
-        internal static List<string> keysPressed = new();
-
-        /// <summary>
         /// Returns a bool value if the given key is pressed at the moment.
         /// </summary>
         /// <param name="key">Key to be checked for input.</param>
-        public static bool GetKey(string key)
+        public static bool GetKey(SDL.SDL_Keycode key)
         {
-            return keysPressed.Contains(key);
-        }
-
-        /// <summary>
-        /// Sets the given key as pressed for input checks.
-        /// </summary>
-        /// <param name="key">Key that has been pressed.</param>
-        public static void KeyPressed(string key)
-        {
-            if (!keysPressed.Contains(key))
-            {
-                Player.Log(System.Threading.Thread.CurrentThread.ManagedThreadId);
-                keysPressed.Add(key);
-            }
-        }
-        /// <summary>
-        /// Sets the given key as released for input checks.
-        /// </summary>
-        /// <param name="key">Key that has been released.</param>
-        public static void KeyReleased(string key)
-        {
-            if (keysPressed.Contains(key))
-            {
-                keysPressed.Remove(key);
-            }
+            return InputManager.keysPressed.Find(k => k.key == key) != null;
         }
     }
 }

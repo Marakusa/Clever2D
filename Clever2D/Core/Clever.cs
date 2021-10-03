@@ -27,7 +27,7 @@ namespace Clever2D.Core
             get { return focused; }
             set { focused = value; }
         }
-        private static bool Quit { get; set; } = false;
+        internal static bool Quit { get; set; } = false;
         private static WindowState CurrentState { get; set; } = WindowState.Windowed;
         
         private static Thread mainLoopThread = null;
@@ -223,13 +223,9 @@ namespace Clever2D.Core
                                     
                                     SDL.SDL_Rect tRect;
                                     tRect.x = (int)Math.Round(instance.Value.transform.position.x * scale * instance.Value.transform.scale.x);
-                                    tRect.y = (int)Math.Round(instance.Value.transform.position.y * scale * instance.Value.transform.scale.y);
+                                    tRect.y = (int)Math.Round(-instance.Value.transform.position.y * scale * instance.Value.transform.scale.y);
                                     tRect.w = (int)Math.Round(spriteRenderer.Sprite.rect.w * scale);
                                     tRect.h = (int)Math.Round(spriteRenderer.Sprite.rect.h * scale);
-                                    //tRect.x = 100;
-                                    //tRect.y = 100;
-                                    //tRect.w = 64;
-                                    //tRect.h = 64;
 
                                     SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
                                     //SDL.SDL_RenderCopy(renderer, playerTexture, IntPtr.Zero, IntPtr.Zero);
@@ -408,24 +404,43 @@ namespace Clever2D.Core
         {
         }
 
+        /// <summary>
+        /// Delegate handler for key press.
+        /// </summary>
+        public delegate void KeyPressHandler(SDL.SDL_KeyboardEvent key);
+        /// <summary>
+        /// Delegate handler for key release.
+        /// </summary>
+        public delegate void KeyReleaseHandler(SDL.SDL_KeyboardEvent key);
+        /// <summary>
+        /// This event gets called when a key is pressed.
+        /// </summary>
+        public static event KeyPressHandler OnKeyPress;
+        /// <summary>
+        /// This event gets called when a key is released.
+        /// </summary>
+        public static event KeyReleaseHandler OnKeyRelease;
+
         private static void HandleKeyboardEvent(SDL.SDL_KeyboardEvent evtKey)
         {
             switch (evtKey.type)
             {
                 case SDL.SDL_EventType.SDL_KEYDOWN:
-                    switch (evtKey.keysym.sym)
+                    OnKeyPress?.Invoke(evtKey);
+                    // TODO: Fullscreen fix
+                    /*switch (evtKey.keysym.sym)
                     {
-                        /*case SDL.SDL_Keycode.SDLK_F11:
+                        case SDL.SDL_Keycode.SDLK_F11:
                             if (CurrentState == WindowState.Windowed)
                                 ScheduleEvent(() => SetScreenState?.Invoke(WindowState.Fullscreen));
                             else if (CurrentState == WindowState.Fullscreen)
                                 ScheduleEvent(() => SetScreenState?.Invoke(WindowState.Windowed));
-                            break;*/
-                    }
+                            break;
+                    }*/
                     break;
 
                 case SDL.SDL_EventType.SDL_KEYUP:
-                    //ScheduleEvent(() => KeyUp?.Invoke(key));
+                    OnKeyRelease?.Invoke(evtKey);
                     break;
             }
             // TODO: HandleMouseButtonEvent
@@ -554,7 +569,7 @@ namespace Clever2D.Core
         /// <param name="format">Format the fps output.</param>
         public static string GetFPS(string format = "0.00 fps")
         {
-            return (1f / (Time.DeltaTime / 1000f)).ToString(format);
+            return (1f / (Time.DeltaTime)).ToString(format);
         }
     }
 

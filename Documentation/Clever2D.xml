@@ -70,6 +70,26 @@
             Invoked after the window has resized.
             </summary>
         </member>
+        <member name="T:Clever2D.Core.Clever.KeyPressHandler">
+            <summary>
+            Delegate handler for key press.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Core.Clever.KeyReleaseHandler">
+            <summary>
+            Delegate handler for key release.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.OnKeyPress">
+            <summary>
+            This event gets called when a key is pressed.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.OnKeyRelease">
+            <summary>
+            This event gets called when a key is released.
+            </summary>
+        </member>
         <member name="M:Clever2D.Core.Clever.ScheduleEvent(System.Action)">
             <summary>
             Adds an Action to the Scheduler expected to handle event callbacks.
@@ -581,6 +601,17 @@
             Represents a Sprite object for use in 2D gameplay.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Represents a Sprite object for use in 2D gameplay.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2)">
+            <summary>
+            Represents a Sprite object for use in 2D gameplay.
+            </summary>
+            <param name="offset">Offset of the rendering area of the texture (scales from 0 to 1).</param>
+        </member>
         <member name="T:Clever2D.Engine.SpriteRenderer">
             <summary>
             Component that manages the Sprite wanted to be rendered in a GameObject.
@@ -1041,32 +1072,20 @@
             The base class that handles all Input in the Clever game.
             </summary>
         </member>
-        <member name="F:Clever2D.Input.Input.keysPressed">
-            <summary>
-            List of all keys pressed at the moment.
-            </summary>
-        </member>
-        <member name="M:Clever2D.Input.Input.GetKey(System.String)">
+        <member name="M:Clever2D.Input.Input.GetKey(SDL2.SDL.SDL_Keycode)">
             <summary>
             Returns a bool value if the given key is pressed at the moment.
             </summary>
             <param name="key">Key to be checked for input.</param>
         </member>
-        <member name="M:Clever2D.Input.Input.KeyPressed(System.String)">
-            <summary>
-            Sets the given key as pressed for input checks.
-            </summary>
-            <param name="key">Key that has been pressed.</param>
-        </member>
-        <member name="M:Clever2D.Input.Input.KeyReleased(System.String)">
-            <summary>
-            Sets the given key as released for input checks.
-            </summary>
-            <param name="key">Key that has been released.</param>
-        </member>
         <member name="T:Clever2D.Input.InputManager">
             <summary>
             Manages all the input.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Input.InputManager.keysPressed">
+            <summary>
+            List of all keys pressed at the moment.
             </summary>
         </member>
         <member name="M:Clever2D.Input.InputManager.Initialize">
@@ -1074,12 +1093,12 @@
             Initializes the InputManager.
             </summary>
         </member>
-        <member name="M:Clever2D.Input.InputManager.MainForm_KeyDown(System.Object,Gtk.KeyPressEventArgs)">
+        <member name="M:Clever2D.Input.InputManager.KeyDown(SDL2.SDL.SDL_KeyboardEvent)">
             <summary>
             Player presses a key.
             </summary>
         </member>
-        <member name="M:Clever2D.Input.InputManager.MainForm_KeyUp(System.Object,Gtk.KeyReleaseEventArgs)">
+        <member name="M:Clever2D.Input.InputManager.KeyUp(SDL2.SDL.SDL_KeyboardEvent)">
             <summary>
             Player releases a key.
             </summary>

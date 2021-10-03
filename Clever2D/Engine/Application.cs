@@ -1,4 +1,6 @@
-﻿namespace Clever2D.Engine
+﻿using Clever2D.Core;
+
+namespace Clever2D.Engine
 {
     /// <summary>
     /// Access to application data.
@@ -61,7 +63,7 @@
         public static void Exit()
         {
             Player.Log("Exiting...");
-            Gtk.Application.Quit();
+            Clever.Quit = true;
         }
     }
 

@@ -15,10 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="assets\resources\Sword.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\resources\Stars.gif">
+    <None Update="assets\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

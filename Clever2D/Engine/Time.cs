@@ -59,7 +59,7 @@ namespace Clever2D.Engine
             tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
             {
                 long frameEnd = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                deltaTime = frameEnd - frameStart;
+                deltaTime = (frameEnd - frameStart) / 1000f;
                 frameStart = frameEnd;
             };
 
