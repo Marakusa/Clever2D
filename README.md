@@ -6,7 +6,9 @@
 ![image](https://user-images.githubusercontent.com/29477753/135308514-29f7bcb4-6daa-46ce-b4c8-4cd55ae8471e.png)
 
 ## Dependencies
-- .NET 5.0 or newer
+- .NET Runtime 5.0 or newer
+
+### Operating system support
 - Windows x64
 - Linux x64 (Clever2D 2021.2.1.1a or newer)
 
