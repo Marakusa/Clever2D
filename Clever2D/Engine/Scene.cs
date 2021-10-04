@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Timers;
+using Clever2D.Core;
 
 namespace Clever2D.Engine
 {
@@ -180,6 +181,11 @@ namespace Clever2D.Engine
                                 //double fps = (60000f / (frameEnd - frameStart).TotalMilliseconds);
                                 //frameStart = DateTime.Now;
                             };
+
+                            while (!Clever.Quit)
+                            {
+                                ((CleverScript)component).Update();
+                            }
 
                             tickTimer.Start();
 
