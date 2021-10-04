@@ -270,6 +270,8 @@ namespace Clever2D.Core
                             splashLogoRect.h = height;
 
                             splashLogo = SDL_image.IMG_LoadTexture(Clever.Renderer, path);
+
+                            Clever.Destroying += () => { SDL.SDL_DestroyTexture(splashLogo); };
                         }
 
                         ulong gcd = CMath.GCD(1920, 1080);
@@ -293,10 +295,9 @@ namespace Clever2D.Core
 
                     Update?.Invoke();
                 }
-                
-                Destroying?.Invoke();
 
-                SDL.SDL_DestroyTexture(splashLogo);
+                Destroying?.Invoke();
+                
                 SDL.SDL_DestroyRenderer(renderer);
                 SDL.SDL_DestroyWindow(WindowHandle);
 
@@ -395,7 +396,6 @@ namespace Clever2D.Core
         private static void HandleQuitEvent(SDL.SDL_QuitEvent e)
         {
             Quit = true;
-            Destroying?.Invoke();
         }
         
         private static void HandleDropEvent(SDL.SDL_DropEvent evtDrop)
