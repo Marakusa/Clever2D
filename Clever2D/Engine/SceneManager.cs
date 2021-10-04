@@ -107,9 +107,20 @@ namespace Clever2D.Engine
         /// <param name="e">The arguments for this event.</param>
         public delegate void LoadedEventHandler(object sender, SceneEventArgs e);
         /// <summary>
-        /// This event gets called when the Scene is done loading.
+        /// This event gets called when a Scene is done loading.
         /// </summary>
         public static event LoadedEventHandler OnLoaded = delegate { };
+
+        /// <summary>
+        /// EventHandler for the event OnLoad.
+        /// </summary>
+        /// <param name="sender">The sender of this event.</param>
+        /// <param name="e">The arguments for this event.</param>
+        public delegate void LoadEventHandler(object sender, SceneEventArgs e);
+        /// <summary>
+        /// This event gets called when a Scene starts to load.
+        /// </summary>
+        public static event LoadEventHandler OnLoad = delegate { };
 
         /// <summary>
         /// Load a scene.
@@ -117,6 +128,8 @@ namespace Clever2D.Engine
         public static bool LoadScene(Scene scene)
         {
             Player.Log("Loading a Scene named \"" + scene.Name + "\"...");
+
+            OnLoad?.Invoke(null, new SceneEventArgs(loadedScene));
 
             try
             {
@@ -134,7 +147,7 @@ namespace Clever2D.Engine
 
                 isInitialized = true;
 
-                OnLoaded(null, new SceneEventArgs(loadedScene));
+                OnLoaded?.Invoke(null, new SceneEventArgs(loadedScene));
 
                 return true;
             }
