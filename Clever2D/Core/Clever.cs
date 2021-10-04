@@ -242,6 +242,7 @@ namespace Clever2D.Core
                             }
                         }
 <<<<<<< HEAD
+<<<<<<< HEAD
                         else
                         {
                             SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -282,6 +283,8 @@ namespace Clever2D.Core
                         tRect.h = hAspect * (Size.Width / 20);
 
                         SDL.SDL_RenderCopy(renderer, splashLogo, ref splashLogoRect, ref tRect);
+=======
+>>>>>>> parent of 9e6c06f (Added splash screen)
 =======
 >>>>>>> parent of 9e6c06f (Added splash screen)
                     }
