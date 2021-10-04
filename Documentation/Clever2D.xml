@@ -296,9 +296,14 @@
             Start is called on the frame when a script is enabled just before any Update methods are called.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.CleverScript.Update">
+            <summary>
+            Update is called on every frame.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.CleverScript.FixedUpdate">
             <summary>
-            Frame-rate independ Update method.
+            Frame-rate independent Update method.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Component">

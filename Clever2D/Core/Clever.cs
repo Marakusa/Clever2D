@@ -310,9 +310,6 @@ namespace Clever2D.Core
                         tRect.w = wAspect * (Size.Width / 20);
                         tRect.h = hAspect * (Size.Width / 20);
 
-                        Player.Log(tRect.w);
-                        Player.Log(tRect.h);
-
                         SDL.SDL_RenderCopy(renderer, splashLogo, ref splashLogoRect, ref tRect);
                     }
 

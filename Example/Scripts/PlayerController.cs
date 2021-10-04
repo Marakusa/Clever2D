@@ -9,7 +9,7 @@ namespace Example
     {
         public float speed = 1f;
 
-        public override void FixedUpdate()
+        public override void Update()
         {
             Vector2 move = Vector2.zero;
 
