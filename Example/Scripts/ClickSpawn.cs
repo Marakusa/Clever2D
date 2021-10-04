@@ -5,7 +5,7 @@ using SDL2;
 
 namespace Example
 {
-    public class PlayerController : CleverScript
+    public class ClickSpawn : CleverScript
     {
         public float speed = 1f;
 

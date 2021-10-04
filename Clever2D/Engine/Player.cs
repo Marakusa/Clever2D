@@ -65,50 +65,43 @@ namespace Clever2D.Engine
         /// <param name="color">Color of the log message in Console.</param>
         private static void WriteLog(string message, ConsoleColor color)
         {
-            try
+            if (logFile == "")
             {
-                if (logFile == "")
+                logDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/" + Application.CompanyName + "/" + Application.ProductName + "/";
+                logFile = logDirectory + "PlayerLog.txt";
+                
+                // Backup the of log file and remove old backup if exists
+                if (File.Exists(logFile))
                 {
-                    logDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/" + Application.CompanyName + "/" + Application.ProductName + "/";
-                    logFile = logDirectory + "PlayerLog.txt";
-
-                    // Backup the of log file and remove old backup if exists
-                    if (File.Exists(logFile))
-                    {
-                        if (File.Exists(logFile + ".old")) File.Delete(logFile + ".old");
-                        File.Move(logFile, logFile + ".old");
-                    }
-
-                    // Log startup lines
-                    string[] logStart = new string[]
-                    {
-                    $"{Application.ProductName} v{Application.ProductVersion} (c) {Application.CompanyName} {DateTime.Now.Year} | Clever2D v{Version.CurrentVersion} {Version.Copyright}",
-                    $"Log file location: {logFile}"
-                    };
-
-                    if (!Directory.Exists(logDirectory))
-                    {
-                        Directory.CreateDirectory(logDirectory);
-                    }
-
-                    File.WriteAllLines(logFile, logStart, Encoding.UTF8);
-
-                    foreach (string logMessage in logStart)
-                    {
-                        Console.WriteLine(logMessage);
-                    }
+                    if (File.Exists(logFile + ".old")) File.Delete(logFile + ".old");
+                    File.Move(logFile, logFile + ".old");
                 }
 
-                Console.ForegroundColor = color;
-                Console.WriteLine(message);
-                Console.ForegroundColor = ConsoleColor.White;
+                // Log startup lines
+                string[] logStart = new string[]
+                {
+                    $"{Application.ProductName} v{Application.ProductVersion} (c) {Application.CompanyName} {DateTime.Now.Year} | Clever2D v{Version.CurrentVersion} {Version.Copyright}",
+                    $"Log file location: {logFile}"
+                };
 
-                File.AppendAllText(logFile, "\n" + message, Encoding.UTF8);
+                if (!Directory.Exists(logDirectory))
+                {
+                    Directory.CreateDirectory(logDirectory);
+                }
+
+                File.WriteAllLines(logFile, logStart, Encoding.UTF8);
+
+                foreach (string logMessage in logStart)
+                {
+                    Console.WriteLine(logMessage);
+                }
             }
-            catch (Exception e)
-            {
-                Player.LogError(e.Message, e);
-            }
+
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.White;
+
+            File.AppendAllText(logFile, "\n" + message, Encoding.UTF8);
         }
         /// <summary>
         /// Returns the timestamp of the frame this gets called.
