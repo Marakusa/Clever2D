@@ -166,8 +166,7 @@ namespace Clever2D.Core
 
                     if (SDL.SDL_GetTicks() - lastFPSTick >= 1000)
                     {
-                        Player.Log(framesInFrame.ToString());
-                    
+                        FPS = framesInFrame.ToString();
                         lastFPSTick = SDL.SDL_GetTicks();
                         framesInFrame = 0;
                     }
@@ -256,6 +255,30 @@ namespace Clever2D.Core
                                 }
                             }
                         }
+                        
+                        IntPtr sans = SDL_ttf.TTF_OpenFont("/home/markus/repos/Clever2D/Example/bin/Debug/net5.0/sans.ttf", 24);
+
+                        Player.Log(sans.ToString());
+                        
+                        SDL.SDL_Color color = new SDL.SDL_Color()
+                        {
+                            r = 255, 
+                            g = 255, 
+                            b = 255, 
+                            a = 255
+                        };
+                        
+                        IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(sans, FPS, color);
+
+                        IntPtr fpsText = SDL.SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+                        SDL.SDL_Rect fpsRect;
+                        fpsRect.x = 0;
+                        fpsRect.y = 0;
+                        fpsRect.w = 100;
+                        fpsRect.h = 100;
+
+                        SDL.SDL_RenderCopy(renderer, fpsText, IntPtr.Zero, ref fpsRect);
                     }
                     
                     SDL.SDL_RenderPresent(renderer);
@@ -587,13 +610,21 @@ namespace Clever2D.Core
         /// <param name="action">The Action to execute.</param>
         private static void ScheduleEvent(Action action) => eventScheduler.Add(action, false);
 
+        private static string fps = "0";
         /// <summary>
         /// Returns the main threads fps
         /// </summary>
         /// <param name="format">Format the fps output.</param>
-        public static string GetFPS(string format = "0.00 fps")
+        public static string FPS
         {
-            return (1f / (Time.DeltaTime)).ToString(format);
+            get
+            {
+                return fps;
+            }
+            private set
+            {
+                fps = value;
+            }
         }
     }
 

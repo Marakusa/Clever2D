@@ -107,7 +107,7 @@
             </summary>
             <param name="action">The Action to execute.</param>
         </member>
-        <member name="M:Clever2D.Core.Clever.GetFPS(System.String)">
+        <member name="P:Clever2D.Core.Clever.FPS">
             <summary>
             Returns the main threads fps
             </summary>
