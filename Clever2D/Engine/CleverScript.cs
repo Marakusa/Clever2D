@@ -17,12 +17,9 @@ namespace Clever2D.Engine
         /// </summary>
         public virtual void Start() { }
         /// <summary>
-        /// Update is called on every frame.
-        /// </summary>
-        public virtual void Update() { }
-        /// <summary>
-        /// Frame-rate independent Update method.
+        /// Frame-rate independ Update method.
         /// </summary>
         public virtual void FixedUpdate() { }
+        // TODO: Normal Update method
     }
 }

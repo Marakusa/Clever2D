@@ -83,6 +83,8 @@ namespace Clever2D.Core
         /// <param name="action">Scheduled action.</param>
         protected static void ScheduleCommand(Action action) => commandScheduler.Add(action, false);
 
+        private static bool isSceneLoaded = false;
+
         /// <summary>
         /// Delegate for Clever finishing initialization.
         /// </summary>
@@ -91,6 +93,7 @@ namespace Clever2D.Core
         /// This event gets called when Clever finishes initialization.
         /// </summary>
         public static event Initialized OnInitialized;
+        private static bool isInitialized = false;
 
         /// <summary>
         /// Initializes the engine and starts the game. Call Start() method after this to start the engine.
@@ -114,7 +117,7 @@ namespace Clever2D.Core
             );
             
             renderer = SDL.SDL_CreateRenderer(WindowHandle, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
-            
+
             // TODO: Fix fullscreen
             /*SetScreenState += (WindowState state) =>
             {
@@ -147,6 +150,18 @@ namespace Clever2D.Core
             //    
             //};
 
+            System.Timers.Timer timer = new() 
+            {
+                Interval = 2000
+            };
+            timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+            {
+                isInitialized = true;
+                OnInitialized?.Invoke();
+                timer.Stop();
+            };
+            timer.Start();
+
             if (WindowHandle == IntPtr.Zero)
             {
                 Player.Log(string.Format("Unable to create a window. Error: {0}", SDL.SDL_GetError()));
@@ -155,81 +170,94 @@ namespace Clever2D.Core
             {
                 SDL.SDL_Event e;
 
-                OnInitialized?.Invoke();
-                
+                IntPtr splashLogo = IntPtr.Zero;
+                SDL.SDL_Rect splashLogoRect = new();
+
                 while (!Quit)
                 {
-                    commandScheduler.Update();
-
-                    while (SDL.SDL_PollEvent(out e) != 0)
+                    if (isInitialized)
                     {
-                        switch (e.type)
+                        commandScheduler.Update();
+
+                        while (SDL.SDL_PollEvent(out e) != 0)
                         {
-                            case SDL.SDL_EventType.SDL_QUIT:
-                            case SDL.SDL_EventType.SDL_APP_TERMINATING:
-                                HandleQuitEvent(e.quit);
-                                break;
+                            switch (e.type)
+                            {
+                                case SDL.SDL_EventType.SDL_QUIT:
+                                case SDL.SDL_EventType.SDL_APP_TERMINATING:
+                                    HandleQuitEvent(e.quit);
+                                    break;
 
-                            case SDL.SDL_EventType.SDL_WINDOWEVENT:
-                                HandleWindowEvent(e.window);
-                                break;
+                                case SDL.SDL_EventType.SDL_WINDOWEVENT:
+                                    HandleWindowEvent(e.window);
+                                    break;
 
-                            case SDL.SDL_EventType.SDL_KEYDOWN:
-                            case SDL.SDL_EventType.SDL_KEYUP:
-                                HandleKeyboardEvent(e.key);
-                                break;
+                                case SDL.SDL_EventType.SDL_KEYDOWN:
+                                case SDL.SDL_EventType.SDL_KEYUP:
+                                    HandleKeyboardEvent(e.key);
+                                    break;
 
-                            case SDL.SDL_EventType.SDL_TEXTEDITING:
-                                HandleTextEditingEvent(e.edit);
-                                break;
+                                case SDL.SDL_EventType.SDL_TEXTEDITING:
+                                    HandleTextEditingEvent(e.edit);
+                                    break;
 
-                            case SDL.SDL_EventType.SDL_TEXTINPUT:
-                                HandleTextInputEvent(e.text);
-                                break;
+                                case SDL.SDL_EventType.SDL_TEXTINPUT:
+                                    HandleTextInputEvent(e.text);
+                                    break;
 
-                            case SDL.SDL_EventType.SDL_MOUSEMOTION:
-                                HandleMouseMotionEvent(e.motion);
-                                break;
+                                case SDL.SDL_EventType.SDL_MOUSEMOTION:
+                                    HandleMouseMotionEvent(e.motion);
+                                    break;
 
-                            case SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN:
-                            case SDL.SDL_EventType.SDL_MOUSEBUTTONUP:
-                                HandleMouseButtonEvent(e.button);
-                                break;
+                                case SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                                case SDL.SDL_EventType.SDL_MOUSEBUTTONUP:
+                                    HandleMouseButtonEvent(e.button);
+                                    break;
 
-                            case SDL.SDL_EventType.SDL_MOUSEWHEEL:
-                                HandleMouseWheelEvent(e.wheel);
-                                break;
+                                case SDL.SDL_EventType.SDL_MOUSEWHEEL:
+                                    HandleMouseWheelEvent(e.wheel);
+                                    break;
 
-                            case SDL.SDL_EventType.SDL_DROPFILE:
-                            case SDL.SDL_EventType.SDL_DROPTEXT:
-                            case SDL.SDL_EventType.SDL_DROPBEGIN:
-                            case SDL.SDL_EventType.SDL_DROPCOMPLETE:
-                                HandleDropEvent(e.drop);
-                                break;
+                                case SDL.SDL_EventType.SDL_DROPFILE:
+                                case SDL.SDL_EventType.SDL_DROPTEXT:
+                                case SDL.SDL_EventType.SDL_DROPBEGIN:
+                                case SDL.SDL_EventType.SDL_DROPCOMPLETE:
+                                    HandleDropEvent(e.drop);
+                                    break;
+                            }
                         }
+
+                        eventScheduler.Update();
                     }
-                    
-                    eventScheduler.Update();
-                    
-                    SDL.SDL_SetRenderDrawColor(renderer, 30, 30, 100, 255);
-                    SDL.SDL_RenderClear(renderer);
+
+                    SceneManager.OnLoad += (object sender, SceneEventArgs e) =>
+                    {
+                        isSceneLoaded = false;
+                    };
+                    SceneManager.OnLoaded += (object sender, SceneEventArgs e) =>
+                    {
+                        isSceneLoaded = true;
+                    };
 
                     Scene loadedScene = SceneManager.LoadedScene;
-                    
-                    if (loadedScene != null)
+
+                    if (loadedScene != null && isSceneLoaded)
                     {
                         var instances = loadedScene.SpawnedGameObjects;
 
                         if (instances.Count > 0)
                         {
+                            SDL.SDL_SetRenderDrawColor(renderer, 30, 30, 100, 255);
+                            SDL.SDL_RenderClear(renderer);
+
                             foreach (var instance in instances)
                             {
                                 SpriteRenderer spriteRenderer = instance.Value.GetComponent<SpriteRenderer>();
-                                
+
                                 if (spriteRenderer != null)
                                 {
                                     float scale = (Size.Height / 600f) * 2f;
-                                    
+
                                     SDL.SDL_Rect tRect;
                                     tRect.x = (int)Math.Round(instance.Value.transform.position.x * scale * instance.Value.transform.scale.x);
                                     tRect.y = (int)Math.Round(-instance.Value.transform.position.y * scale * instance.Value.transform.scale.y);
@@ -241,8 +269,6 @@ namespace Clever2D.Core
                                 }
                             }
                         }
-<<<<<<< HEAD
-<<<<<<< HEAD
                         else
                         {
                             SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -284,16 +310,18 @@ namespace Clever2D.Core
                         tRect.w = wAspect * (Size.Width / 20);
                         tRect.h = hAspect * (Size.Width / 20);
 
+                        Player.Log(tRect.w);
+                        Player.Log(tRect.h);
+
                         SDL.SDL_RenderCopy(renderer, splashLogo, ref splashLogoRect, ref tRect);
-=======
->>>>>>> parent of 9e6c06f (Added splash screen)
-=======
->>>>>>> parent of 9e6c06f (Added splash screen)
                     }
-                    
+
                     SDL.SDL_RenderPresent(renderer);
 
-                    Update?.Invoke();
+                    if (isInitialized)
+                    {
+                        Update?.Invoke();
+                    }
                 }
 
                 Destroying?.Invoke();
@@ -304,6 +332,7 @@ namespace Clever2D.Core
                 SDL.SDL_Quit();
             }
         }
+
         /// <summary>
         /// Starts the engine and main loop.
         /// </summary>

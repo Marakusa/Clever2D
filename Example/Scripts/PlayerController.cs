@@ -5,11 +5,11 @@ using SDL2;
 
 namespace Example
 {
-    public class ClickSpawn : CleverScript
+    public class PlayerController : CleverScript
     {
         public float speed = 1f;
 
-        public override void Update()
+        public override void FixedUpdate()
         {
             Vector2 move = Vector2.zero;
 
