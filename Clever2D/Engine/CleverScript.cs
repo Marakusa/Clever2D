@@ -12,6 +12,11 @@ namespace Clever2D.Engine
         /// </summary>
         internal Timer timer;
 
+        internal override void Initialize()
+        {
+            
+        }
+        
         /// <summary>
         /// Start is called on the frame when a script is enabled just before any Update methods are called.
         /// </summary>

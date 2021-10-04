@@ -156,10 +156,25 @@ namespace Clever2D.Core
                 SDL.SDL_Event e;
 
                 OnInitialized?.Invoke();
-                
+
+                ulong lastFPSTick = 0;
+                ulong framesInFrame = 0;
+
                 while (!Quit)
                 {
                     commandScheduler.Update();
+
+                    if (SDL.SDL_GetTicks() - lastFPSTick >= 1000)
+                    {
+                        Player.Log(framesInFrame.ToString());
+                    
+                        lastFPSTick = SDL.SDL_GetTicks();
+                        framesInFrame = 0;
+                    }
+                    else
+                    {
+                        framesInFrame++;
+                    }
 
                     while (SDL.SDL_PollEvent(out e) != 0)
                     {

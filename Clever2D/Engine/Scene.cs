@@ -188,6 +188,10 @@ namespace Clever2D.Engine
 
                         thread.Start();
                     }
+                    else
+                    {
+                        component.Initialize();
+                    }
                 }
             }
             else

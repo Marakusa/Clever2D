@@ -10,6 +10,10 @@
         /// </summary>
         private Sprite sprite;
         /// <summary>
+        /// The assigned SpriteArray to this SpriteRenderer.
+        /// </summary>
+        internal SpriteArray spriteArray;
+        /// <summary>
         /// Returns the assigned image to this SpriteRenderer.
         /// </summary>
         public Sprite Sprite
@@ -30,6 +34,20 @@
         public SpriteRenderer(Sprite sprite)
         {
             Sprite = sprite;
+        }
+
+        /// <summary>
+        /// Component that manages the Sprite wanted to be rendered in a GameObject.
+        /// </summary>
+        public SpriteRenderer(SpriteArray spriteArray)
+        {
+            this.spriteArray = spriteArray;
+            Sprite = this.spriteArray.Sprites[0];
+        }
+
+        internal override void Initialize()
+        {
+            
         }
     }
 }

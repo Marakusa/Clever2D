@@ -33,5 +33,10 @@ namespace Clever2D.Engine
             rotation = Vector2.zero;
             scale = Vector2.one;
         }
+
+        internal override void Initialize()
+        {
+            
+        }
     }
 }

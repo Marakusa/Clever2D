@@ -648,7 +648,30 @@
             <summary>
             Represents a Sprite object for use in 2D gameplay.
             </summary>
-            <param name="offset">Offset of the rendering area of the texture (scales from 0 to 1).</param>
+            <param name="offset">Offset of the rendering area of the texture.</param>
+        </member>
+        <member name="T:Clever2D.Engine.SpriteArray">
+            <summary>
+            2D array of Sprites.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.sprites">
+            <summary>
+            Sprite array.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.SpriteArray.Sprites">
+            <summary>
+            Returns this Sprite array.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SpriteArray.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            2D array of Sprites.
+            </summary>
+            <param name="spritePath">Target Sprite asset path.</param>
+            <param name="rows">Split Sprite rows count.</param>
+            <param name="columns">Split Sprite columns count.</param>
         </member>
         <member name="T:Clever2D.Engine.SpriteRenderer">
             <summary>
@@ -660,12 +683,22 @@
             The assigned Sprite to this SpriteRenderer.
             </summary>
         </member>
+        <member name="F:Clever2D.Engine.SpriteRenderer.spriteArray">
+            <summary>
+            The assigned SpriteArray to this SpriteRenderer.
+            </summary>
+        </member>
         <member name="P:Clever2D.Engine.SpriteRenderer.Sprite">
             <summary>
             Returns the assigned image to this SpriteRenderer.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.SpriteRenderer.#ctor(Clever2D.Engine.Sprite)">
+            <summary>
+            Component that manages the Sprite wanted to be rendered in a GameObject.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SpriteRenderer.#ctor(Clever2D.Engine.SpriteArray)">
             <summary>
             Component that manages the Sprite wanted to be rendered in a GameObject.
             </summary>

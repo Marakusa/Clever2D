@@ -30,5 +30,7 @@ namespace Clever2D.Engine
                 Player.LogError("Cannot destroy null. There was no GameObject attached to the given component.", new NullReferenceException());
             }
         }
+
+        internal abstract void Initialize();
     }
 }

@@ -85,7 +85,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
-        /// <param name="offset">Offset of the rendering area of the texture (scales from 0 to 1).</param>
+        /// <param name="offset">Offset of the rendering area of the texture.</param>
         public Sprite(string path, Vector2Int size, Vector2 offset)
         {
             path = Clever.executableDirectory + "/assets/" + path;
@@ -101,7 +101,7 @@ namespace Clever2D.Engine
                 int w = size.x < 0 ? width : size.x;
                 int h = size.y < 0 ? height : size.y;
                 
-                LoadSprite(w, h, (int) Math.Round(offset.x * w), (int) Math.Round(offset.y * h));
+                LoadSprite(w, h, (int) Math.Round(offset.x), (int) Math.Round(offset.y));
             }
             else
             {
