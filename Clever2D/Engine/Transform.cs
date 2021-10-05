@@ -57,7 +57,7 @@ namespace Clever2D.Engine
                 scale = value;
             }
         }
-/*{
+        /*{
             get
             {
                 if (gameObject != null)
@@ -87,10 +87,10 @@ namespace Clever2D.Engine
                 }
             }
         }*/
-        /// <summary>
+        /*/// <summary>
         /// Local position of the GameObject relative to the parent GameObject.
         /// </summary>
-        public Vector2 localPosition = Vector2.zero;
+        public Vector2 localPosition = Vector2.zero;*/
 
         /// <summary>
         /// Component that handles the GameObjects position, rotation and scale in the Scene.

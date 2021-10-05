@@ -58,7 +58,7 @@ namespace Example
                         {
                             new Transform()
                             {
-                                Position = new Vector2(-16f, 20f),
+                                Position = new Vector2(0f, 30f),
                                 Rotation = new Vector2(0f, 0f),
                                 Scale = new Vector2(1f, 1f)
                             },
@@ -70,7 +70,8 @@ namespace Example
                                 a = 255
                             })
                             {
-                                worldSpace = true
+                                worldSpace = true,
+                                pivot = new Vector2(0.5f, 1f)
                             }
                         }
                     }
@@ -81,7 +82,11 @@ namespace Example
                 components = new List<Component>()
                 {
                     new Transform(),
-                    new Text(28),
+                    new Text(28)
+                    {
+                        screenAlign = Vector2.right,
+                        pivot = Vector2.right
+                    },
                     new FPSCounter()
                 },
                 tag = "Player"

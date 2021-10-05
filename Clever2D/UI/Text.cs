@@ -13,7 +13,7 @@ namespace Clever2D.UI
 		private IntPtr sans = IntPtr.Zero;
 
 		public bool worldSpace = false;
-		
+
 		internal override void Initialize()
 		{
 			if (Clever.Fonts.Length > 0)
@@ -32,13 +32,21 @@ namespace Clever2D.UI
 
 			surfaceMessage = IntPtr.Zero;
 
+			float x = 0;
+			float y = 0;
+			float w = 0;
+			float h = 0;
+			
 			SDL.SDL_Rect fpsRect;
 			if (!worldSpace)
 			{
-				fpsRect.x = 0;
-				fpsRect.y = 0;
-				fpsRect.w = text.Length * (int)Math.Round(18f * (size / 28f));
-				fpsRect.h = size;
+				w = text.Length * (18f * (size / 28f));
+				h = size;
+
+				float width = Clever.Size.Width;
+				float height = Clever.Size.Height;
+				x = width * screenAlign.x - w * pivot.x;
+				y = height * screenAlign.y - h * pivot.y;
 			}
 			else
 			{
@@ -47,35 +55,39 @@ namespace Clever2D.UI
 					Transform cameraTransform = Camera.MainCamera.transform;
 
 					float scale = (Clever.Size.Height / 600f) * 2f;
-					
-					int cameraOffsetX = (int)Math.Round(scale * cameraTransform.Position.x);
-					int cameraOffsetY = (int)Math.Round(scale * -cameraTransform.Position.y);
+                    
+					float cameraOffsetX = scale * cameraTransform.Position.x;
+					float cameraOffsetY = scale * -cameraTransform.Position.y;
 
-					fpsRect.w = (int)Math.Round(text.Length * (int)Math.Round(18f * (size / 28f)) * scale * (int)Math.Round(transform.Scale.x));
-					fpsRect.h = (int)Math.Round(size * scale * (int)Math.Round(transform.Scale.y));
+					w = text.Length * (18f * (size / 28f)) * scale * transform.Scale.x;
+					h = size * scale * transform.Scale.y;
 
 					if (gameObject.parent != null)
 					{
-						fpsRect.x = (int)Math.Round(transform.Position.x * scale * transform.Scale.x) + (int)Math.Round(gameObject.parent.transform.Position.x * scale * gameObject.parent.transform.Scale.x - cameraOffsetX);
-						fpsRect.y = (int)Math.Round(-transform.Position.y * scale * transform.Scale.y) + (int)Math.Round(-gameObject.parent.transform.Position.y * scale * gameObject.parent.transform.Scale.y - cameraOffsetY);
-						fpsRect.w *= (int)Math.Round(transform.Scale.x);
-						fpsRect.h *= (int)Math.Round(transform.Scale.y);
+						x = transform.Position.x * scale * transform.Scale.x - cameraOffsetX;
+						y = -transform.Position.y * scale * transform.Scale.y - cameraOffsetY;
+						x += gameObject.parent.transform.Position.x * scale + Clever.Size.Width / 2f;
+						y -= gameObject.parent.transform.Position.y * scale - Clever.Size.Height / 2f;
+						
+						x -= w * pivot.x;
+						y -= h * pivot.y;
+						
+						w *= transform.Scale.x;
+						h *= transform.Scale.y;
 					}
 					else
 					{
-						fpsRect.x = (int)Math.Round(transform.Position.x * scale * transform.Scale.x - cameraOffsetX);
-						fpsRect.y = (int)Math.Round(-transform.Position.y * scale * transform.Scale.y - cameraOffsetY);
+						x = transform.Position.x * scale * transform.Scale.x - cameraOffsetX;
+						y = -transform.Position.y * scale * transform.Scale.y - cameraOffsetY;
 					}
-				}
-				else
-				{
-					fpsRect.x = 0;
-					fpsRect.y = 0;
-					fpsRect.w = 0;
-					fpsRect.h = 0;
 				}
 			}
 
+			fpsRect.x = (int)Math.Round(x);
+			fpsRect.y = (int)Math.Round(y);
+			fpsRect.w = (int)Math.Round(w);
+			fpsRect.h = (int)Math.Round(h);
+			
 			SDL.SDL_RenderCopy(Clever.Renderer, fpsText, IntPtr.Zero, ref fpsRect);
 			SDL.SDL_DestroyTexture(fpsText);
 		}

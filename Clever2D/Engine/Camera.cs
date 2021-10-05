@@ -23,6 +23,9 @@ namespace Clever2D.Engine
 		
 		public override void Update()
 		{
+			if (Camera.mainCamera == null)
+				mainCamera = this;
+			
 			IntPtr renderer = Clever.Renderer;
 			
             SDL.SDL_SetRenderDrawColor(renderer, 30, 30, 100, 255);

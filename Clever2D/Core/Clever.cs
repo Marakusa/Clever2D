@@ -171,7 +171,17 @@ namespace Clever2D.Core
                 Player.Log(string.Format("Unable to create a window. Error: {0}", SDL.SDL_GetError()));
             }
             else
-            {
+            { 
+                SDL.SDL_GetWindowPosition(WindowHandle, out int x, out int y);
+                var newPosition = new Point(x, y);
+                position = newPosition;
+                ScheduleEvent(() => Moved?.Invoke(newPosition));
+
+                SDL.SDL_GetWindowSize(WindowHandle, out int w, out int h);
+                var newSize = new Size(w, h);
+                size = newSize;
+                ScheduleEvent(() => Resized?.Invoke(newSize));
+                
                 SDL.SDL_Event e;
 
                 OnInitialized?.Invoke();

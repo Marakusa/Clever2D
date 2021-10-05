@@ -59,23 +59,23 @@
                 "timeline": [
                     {
                         "time": 0,
-                        "spriteIndex": 12
+                        "spriteIndex": 15
                     },
                     {
                         "time": 100,
-                        "spriteIndex": 13
+                        "spriteIndex": 12
                     },
                     {
                         "time": 200,
-                        "spriteIndex": 14
+                        "spriteIndex": 13
                     },
                     {
                         "time": 300,
-                        "spriteIndex": 15
+                        "spriteIndex": 14
                     },
                     {
                         "time": 399,
-                        "spriteIndex": 15
+                        "spriteIndex": 14
                     }
                 ],
                 "transitions": [
@@ -96,23 +96,23 @@
                 "timeline": [
                     {
                         "time": 0,
-                        "spriteIndex": 8
+                        "spriteIndex": 11
                     },
                     {
                         "time": 100,
-                        "spriteIndex": 9
+                        "spriteIndex": 8
                     },
                     {
                         "time": 200,
-                        "spriteIndex": 10
+                        "spriteIndex": 9
                     },
                     {
                         "time": 300,
-                        "spriteIndex": 11
+                        "spriteIndex": 10
                     },
                     {
                         "time": 399,
-                        "spriteIndex": 11
+                        "spriteIndex": 10
                     }
                 ],
                 "transitions": [
@@ -133,23 +133,23 @@
                 "timeline": [
                     {
                         "time": 0,
-                        "spriteIndex": 0
+                        "spriteIndex": 3
                     },
                     {
                         "time": 100,
-                        "spriteIndex": 1
+                        "spriteIndex": 0
                     },
                     {
                         "time": 200,
-                        "spriteIndex": 2
+                        "spriteIndex": 1
                     },
                     {
                         "time": 300,
-                        "spriteIndex": 3
+                        "spriteIndex": 2
                     },
                     {
                         "time": 399,
-                        "spriteIndex": 3
+                        "spriteIndex": 2
                     }
                 ],
                 "transitions": [
@@ -170,23 +170,23 @@
                 "timeline": [
                     {
                         "time": 0,
-                        "spriteIndex": 4
+                        "spriteIndex": 7
                     },
                     {
                         "time": 100,
-                        "spriteIndex": 5
+                        "spriteIndex": 4
                     },
                     {
                         "time": 200,
-                        "spriteIndex": 6
+                        "spriteIndex": 5
                     },
                     {
                         "time": 300,
-                        "spriteIndex": 7
+                        "spriteIndex": 6
                     },
                     {
                         "time": 399,
-                        "spriteIndex": 7
+                        "spriteIndex": 6
                     }
                 ],
                 "transitions": [

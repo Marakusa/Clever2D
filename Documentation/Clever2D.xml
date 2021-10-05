@@ -773,11 +773,6 @@
             Scale of the GameObject this Component is assigned to.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Transform.localPosition">
-            <summary>
-            Local position of the GameObject relative to the parent GameObject.
-            </summary>
-        </member>
         <member name="M:Clever2D.Engine.Transform.#ctor">
             <summary>
             Component that handles the GameObjects position, rotation and scale in the Scene.
@@ -1422,6 +1417,16 @@
         <member name="P:Clever2D.Timing.StopwatchClock.stopwatchCurrentTime">
             <summary>
             The current time, represented solely by the accumulated <see cref="T:System.Diagnostics.Stopwatch"/> time.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.UIElement.screenAlign">
+            <summary>
+            Alignment of this UI element on screen. (0,0) is top-left and (1,1) is bottom-right.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.UIElement.pivot">
+            <summary>
+            Pivot of this UI element. (0,0) is top-left and (1,1) is bottom-right.
             </summary>
         </member>
         <member name="T:Clever2D.Version">
