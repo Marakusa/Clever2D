@@ -8,6 +8,7 @@ namespace Clever2D.UI
 	public class Text : UIElement
 	{
 		public string text = "";
+		public int size = 12;
 		public SDL.SDL_Color color = new SDL.SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
 		private IntPtr sans = IntPtr.Zero;
 
@@ -36,15 +37,15 @@ namespace Clever2D.UI
 			{
 				fpsRect.x = 0;
 				fpsRect.y = 0;
-				fpsRect.w = text.Length * 18;
-				fpsRect.h = 28;
+				fpsRect.w = text.Length * (int)Math.Round(18f * (size / 28f));
+				fpsRect.h = size;
 			}
 			else
 			{
 				float scale = (Clever.Size.Height / 600f) * 2f;
 				
-				fpsRect.w = (int)Math.Round(text.Length * 18 * scale * (int)Math.Round(transform.scale.x));
-				fpsRect.h = (int)Math.Round(28 * scale * (int)Math.Round(transform.scale.y));
+				fpsRect.w = (int)Math.Round(text.Length * (int)Math.Round(18f * (size / 28f)) * scale * (int)Math.Round(transform.scale.x));
+				fpsRect.h = (int)Math.Round(size * scale * (int)Math.Round(transform.scale.y));
 
 				if (gameObject.parent != null)
 				{
@@ -64,9 +65,10 @@ namespace Clever2D.UI
 			SDL.SDL_DestroyTexture(fpsText);
 		}
 
-		public Text()
+		public Text(int size)
 		{
 			this.text = "";
+			this.size = size;
 			this.color = new SDL.SDL_Color()
 			{
 				r = 255, 
@@ -75,9 +77,10 @@ namespace Clever2D.UI
 				a = 255
 			};
 		}
-		public Text(string text)
+		public Text(string text, int size)
 		{
 			this.text = text;
+			this.size = size;
 			this.color = new SDL.SDL_Color()
 			{
 				r = 255, 
@@ -86,14 +89,16 @@ namespace Clever2D.UI
 				a = 255
 			};
 		}
-		public Text(string text, SDL.SDL_Color color)
+		public Text(string text, int size, SDL.SDL_Color color)
 		{
 			this.text = text;
+			this.size = size;
 			this.color = color;
 		}
 		public Text(SDL.SDL_Color color)
 		{
 			this.text = "";
+			this.size = 12;
 			this.color = color;
 		}
 	}
