@@ -3,6 +3,7 @@ using Clever2D.Input;
 using Clever2D.Threading;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 using SDL2;
 
@@ -101,8 +102,15 @@ namespace Clever2D.Core
 
             if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) < 0)
             {
-                Player.Log(string.Format("Unable to initialize SDL. Error: {0}", SDL.SDL_GetError()));
+                Player.LogError(string.Format("Unable to initialize SDL. Error: {0}", SDL.SDL_GetError()));
             }
+            
+            if (SDL_ttf.TTF_Init() < 0)
+            {
+                Player.LogError("There was an error initializing SDL_ttf. " + SDL.SDL_GetError());
+            }
+
+            IntPtr sans = SDL_ttf.TTF_OpenFont(Clever.executableDirectory + "/res/fonts/sans.ttf", 24);
 
             WindowHandle = SDL.SDL_CreateWindow(
                 $"{Application.CompanyName} - {Application.ProductName} {Application.ProductVersion}",
@@ -255,11 +263,7 @@ namespace Clever2D.Core
                                 }
                             }
                         }
-                        
-                        IntPtr sans = SDL_ttf.TTF_OpenFont("/home/markus/repos/Clever2D/Example/bin/Debug/net5.0/sans.ttf", 24);
 
-                        Player.Log(sans.ToString());
-                        
                         SDL.SDL_Color color = new SDL.SDL_Color()
                         {
                             r = 255, 
@@ -267,18 +271,26 @@ namespace Clever2D.Core
                             b = 255, 
                             a = 255
                         };
-                        
-                        IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(sans, FPS, color);
 
-                        IntPtr fpsText = SDL.SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+                        if (sans != IntPtr.Zero)
+                        {
+                            IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(sans, FPS + " fps", color);
 
-                        SDL.SDL_Rect fpsRect;
-                        fpsRect.x = 0;
-                        fpsRect.y = 0;
-                        fpsRect.w = 100;
-                        fpsRect.h = 100;
+                            IntPtr fpsText = SDL.SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
-                        SDL.SDL_RenderCopy(renderer, fpsText, IntPtr.Zero, ref fpsRect);
+                            SDL.SDL_FreeSurface(surfaceMessage);
+
+                            surfaceMessage = IntPtr.Zero;
+
+                            SDL.SDL_Rect fpsRect;
+                            fpsRect.x = 0;
+                            fpsRect.y = 0;
+                            fpsRect.w = FPS.Length * 30;
+                            fpsRect.h = 28;
+
+                            SDL.SDL_RenderCopy(renderer, fpsText, IntPtr.Zero, ref fpsRect);
+                            SDL.SDL_DestroyTexture(fpsText);
+                        }
                     }
                     
                     SDL.SDL_RenderPresent(renderer);
@@ -291,6 +303,8 @@ namespace Clever2D.Core
                 SDL.SDL_DestroyRenderer(renderer);
                 SDL.SDL_DestroyWindow(WindowHandle);
 
+                SDL_ttf.TTF_Quit();
+                SDL_image.IMG_Quit();
                 SDL.SDL_Quit();
             }
         }
