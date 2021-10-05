@@ -82,7 +82,7 @@ namespace Clever2D.Engine
                     // Log startup lines
                     string[] logStart = new string[]
                     {
-                    $"{Application.ProductName} v{Application.ProductVersion} (c) {Application.CompanyName} {DateTime.Now.Year} | Clever2D v{Version.CurrentVersion} {Version.Copyright}",
+                    $"{Application.ProductName} {Application.ProductVersion} (c) {Application.CompanyName} {DateTime.Now.Year} | Clever2D {Version.CurrentVersion} {Version.Copyright}",
                     $"Log file location: {logFile}"
                     };
 
