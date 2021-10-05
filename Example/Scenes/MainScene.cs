@@ -1,5 +1,6 @@
 ﻿using Clever2D.Engine;
 using System.Collections.Generic;
+using Clever2D.UI;
 
 namespace Example
 {
@@ -47,6 +48,16 @@ namespace Example
                     new SpriteRenderer(new SpriteArray("resources/Skeleton.png", 4, 4)),
                     
                     new AnimatorController("animations/skeleton.anim")
+                },
+                tag = "Player"
+            },
+            new GameObject("FPS")
+            {
+                components = new List<Component>()
+                {
+                    new Transform(),
+                    new Text(""),
+                    new FPSCounter()
                 },
                 tag = "Player"
             }

@@ -2,9 +2,11 @@
 using Clever2D.Input;
 using Clever2D.Threading;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using Clever2D.UI;
 using SDL2;
 
 namespace Clever2D.Core
@@ -77,6 +79,15 @@ namespace Clever2D.Core
         
         private static readonly Scheduler commandScheduler = new();
         private static readonly Scheduler eventScheduler = new();
+
+        private static List<IntPtr> fonts = new List<IntPtr>();
+        public static IntPtr[] Fonts
+        {
+            get
+            {
+                return fonts.ToArray();
+            }
+        }
         
         /// <summary>
         /// Registers a new scheduled command.
@@ -110,7 +121,7 @@ namespace Clever2D.Core
                 Player.LogError("There was an error initializing SDL_ttf. " + SDL.SDL_GetError());
             }
 
-            IntPtr sans = SDL_ttf.TTF_OpenFont(Clever.executableDirectory + "/res/fonts/sans.ttf", 24);
+            fonts.Add(SDL_ttf.TTF_OpenFont(Clever.executableDirectory + "/res/fonts/sans.ttf", 24));
 
             WindowHandle = SDL.SDL_CreateWindow(
                 $"{Application.CompanyName} - {Application.ProductName} {Application.ProductVersion}",
@@ -261,35 +272,14 @@ namespace Clever2D.Core
                                     SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
                                     //SDL.SDL_RenderCopy(renderer, playerTexture, IntPtr.Zero, IntPtr.Zero);
                                 }
+                                
+                                UIElement uiElement = instance.Value.GetComponent<UIElement>();
+
+                                if (uiElement != null)
+                                {
+                                    uiElement.Render();
+                                }
                             }
-                        }
-
-                        SDL.SDL_Color color = new SDL.SDL_Color()
-                        {
-                            r = 255, 
-                            g = 255, 
-                            b = 255, 
-                            a = 255
-                        };
-
-                        if (sans != IntPtr.Zero)
-                        {
-                            IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(sans, FPS + " fps", color);
-
-                            IntPtr fpsText = SDL.SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-
-                            SDL.SDL_FreeSurface(surfaceMessage);
-
-                            surfaceMessage = IntPtr.Zero;
-
-                            SDL.SDL_Rect fpsRect;
-                            fpsRect.x = 0;
-                            fpsRect.y = 0;
-                            fpsRect.w = FPS.Length * 30;
-                            fpsRect.h = 28;
-
-                            SDL.SDL_RenderCopy(renderer, fpsText, IntPtr.Zero, ref fpsRect);
-                            SDL.SDL_DestroyTexture(fpsText);
                         }
                     }
                     

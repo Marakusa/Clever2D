@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Clever2D.UI;
 
 namespace Clever2D.Engine
 {
@@ -46,7 +47,8 @@ namespace Clever2D.Engine
         {
             foreach (object component in components)
             {
-                if (typeof(T) == component.GetType())
+                if (typeof(T) == component.GetType() 
+                    || (typeof(T) == typeof(UIElement) && component.GetType().ToString().StartsWith("Clever2D.UI")))
                 {
                     return (T)component;
                 }
