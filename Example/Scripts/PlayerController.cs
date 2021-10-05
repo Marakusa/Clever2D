@@ -24,27 +24,36 @@ namespace Example
             if (Input.GetKey(SDL.SDL_Keycode.SDLK_w))
             {
                 move += Vector2.up;
-                d = 1;
-            }
-            if (Input.GetKey(SDL.SDL_Keycode.SDLK_a))
-            {
-                move += Vector2.left;
-                d = 4;
-            }
-            if (Input.GetKey(SDL.SDL_Keycode.SDLK_s))
-            {
-                move += Vector2.down;
-                d = 2;
             }
             if (Input.GetKey(SDL.SDL_Keycode.SDLK_d))
             {
                 move += Vector2.right;
-                d = 1;
             }
+            if (Input.GetKey(SDL.SDL_Keycode.SDLK_s))
+            {
+                move += Vector2.down;
+            }
+            if (Input.GetKey(SDL.SDL_Keycode.SDLK_a))
+            {
+                move += Vector2.left;
+            }
+            
+            Vector2 startPosition = transform.position;
+            Vector2 movedPosition = transform.position + move.Normalized * speed * 50f * Time.DeltaTime;
+            
+            Vector2 direction = (movedPosition - startPosition).Normalized;
+            Vector2Int animDirection = new Vector2Int((int)Math.Round(direction.x), (int)Math.Round(direction.y));
 
+            if (animDirection.y != 0)
+                d = animDirection.y > 0 ? 1 : 3;
+            else if (animDirection.y == 0 && animDirection.x == 0)
+                d = 0;
+            else
+                d = animDirection.x > 0 ? 2 : 4;
+            
             animator.SetInt("Direction", d);
 
-            transform.position += move.Normalized * speed * 50f * Time.DeltaTime;
+            transform.position = movedPosition;
         }
     }
 }

@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Timers;
 using Clever2D.Core;
 using Newtonsoft.Json;
 
@@ -13,6 +11,11 @@ namespace Clever2D.Engine
 		private string animatorPath = "";
 		private SpriteRenderer spriteRenderer;
 		public Animator animator;
+
+		public AnimatorController(string path)
+		{
+			animatorPath = Clever.executableDirectory + "/assets/" + path;
+		}
 
 		internal override void Initialize()
 		{
@@ -45,11 +48,6 @@ namespace Clever2D.Engine
 			isInitialized = true;
 		}
 		
-		public AnimatorController(string path)
-		{
-			animatorPath = Clever.executableDirectory + "/assets/" + path;
-		}
-
 		public void SetBool(string name, bool value)
 		{
 			if (isInitialized)

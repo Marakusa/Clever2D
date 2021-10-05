@@ -11,45 +11,68 @@ namespace Clever2D.Engine
 		public Animation[] animations;
 		public AnimationCondition[] conditions;
 
-		public int start;
-		public int activeAnimation;
+		public int activeAnimation = 0;
 
 		private int lastAnimation = -1;
 
+		private Timer frameTimer = null;
+		private	bool frameDone = true;
+		private	int nextFrameIndex = 0;
+		private int animationKeyCount = 0;
+
 		internal void Start(SpriteRenderer renderer)
 		{
-			int nextFrameIndex = 0;
-			int animationKeyCount = animations[activeAnimation].timeline.Length;
-			bool frameDone = true;
-
+			activeAnimation = 0;
+			lastAnimation = -1;
+			
 			while (!Clever.Quit)
 			{
-				if (lastAnimation != activeAnimation)
-                {
-					lastAnimation = activeAnimation;
-					nextFrameIndex = 0;
-					animationKeyCount = animations[activeAnimation].timeline.Length;
-					frameDone = true;
-				}
-
-				if (frameDone)
+				if (animations.Length > 0)
 				{
-					frameDone = false;
-
-					int i = nextFrameIndex;
-					nextFrameIndex = nextFrameIndex + 1 >= animationKeyCount ? 0 : nextFrameIndex + 1;
-
-					int interval = animations[activeAnimation].timeline[nextFrameIndex].time - animations[activeAnimation].timeline[i].time;
-					interval = interval <= 0 ? 1 : interval;
-
-					System.Timers.Timer timer = new() { Interval = interval };
-					timer.Elapsed += (object sender, ElapsedEventArgs e) =>
+					if (lastAnimation != activeAnimation)
 					{
-						timer.Stop();
-						renderer.Sprite = renderer.spriteArray.Sprites[animations[activeAnimation].timeline[nextFrameIndex].spriteIndex];
+						lastAnimation = activeAnimation;
+						nextFrameIndex = 0;
+						animationKeyCount = animations[activeAnimation].timeline.Length;
 						frameDone = true;
-					};
-					timer.Start();
+					}
+
+					if (frameDone)
+					{
+						frameDone = false;
+
+						int i = nextFrameIndex;
+						nextFrameIndex = nextFrameIndex + 1 >= animationKeyCount ? 0 : nextFrameIndex + 1;
+
+						if (activeAnimation >= animations.Length)
+							activeAnimation = 0;
+						
+						if (nextFrameIndex >= animations[activeAnimation].timeline.Length)
+							nextFrameIndex = 0;
+						if (i >= animations[activeAnimation].timeline.Length)
+							i = 0;
+						
+						int interval = animations[activeAnimation].timeline[nextFrameIndex].time - animations[activeAnimation].timeline[i].time;
+						interval = interval <= 0 ? 1 : interval;
+
+						if (frameTimer != null)
+						{
+							frameTimer.Stop();
+							frameTimer.Close();
+							frameTimer.Dispose();
+						}
+
+						frameTimer = new() { Interval = interval };
+						frameTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+						{
+							frameTimer.Stop();
+							renderer.Sprite = renderer.spriteArray.Sprites[animations[activeAnimation].timeline[nextFrameIndex].spriteIndex];
+							frameDone = true;
+							frameTimer.Dispose();
+						};
+
+						frameTimer.Start();
+					}
 				}
 			}
 		}
@@ -72,6 +95,13 @@ namespace Clever2D.Engine
                     {
 						if (!condition.value.Equals(value))
 						{
+							frameDone = true;
+							
+							lastAnimation = -1;
+							activeAnimation = 0;
+							nextFrameIndex = 0;
+							frameDone = true;
+							
 							condition.value = value;
 
 							List<AnimationCondition> conds = conditions.ToList();
@@ -85,14 +115,14 @@ namespace Clever2D.Engine
 									AnimationCondition c = conds.Find(f => f.name == con.name);
 									if (c != null)
 									{
-										if (c.value != con.value)
+										if (c.value.ToString() != con.value.ToString())
 										{
 											meetsConditions = false;
-											break;
 										}
 										else
 										{
 											activeAnimation = transition.to;
+											break;
 										}
 									}
 								}
@@ -110,11 +140,5 @@ namespace Clever2D.Engine
                 }
             }
         }
-	}
-
-	public class AnimationCondition
-	{
-		public string name;
-		public object value;
 	}
 }
