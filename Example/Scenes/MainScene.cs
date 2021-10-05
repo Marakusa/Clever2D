@@ -28,7 +28,49 @@ namespace Example
                         Rotation = new Vector2(0f, 0f),
                         Scale = new Vector2(1f, 1f)
                     },
-                    new SpriteRenderer(new Sprite("resources/Stars.gif", Vector2.zero))
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.zero))
+                },
+                tag = "Background"
+            },
+            new GameObject("Background")
+            {
+                components = new List<Component>()
+                {
+                    new Transform()
+                    {
+                        Position = new Vector2(16f, 0f),
+                        Rotation = new Vector2(0f, 0f),
+                        Scale = new Vector2(1f, 1f)
+                    },
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.zero))
+                },
+                tag = "Background"
+            },
+            new GameObject("Background")
+            {
+                components = new List<Component>()
+                {
+                    new Transform()
+                    {
+                        Position = new Vector2(0f, 16f),
+                        Rotation = new Vector2(0f, 0f),
+                        Scale = new Vector2(1f, 1f)
+                    },
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.zero))
+                },
+                tag = "Background"
+            },
+            new GameObject("Background")
+            {
+                components = new List<Component>()
+                {
+                    new Transform()
+                    {
+                        Position = new Vector2(16f, 16f),
+                        Rotation = new Vector2(0f, 0f),
+                        Scale = new Vector2(1f, 1f)
+                    },
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.zero))
                 },
                 tag = "Background"
             },
@@ -62,7 +104,7 @@ namespace Example
                                 Rotation = new Vector2(0f, 0f),
                                 Scale = new Vector2(1f, 1f)
                             },
-                            new Text("Skeleton", 12, new SDL.SDL_Color()
+                            new Text("Skeleton", 8, new SDL.SDL_Color()
                             {
                                 r = 255,
                                 g = 155,

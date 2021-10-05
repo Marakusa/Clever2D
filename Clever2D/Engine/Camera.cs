@@ -28,7 +28,7 @@ namespace Clever2D.Engine
 			
 			IntPtr renderer = Clever.Renderer;
 			
-            SDL.SDL_SetRenderDrawColor(renderer, 30, 30, 100, 255);
+            SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL.SDL_RenderClear(renderer);
 
             Scene loadedScene = SceneManager.LoadedScene;
