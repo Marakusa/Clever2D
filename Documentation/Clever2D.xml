@@ -351,6 +351,16 @@
             Components of this GameObject.
             </summary>
         </member>
+        <member name="F:Clever2D.Engine.GameObject.children">
+            <summary>
+            Children GameObjects of this GameObject.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.GameObject.parent">
+            <summary>
+            Parent of this GameObject.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.GameObject.GetComponent``1">
             <summary>
             Retrieves and returns a Component of type T.

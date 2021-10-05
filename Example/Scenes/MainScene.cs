@@ -1,6 +1,7 @@
 ﻿using Clever2D.Engine;
 using System.Collections.Generic;
 using Clever2D.UI;
+using SDL2;
 
 namespace Example
 {
@@ -37,7 +38,7 @@ namespace Example
                 {
                     new Transform()
                     {
-                        position = new Vector2(10f, 10f),
+                        position = new Vector2(50f, -50f),
                         rotation = new Vector2(0f, 0f),
                         scale = new Vector2(1f, 1f)
                     },
@@ -49,7 +50,32 @@ namespace Example
                     
                     new AnimatorController("animations/skeleton.anim")
                 },
-                tag = "Player"
+                tag = "Player",
+                children = new List<GameObject>()
+                {
+                    new GameObject("NameTag")
+                    {
+                        components = new List<Component>()
+                        {
+                            new Transform()
+                            {
+                                position = new Vector2(0f, 30f),
+                                rotation = new Vector2(0f, 0f),
+                                scale = new Vector2(1f, 1f)
+                            },
+                            new Text("Juan", new SDL.SDL_Color()
+                            {
+                                r = 255,
+                                g = 155,
+                                b = 155,
+                                a = 255
+                            })
+                            {
+                                worldSpace = true
+                            },
+                        }
+                    }
+                }
             },
             new GameObject("FPS")
             {

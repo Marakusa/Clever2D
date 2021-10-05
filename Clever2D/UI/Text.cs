@@ -1,5 +1,6 @@
 using System;
 using Clever2D.Core;
+using Clever2D.Engine;
 using SDL2;
 
 namespace Clever2D.UI
@@ -9,6 +10,8 @@ namespace Clever2D.UI
 		public string text = "";
 		public SDL.SDL_Color color = new SDL.SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
 		private IntPtr sans = IntPtr.Zero;
+
+		public bool worldSpace = false;
 		
 		internal override void Initialize()
 		{
@@ -29,10 +32,33 @@ namespace Clever2D.UI
 			surfaceMessage = IntPtr.Zero;
 
 			SDL.SDL_Rect fpsRect;
-			fpsRect.x = 0;
-			fpsRect.y = 0;
-			fpsRect.w = text.Length * 18;
-			fpsRect.h = 28;
+			if (!worldSpace)
+			{
+				fpsRect.x = 0;
+				fpsRect.y = 0;
+				fpsRect.w = text.Length * 18;
+				fpsRect.h = 28;
+			}
+			else
+			{
+				float scale = (Clever.Size.Height / 600f) * 2f;
+				
+				fpsRect.w = (int)Math.Round(text.Length * 18 * scale * (int)Math.Round(transform.scale.x));
+				fpsRect.h = (int)Math.Round(28 * scale * (int)Math.Round(transform.scale.y));
+
+				if (gameObject.parent != null)
+				{
+					fpsRect.x = (int)Math.Round(transform.position.x * scale * transform.scale.x) + (int)Math.Round(gameObject.parent.transform.position.x * scale * gameObject.parent.transform.scale.x);
+					fpsRect.y = (int)Math.Round(-transform.position.y * scale * transform.scale.y) + (int)Math.Round(-gameObject.parent.transform.position.y * scale * gameObject.parent.transform.scale.y);
+					fpsRect.w *= (int)Math.Round(transform.scale.x);
+					fpsRect.h *= (int)Math.Round(transform.scale.y);
+				}
+				else
+				{
+					fpsRect.x = (int)Math.Round(transform.position.x * scale * transform.scale.x);
+					fpsRect.y = (int)Math.Round(-transform.position.y * scale * transform.scale.y);
+				}
+			}
 
 			SDL.SDL_RenderCopy(Clever.Renderer, fpsText, IntPtr.Zero, ref fpsRect);
 			SDL.SDL_DestroyTexture(fpsText);

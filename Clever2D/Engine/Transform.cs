@@ -36,7 +36,6 @@ namespace Clever2D.Engine
 
         internal override void Initialize()
         {
-            
         }
     }
 }

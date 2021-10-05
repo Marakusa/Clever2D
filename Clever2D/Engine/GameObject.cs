@@ -38,6 +38,14 @@ namespace Clever2D.Engine
         /// Components of this GameObject.
         /// </summary>
         public List<Component> components = new();
+        /// <summary>
+        /// Children GameObjects of this GameObject.
+        /// </summary>
+        public List<GameObject> children = new();
+        /// <summary>
+        /// Parent of this GameObject.
+        /// </summary>
+        public GameObject parent = null;
 
         /// <summary>
         /// Retrieves and returns a Component of type T.

@@ -154,7 +154,27 @@ namespace Clever2D.Engine
         {
             if (SceneManager.LoadedScene == this)
             {
-                spawnedGameObjects.Add(id, gameObject);
+                bool added = false;
+                
+                while (!added)
+                {
+                    if (spawnedGameObjects.ContainsKey(id))
+                    {
+                        id++;
+                        nextId = id + 1;
+                    }
+                    else
+                    {
+                        spawnedGameObjects.Add(id, gameObject);
+                        added = true;
+                    }
+                }
+
+                foreach (GameObject child in gameObject.children)
+                {
+                    child.parent = gameObject;
+                    SpawnGameObject(child);
+                }
 
                 foreach (Component component in gameObject.components)
                 {
