@@ -4,6 +4,7 @@ namespace Clever2D.Engine
 	{
 		public string name;
 		public AnimationPoint[] timeline;
+		public AnimationTransition[] transitions;
 	}
 
 	public class AnimationPoint
@@ -16,5 +17,17 @@ namespace Clever2D.Engine
 			this.time = time;
 			this.spriteIndex = spriteIndex;
 		}
+	}
+
+	public class AnimationTransition
+	{
+		public AnimationTransitionCondition[] conditions;
+		public int to;
+	}
+
+	public class AnimationTransitionCondition
+	{
+		public string name;
+		public object value;
 	}
 }

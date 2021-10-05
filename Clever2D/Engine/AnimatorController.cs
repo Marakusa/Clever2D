@@ -12,6 +12,7 @@ namespace Clever2D.Engine
 	{
 		private string animatorPath = "";
 		private SpriteRenderer spriteRenderer;
+		public Animator animator;
 
 		internal override void Initialize()
 		{
@@ -19,7 +20,7 @@ namespace Clever2D.Engine
 			{
 				spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 			
-				Animator animator = new();
+				animator = new();
 
 				List<Animator> items;
 					
@@ -31,43 +32,33 @@ namespace Clever2D.Engine
 				
 				if (items.Count > 0)
 				{
+					animator = items[0];
+
 					Thread thread = new(() =>
 					{
-						int nextFrameIndex = 0;
-						int animationKeyCount = items[0].animations[0].timeline.Length;
-						bool frameDone = true;
-
-						while (!Clever.Quit)
-						{
-							if (frameDone)
-							{
-								frameDone = false;
-
-								int i = nextFrameIndex;
-								nextFrameIndex = nextFrameIndex + 1 >= animationKeyCount ? 0 : nextFrameIndex + 1;
-
-								int interval = items[0].animations[0].timeline[nextFrameIndex].time - items[0].animations[0].timeline[i].time;
-								interval = interval < 0 ? 1 : interval;
-								
-								System.Timers.Timer timer = new() { Interval = interval };
-								timer.Elapsed += (object sender, ElapsedEventArgs e) =>
-								{
-									timer.Stop();
-									spriteRenderer.Sprite = spriteRenderer.spriteArray.Sprites[items[0].animations[0].timeline[nextFrameIndex].spriteIndex];
-									frameDone = true;
-								};
-								timer.Start();
-							}
-						}
+						animator.Start(spriteRenderer);
 					});
 					thread.Start();
 				}
 			}
+
+			isInitialized = true;
 		}
 		
 		public AnimatorController(string path)
 		{
 			animatorPath = Clever.executableDirectory + "/assets/" + path;
+		}
+
+		public void SetBool(string name, bool value)
+		{
+			if (isInitialized)
+				animator.SetCondition(name, value);
+		}
+		public void SetInt(string name, int value)
+		{
+			if (isInitialized)
+				animator.SetCondition(name, value);
 		}
 	}
 }

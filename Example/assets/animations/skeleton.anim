@@ -8,6 +8,132 @@
                     {
                         "time": 0,
                         "spriteIndex": 0
+                    }
+                ],
+                "transitions": [
+                    {
+                        "conditions": [
+                            {
+                                "name": "Direction",
+                                "type": "is",
+                                "value": 1
+                            }
+                        ],
+                        "to": 1
+                    },
+                    {
+                        "conditions": [
+                            {
+                                "name": "Direction",
+                                "type": "is",
+                                "value": 2
+                            }
+                        ],
+                        "to": 2
+                    },
+                    {
+                        "conditions": [
+                            {
+                                "name": "Direction",
+                                "type": "is",
+                                "value": 3
+                            }
+                        ],
+                        "to": 3
+                    },
+                    {
+                        "conditions": [
+                            {
+                                "name": "Direction",
+                                "type": "is",
+                                "value": 4
+                            }
+                        ],
+                        "to": 4
+                    }
+                ]
+
+            },
+            {
+                "name": "walkU",
+                "timeline": [
+                    {
+                        "time": 0,
+                        "spriteIndex": 12
+                    },
+                    {
+                        "time": 100,
+                        "spriteIndex": 13
+                    },
+                    {
+                        "time": 200,
+                        "spriteIndex": 14
+                    },
+                    {
+                        "time": 300,
+                        "spriteIndex": 15
+                    },
+                    {
+                        "time": 399,
+                        "spriteIndex": 15
+                    }
+                ],
+                "transitions": [
+                    {
+                        "conditions": [
+                            {
+                                "name": "Direction",
+                                "type": "not",
+                                "value": 1
+                            }
+                        ],
+                        "to": 0
+                    }
+                ]
+            },
+            {
+                "name": "walkR",
+                "timeline": [
+                    {
+                        "time": 0,
+                        "spriteIndex": 8
+                    },
+                    {
+                        "time": 100,
+                        "spriteIndex": 9
+                    },
+                    {
+                        "time": 200,
+                        "spriteIndex": 10
+                    },
+                    {
+                        "time": 300,
+                        "spriteIndex": 11
+                    },
+                    {
+                        "time": 399,
+                        "spriteIndex": 11
+                    }
+                ],
+                "transitions": [
+                    {
+                        "conditions": [
+                            {
+                                "name": "Direction",
+                                "type": "not",
+                                "value": 2
+                            }
+                        ],
+                        "to": 0
+                    }
+                ]
+            },
+            {
+                "name": "walkD",
+                "timeline": [
+                    {
+                        "time": 0,
+                        "spriteIndex": 0
                     },
                     {
                         "time": 100,
@@ -25,7 +151,62 @@
                         "time": 399,
                         "spriteIndex": 3
                     }
+                ],
+                "transitions": [
+                    {
+                        "conditions": [
+                            {
+                                "name": "Direction",
+                                "type": "not",
+                                "value": 3
+                            }
+                        ],
+                        "to": 0
+                    }
                 ]
+            },
+            {
+                "name": "walkL",
+                "timeline": [
+                    {
+                        "time": 0,
+                        "spriteIndex": 4
+                    },
+                    {
+                        "time": 100,
+                        "spriteIndex": 5
+                    },
+                    {
+                        "time": 200,
+                        "spriteIndex": 6
+                    },
+                    {
+                        "time": 300,
+                        "spriteIndex": 7
+                    },
+                    {
+                        "time": 399,
+                        "spriteIndex": 7
+                    }
+                ],
+                "transitions": [
+                    {
+                        "conditions": [
+                            {
+                                "name": "Direction",
+                                "type": "not",
+                                "value": 4
+                            }
+                        ],
+                        "to": 0
+                    }
+                ]
+            }
+        ],
+        "conditions": [
+            {
+                "name": "Direction",
+                "value": 0
             }
         ]
     }

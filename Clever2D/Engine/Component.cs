@@ -31,6 +31,7 @@ namespace Clever2D.Engine
             }
         }
 
+        internal bool isInitialized = false;
         internal abstract void Initialize();
     }
 }
