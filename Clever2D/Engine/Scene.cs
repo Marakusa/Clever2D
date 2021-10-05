@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Timers;
+using Clever2D.Core;
 
 namespace Clever2D.Engine
 {
@@ -184,6 +185,11 @@ namespace Clever2D.Engine
                     if ((component as CleverScript) != null)
                     {
                         ((CleverScript)component).Start();
+
+                        Clever.Update += () =>
+                        {
+                            ((CleverScript)component).Update();
+                        };
 
                         Thread thread = new(() =>
                         {

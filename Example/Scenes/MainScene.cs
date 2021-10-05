@@ -24,11 +24,11 @@ namespace Example
                 {
                     new Transform()
                     {
-                        position = new Vector2(0f, 0f),
-                        rotation = new Vector2(0f, 0f),
-                        scale = new Vector2(1f, 1f)
+                        Position = new Vector2(0f, 0f),
+                        Rotation = new Vector2(0f, 0f),
+                        Scale = new Vector2(1f, 1f)
                     },
-                    new SpriteRenderer(new Sprite("resources/Stars.gif"))
+                    new SpriteRenderer(new Sprite("resources/Stars.gif", Vector2.zero))
                 },
                 tag = "Background"
             },
@@ -38,15 +38,15 @@ namespace Example
                 {
                     new Transform()
                     {
-                        position = new Vector2(50f, -50f),
-                        rotation = new Vector2(0f, 0f),
-                        scale = new Vector2(1f, 1f)
+                        Position = new Vector2(50f, -50f),
+                        Rotation = new Vector2(0f, 0f),
+                        Scale = new Vector2(1f, 1f)
                     },
                     new PlayerController()
                     {
                         speed = 2f
                     },
-                    new SpriteRenderer(new SpriteArray("resources/Skeleton.png", 4, 4)),
+                    new SpriteRenderer(new SpriteArray("resources/Skeleton.png", Vector2.one / 2f, 4, 4)),
                     new AnimatorController("animations/skeleton.anim")
                 },
                 tag = "Player",
@@ -58,9 +58,9 @@ namespace Example
                         {
                             new Transform()
                             {
-                                position = new Vector2(-16f, 20f),
-                                rotation = new Vector2(0f, 0f),
-                                scale = new Vector2(1f, 1f)
+                                Position = new Vector2(-16f, 20f),
+                                Rotation = new Vector2(0f, 0f),
+                                Scale = new Vector2(1f, 1f)
                             },
                             new Text("Skeleton", 12, new SDL.SDL_Color()
                             {
@@ -71,7 +71,7 @@ namespace Example
                             })
                             {
                                 worldSpace = true
-                            },
+                            }
                         }
                     }
                 }
@@ -85,6 +85,15 @@ namespace Example
                     new FPSCounter()
                 },
                 tag = "Player"
+            },
+            new GameObject("Camera")
+            {
+                components = new List<Component>()
+                {
+                    new Transform(),
+                    new Camera()
+                },
+                tag = "MainCamera"
             }
         };
         public override List<GameObject> SceneGameObjects

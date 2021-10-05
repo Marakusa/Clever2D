@@ -42,22 +42,37 @@ namespace Clever2D.UI
 			}
 			else
 			{
-				float scale = (Clever.Size.Height / 600f) * 2f;
-				
-				fpsRect.w = (int)Math.Round(text.Length * (int)Math.Round(18f * (size / 28f)) * scale * (int)Math.Round(transform.scale.x));
-				fpsRect.h = (int)Math.Round(size * scale * (int)Math.Round(transform.scale.y));
-
-				if (gameObject.parent != null)
+				if (Camera.MainCamera != null)
 				{
-					fpsRect.x = (int)Math.Round(transform.position.x * scale * transform.scale.x) + (int)Math.Round(gameObject.parent.transform.position.x * scale * gameObject.parent.transform.scale.x);
-					fpsRect.y = (int)Math.Round(-transform.position.y * scale * transform.scale.y) + (int)Math.Round(-gameObject.parent.transform.position.y * scale * gameObject.parent.transform.scale.y);
-					fpsRect.w *= (int)Math.Round(transform.scale.x);
-					fpsRect.h *= (int)Math.Round(transform.scale.y);
+					Transform cameraTransform = Camera.MainCamera.transform;
+
+					float scale = (Clever.Size.Height / 600f) * 2f;
+					
+					int cameraOffsetX = (int)Math.Round(scale * cameraTransform.Position.x);
+					int cameraOffsetY = (int)Math.Round(scale * -cameraTransform.Position.y);
+
+					fpsRect.w = (int)Math.Round(text.Length * (int)Math.Round(18f * (size / 28f)) * scale * (int)Math.Round(transform.Scale.x));
+					fpsRect.h = (int)Math.Round(size * scale * (int)Math.Round(transform.Scale.y));
+
+					if (gameObject.parent != null)
+					{
+						fpsRect.x = (int)Math.Round(transform.Position.x * scale * transform.Scale.x) + (int)Math.Round(gameObject.parent.transform.Position.x * scale * gameObject.parent.transform.Scale.x - cameraOffsetX);
+						fpsRect.y = (int)Math.Round(-transform.Position.y * scale * transform.Scale.y) + (int)Math.Round(-gameObject.parent.transform.Position.y * scale * gameObject.parent.transform.Scale.y - cameraOffsetY);
+						fpsRect.w *= (int)Math.Round(transform.Scale.x);
+						fpsRect.h *= (int)Math.Round(transform.Scale.y);
+					}
+					else
+					{
+						fpsRect.x = (int)Math.Round(transform.Position.x * scale * transform.Scale.x - cameraOffsetX);
+						fpsRect.y = (int)Math.Round(-transform.Position.y * scale * transform.Scale.y - cameraOffsetY);
+					}
 				}
 				else
 				{
-					fpsRect.x = (int)Math.Round(transform.position.x * scale * transform.scale.x);
-					fpsRect.y = (int)Math.Round(-transform.position.y * scale * transform.scale.y);
+					fpsRect.x = 0;
+					fpsRect.y = 0;
+					fpsRect.w = 0;
+					fpsRect.h = 0;
 				}
 			}
 

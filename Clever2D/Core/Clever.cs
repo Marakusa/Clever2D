@@ -244,58 +244,6 @@ namespace Clever2D.Core
                     
                     eventScheduler.Update();
                     
-                    SDL.SDL_SetRenderDrawColor(renderer, 30, 30, 100, 255);
-                    SDL.SDL_RenderClear(renderer);
-
-                    Scene loadedScene = SceneManager.LoadedScene;
-                    
-                    if (loadedScene != null)
-                    {
-                        var instances = loadedScene.SpawnedGameObjects;
-
-                        if (instances.Count > 0)
-                        {
-                            foreach (var instance in instances)
-                            {
-                                SpriteRenderer spriteRenderer = instance.Value.GetComponent<SpriteRenderer>();
-                                
-                                if (spriteRenderer != null)
-                                {
-                                    float scale = (Size.Height / 600f) * 2f;
-                                    
-                                    SDL.SDL_Rect tRect;
-                                    tRect.w = (int)Math.Round(spriteRenderer.Sprite.rect.w * scale * instance.Value.transform.scale.x);
-                                    tRect.h = (int)Math.Round(spriteRenderer.Sprite.rect.h * scale * instance.Value.transform.scale.y);
-
-                                    if (instance.Value.parent != null)
-                                    {
-                                        tRect.x = (int)Math.Round(instance.Value.transform.position.x * scale * instance.Value.transform.position.x) + (int)Math.Round(instance.Value.parent.transform.position.x * scale * instance.Value.parent.transform.scale.x);
-                                        tRect.y = (int)Math.Round(-instance.Value.transform.position.y * scale * instance.Value.transform.position.y) + (int)Math.Round(-instance.Value.parent.transform.position.y * scale * instance.Value.parent.transform.scale.y);
-                                        tRect.w *= (int)Math.Round(spriteRenderer.Sprite.rect.w * instance.Value.transform.scale.x);
-                                        tRect.h *= (int)Math.Round(spriteRenderer.Sprite.rect.h * instance.Value.transform.scale.y);
-                                    }
-                                    else
-                                    {
-                                        tRect.x = (int)Math.Round(instance.Value.transform.position.x * scale * instance.Value.transform.scale.x);
-                                        tRect.y = (int)Math.Round(-instance.Value.transform.position.y * scale * instance.Value.transform.scale.y);
-                                    }
-                                    
-                                    SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
-                                    //SDL.SDL_RenderCopy(renderer, playerTexture, IntPtr.Zero, IntPtr.Zero);
-                                }
-                                
-                                UIElement uiElement = instance.Value.GetComponent<UIElement>();
-
-                                if (uiElement != null)
-                                {
-                                    uiElement.Render();
-                                }
-                            }
-                        }
-                    }
-                    
-                    SDL.SDL_RenderPresent(renderer);
-
                     Update?.Invoke();
                 }
 

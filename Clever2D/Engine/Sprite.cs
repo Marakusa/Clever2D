@@ -19,6 +19,10 @@ namespace Clever2D.Engine
         /// Rect of the assigned image to this object which contains the size of the texture.
         /// </summary>
         public SDL.SDL_Rect rect;
+        /// <summary>
+        /// Sprite pivot (scales from 0 to 1 per dimension).
+        /// </summary>
+        public Vector2 pivot = Vector2.zero;
 
         /// <summary>
         /// Path to the source of the image of this Sprite.
@@ -38,14 +42,15 @@ namespace Clever2D.Engine
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
-        public Sprite(string path)
+        public Sprite(string path, Vector2 pivot)
         {
             path = Clever.executableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {
                 this.path = path;
-
+                this.pivot = pivot;
+                
                 Image image = Image.Load(path);
                 int width = image.Width;
                 int height = image.Height;
@@ -60,13 +65,14 @@ namespace Clever2D.Engine
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
-        public Sprite(string path, Vector2Int size)
+        public Sprite(string path, Vector2 pivot, Vector2Int size)
         {
             path = Clever.executableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {
                 this.path = path;
+                this.pivot = pivot;
 
                 Image image = Image.Load(path);
                 int width = image.Width;
@@ -86,13 +92,14 @@ namespace Clever2D.Engine
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
         /// <param name="offset">Offset of the rendering area of the texture.</param>
-        public Sprite(string path, Vector2Int size, Vector2 offset)
+        public Sprite(string path, Vector2 pivot, Vector2Int size, Vector2 offset)
         {
             path = Clever.executableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {
                 this.path = path;
+                this.pivot = pivot;
 
                 Image image = Image.Load(path);
                 int width = image.Width;

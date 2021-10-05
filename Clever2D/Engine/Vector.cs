@@ -237,6 +237,10 @@ namespace Clever2D.Engine
         {
             return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
         }
+        public static Vector2 operator /(Vector2 a, float b)
+        {
+            return new Vector2(b == 0 ? 0 : a.x / b, b == 0 ? 0 : a.y / b);
+        }
 
         public static Vector2 operator *(Vector2 a, float b)
         {
@@ -417,6 +421,10 @@ namespace Clever2D.Engine
         public static Vector3 operator /(Vector3 a, Vector2 b)
         {
             return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
+        }
+        public static Vector3 operator /(Vector3 a, float b)
+        {
+            return new Vector3(b == 0 ? 0 : a.x / b, b == 0 ? 0 : a.y / b, b == 0 ? 0 : a.z / b);
         }
 
         public static Vector3 operator *(Vector3 a, float b)

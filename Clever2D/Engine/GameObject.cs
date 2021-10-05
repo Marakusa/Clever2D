@@ -102,8 +102,8 @@ namespace Clever2D.Engine
         {
             try
             {
-                gameObject.transform.position = position;
-                gameObject.transform.position = rotation;
+                gameObject.transform.Position = position;
+                gameObject.transform.Position = rotation;
                 SceneManager.LoadedScene.SpawnGameObject(gameObject);
             }
             catch (Exception exception)

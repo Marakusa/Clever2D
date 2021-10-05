@@ -33,7 +33,7 @@ namespace Clever2D.Engine
 		/// <param name="spritePath">Target Sprite asset path.</param>
 		/// <param name="rows">Split Sprite rows count.</param>
 		/// <param name="columns">Split Sprite columns count.</param>
-		public SpriteArray(string spritePath, int rows, int columns)
+		public SpriteArray(string spritePath, Vector2 pivot, int rows, int columns)
 		{
 			string path = Clever.executableDirectory + "/assets/" + spritePath;
 			
@@ -54,6 +54,7 @@ namespace Clever2D.Engine
 						
 						Sprite sprite = new(
 							spritePath, 
+							pivot, 
 							new Vector2Int(
 								splitWidth, 
 								splitHeight

@@ -38,8 +38,8 @@ namespace Example
                 move += Vector2.left;
             }
             
-            Vector2 startPosition = transform.position;
-            Vector2 movedPosition = transform.position + move.Normalized * speed * 50f * Time.DeltaTime;
+            Vector2 startPosition = transform.Position;
+            Vector2 movedPosition = transform.Position + move.Normalized * speed * 50f * Time.DeltaTime;
             
             Vector2 direction = (movedPosition - startPosition).Normalized;
             Vector2Int animDirection = new Vector2Int((int)Math.Round(direction.x), (int)Math.Round(direction.y));
@@ -53,7 +53,9 @@ namespace Example
             
             animator.SetInt("Direction", d);
 
-            transform.position = movedPosition;
+            transform.Position = movedPosition;
+
+            Camera.MainCamera.gameObject.transform.Position = gameObject.transform.Position;
         }
     }
 }

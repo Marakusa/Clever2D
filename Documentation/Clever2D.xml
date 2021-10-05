@@ -296,6 +296,11 @@
             Start is called on the frame when a script is enabled just before any Update methods are called.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.CleverScript.Update">
+            <summary>
+            Update is called on every frame.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.CleverScript.FixedUpdate">
             <summary>
             Frame-rate independ Update method.
@@ -634,6 +639,11 @@
             Rect of the assigned image to this object which contains the size of the texture.
             </summary>
         </member>
+        <member name="F:Clever2D.Engine.Sprite.pivot">
+            <summary>
+            Sprite pivot (scales from 0 to 1 per dimension).
+            </summary>
+        </member>
         <member name="F:Clever2D.Engine.Sprite.path">
             <summary>
             Path to the source of the image of this Sprite.
@@ -644,17 +654,17 @@
             Returns the path to the source of the image of this Sprite.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String)">
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2)">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2Int)">
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2,Clever2D.Engine.Vector2Int)">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2)">
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2,Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2)">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
             </summary>
@@ -675,7 +685,7 @@
             Returns this Sprite array.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.SpriteArray.#ctor(System.String,System.Int32,System.Int32)">
+        <member name="M:Clever2D.Engine.SpriteArray.#ctor(System.String,Clever2D.Engine.Vector2,System.Int32,System.Int32)">
             <summary>
             2D array of Sprites.
             </summary>
@@ -748,19 +758,24 @@
             Component that handles the GameObjects position, rotation and scale in the Scene.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Transform.position">
+        <member name="P:Clever2D.Engine.Transform.Position">
             <summary>
             Position of the GameObject this Component is assigned to.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Transform.rotation">
+        <member name="P:Clever2D.Engine.Transform.Rotation">
             <summary>
             Rotation of the GameObject this Component is assigned to.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Transform.scale">
+        <member name="P:Clever2D.Engine.Transform.Scale">
             <summary>
             Scale of the GameObject this Component is assigned to.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Transform.localPosition">
+            <summary>
+            Local position of the GameObject relative to the parent GameObject.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.Transform.#ctor">
