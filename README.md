@@ -1,3 +1,5 @@
+![icon](https://user-images.githubusercontent.com/29477753/135967040-4397bad5-8521-4e4a-9fbd-e7a82f25cfec.png)
+
 # Clever2D
 
 ## Description
