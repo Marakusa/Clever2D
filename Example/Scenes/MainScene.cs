@@ -56,7 +56,7 @@ namespace Example
                 components = new List<Component>()
                 {
                     new Transform(),
-                    new Text(""),
+                    new Text(),
                     new FPSCounter()
                 },
                 tag = "Player"
