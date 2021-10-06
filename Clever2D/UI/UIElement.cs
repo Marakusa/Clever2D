@@ -2,6 +2,9 @@ using Clever2D.Engine;
 
 namespace Clever2D.UI
 {
+	/// <summary>
+	/// Base class for all UI elements.
+	/// </summary>
 	public abstract class UIElement : Component
 	{
 		/// <summary>

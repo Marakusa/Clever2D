@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Clever2D.Core;
 using Clever2D.Engine;
 using SDL2;
@@ -14,7 +13,7 @@ namespace Clever2D.Input
         /// <summary>
         /// List of all keys pressed at the moment.
         /// </summary>
-        internal static List<KeyboardEvent> keysPressed = new();
+        internal static readonly List<KeyboardEvent> KeysPressed = new();
 
         /// <summary>
         /// Initializes the InputManager.
@@ -30,9 +29,9 @@ namespace Clever2D.Input
         /// </summary>
         private void KeyDown(SDL.SDL_KeyboardEvent e)
         {
-            if (keysPressed.Find(k => k.keyEvent.keysym.sym == e.keysym.sym) == null)
+            if (KeysPressed.Find(k => k.keyEvent.keysym.sym == e.keysym.sym) == null)
             {
-                keysPressed.Add(new KeyboardEvent(e, Time.TotalTime));
+                KeysPressed.Add(new(e, Time.TotalTime));
             }
         }
         /// <summary>
@@ -40,20 +39,35 @@ namespace Clever2D.Input
         /// </summary>
         private void KeyUp(SDL.SDL_KeyboardEvent e)
         {
-            KeyboardEvent key = keysPressed.Find(k => k.keyEvent.keysym.sym == e.keysym.sym);
+            KeyboardEvent key = KeysPressed.Find(k => k.keyEvent.keysym.sym == e.keysym.sym);
             if (key != null)
             {
-                keysPressed.Remove(key);
+                KeysPressed.Remove(key);
             }
         }
     }
 
+    /// <summary>
+    /// Keyboard event for InputManager.
+    /// </summary>
     public class KeyboardEvent
     {
-        public SDL.SDL_Keycode key;
-        public SDL.SDL_KeyboardEvent keyEvent;
-        public float time;
+        /// <summary>
+        /// Event key.
+        /// </summary>
+        public readonly SDL.SDL_Keycode key;
+        /// <summary>
+        /// Event key event.
+        /// </summary>
+        public readonly SDL.SDL_KeyboardEvent keyEvent;
+        /// <summary>
+        /// Event time.
+        /// </summary>
+        public readonly float time;
         
+        /// <summary>
+        /// Keyboard event for InputManager.
+        /// </summary>
         public KeyboardEvent(SDL.SDL_KeyboardEvent keyEvent, float time)
         {
             key = keyEvent.keysym.sym;

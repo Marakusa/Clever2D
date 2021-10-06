@@ -25,8 +25,8 @@ namespace Clever2D.Engine
             {
                 if (SceneManager.includedScenes.Contains(this))
                     return SceneManager.includedScenes.IndexOf(this);
-                else
-                    return -1;
+                
+                return -1;
             }
         }
 
@@ -46,13 +46,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Returns the list of all spawned GameObjects.
         /// </summary>
-        public Dictionary<int, GameObject> SpawnedGameObjects
-        {
-            get
-            {
-                return spawnedGameObjects;
-            }
-        }
+        public Dictionary<int, GameObject> SpawnedGameObjects => spawnedGameObjects;
 
         private bool isInitialized;
         /// <summary>
@@ -201,7 +195,7 @@ namespace Clever2D.Engine
         {
             if (!SceneManager.LoadScene(this))
             {
-                Player.LogError("Loading \"" + Name + "\" failed.");
+                Player.LogError($"Loading \"{Name}\" failed.");
             }
         }
 

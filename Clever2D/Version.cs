@@ -9,16 +9,20 @@ namespace Clever2D
     internal class Version
     {
         /// <summary>
+        /// Clever2D release state (Alpha, Beta, Release).
+        /// </summary>
+        public static ReleaseState Release => ReleaseState.Alpha;
+        
+        /// <summary>
         /// Returns the current version of Clever.
         /// </summary>
         public static string CurrentVersion
         {
             get
             {
-                ReleaseState releaseState = ReleaseState.Alpha;
                 string release = "";
 
-                switch (releaseState)
+                switch (Release)
                 {
                     case ReleaseState.Alpha:
                         release = "a";
@@ -50,7 +54,7 @@ namespace Clever2D
         /// <summary>
         /// The release state of a Version (Alpha, Beta, Release).
         /// </summary>
-        enum ReleaseState
+        internal enum ReleaseState
         {
             Alpha, Beta, Release
         }

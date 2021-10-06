@@ -10,12 +10,12 @@ namespace Example
         private AnimatorController animator;
         public float speed = 1f;
 
-        public override void Start()
+        protected override void Start()
         {
             animator = gameObject.GetComponent<AnimatorController>();
         }
 
-        public override void FixedUpdate()
+        protected override void FixedUpdate()
         {
             Vector2 move = Vector2.Zero;
 

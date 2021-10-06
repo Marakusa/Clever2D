@@ -197,6 +197,25 @@ namespace Clever2D.UI
 	/// </summary>
 	public enum FontStyle
 	{
-		Normal, Italic, Bold, Underline, Strikethrough
+		/// <summary>
+		/// Normal font style.
+		/// </summary>
+		Normal, 
+		/// <summary>
+		/// Italic font style.
+		/// </summary>
+		Italic, 
+		/// <summary>
+		/// Bold font style.
+		/// </summary>
+		Bold, 
+		/// <summary>
+		/// Underline font style.
+		/// </summary>
+		Underline, 
+		/// <summary>
+		/// Strikethrough font style.
+		/// </summary>
+		Strikethrough
 	}
 }

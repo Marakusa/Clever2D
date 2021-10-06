@@ -6,6 +6,9 @@ using System.Diagnostics;
 
 namespace Clever2D.Threading
 {
+    /// <summary>
+    /// Scheduled delegate for scheduling delegates.
+    /// </summary>
     public class ScheduledDelegate : IComparable<ScheduledDelegate>
     {
         /// <summary>
@@ -35,6 +38,9 @@ namespace Clever2D.Threading
         /// </summary>
         public bool Cancelled => State == RunState.Cancelled;
 
+        /// <summary>
+        /// Scheduled delegate run state.
+        /// </summary>
         public RunState State;
 
         /// <summary>
@@ -42,6 +48,9 @@ namespace Clever2D.Threading
         /// </summary>
         internal readonly Action Task;
 
+        /// <summary>
+        /// Scheduled delegate for scheduling delegates.
+        /// </summary>
         public ScheduledDelegate(Action task, double executionTime = 0, double repeatInterval = -1)
         {
             Task = task;
@@ -110,6 +119,9 @@ namespace Clever2D.Threading
             }
         }
 
+        /// <summary>
+        /// Compare scheduled delegate execution times.
+        /// </summary>
         public int CompareTo(ScheduledDelegate other) => ExecutionTime == other.ExecutionTime ? -1 : ExecutionTime.CompareTo(other.ExecutionTime);
 
         internal void SetNextExecution(double? currentTime)

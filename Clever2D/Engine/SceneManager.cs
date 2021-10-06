@@ -6,8 +6,17 @@ namespace Clever2D.Engine
     /// <summary>
     /// The base class which manages all the Scenes.
     /// </summary>
-    public class SceneManager
+    public static class SceneManager
     {
+        /// <summary>
+        /// Returns if the SceneManager is initialized.
+        /// </summary>
+        public static bool IsInitialized
+        {
+            get;
+            private set;
+        }
+        
         /// <summary>
         /// Start the game and load the first Scene.
         /// </summary>
@@ -106,9 +115,9 @@ namespace Clever2D.Engine
         /// </summary>
         public static bool LoadScene(Scene scene)
         {
-            Player.Log("Loading a Scene named \"" + scene.Name + "\"...");
+            Player.Log($"Loading a Scene named \"{scene.Name}\"...");
 
-            OnLoad?.Invoke(null, new SceneEventArgs(LoadedScene));
+            OnLoad?.Invoke(null, new(LoadedScene));
 
             try
             {
@@ -123,6 +132,8 @@ namespace Clever2D.Engine
                 {
                     LoadedScene.SpawnGameObject(obj);
                 }
+
+                IsInitialized = true;
 
                 OnLoaded?.Invoke(null, new(LoadedScene));
 

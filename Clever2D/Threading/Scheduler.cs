@@ -56,6 +56,9 @@ namespace Clever2D.Threading
             this.clock = clock;
         }
 
+        /// <summary>
+        /// Scheduler update loop.
+        /// </summary>
         public void UpdateClock(IClock newClock)
         {
             if (newClock == null)

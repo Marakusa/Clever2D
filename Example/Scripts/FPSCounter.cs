@@ -8,12 +8,12 @@ namespace Example
 	{
 		private Text text;
 
-		public override void Start()
+		protected override void Start()
 		{
 			text = gameObject.GetComponent<Text>();
 		}
 
-		public override void FixedUpdate()
+		protected override void FixedUpdate()
 		{
 			text.text = Clever.Fps + " fps";
 		}
