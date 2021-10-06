@@ -6,7 +6,7 @@
 ## Description
 .NET based cross-platform 2D game engine created with C#
 
-![Screenshot](https://user-images.githubusercontent.com/29477753/135966701-6dede5e1-0fe1-4533-8915-53a424b994f9.png)
+![Skeleton](https://user-images.githubusercontent.com/29477753/136274147-a17d9c8f-4714-42fa-ac8d-5e3b9698aed0.png)
 
 ## Dependencies
 - .NET Runtime 5.0 or newer
