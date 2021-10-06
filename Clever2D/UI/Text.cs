@@ -5,13 +5,35 @@ using SDL2;
 
 namespace Clever2D.UI
 {
+	/// <summary>
+	/// Text element for UI.
+	/// </summary>
 	public class Text : UIElement
 	{
+		/// <summary>
+		/// Text element text.
+		/// </summary>
 		public string text = "";
+		/// <summary>
+		/// Text element text style.
+		/// </summary>
+		public FontStyle fontStyle = FontStyle.Normal;
+		/// <summary>
+		/// Text element text font size.
+		/// </summary>
 		public int size = 12;
+		/// <summary>
+		/// Text element text color.
+		/// </summary>
 		public SDL.SDL_Color color = new SDL.SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
+		/// <summary>
+		/// Text element text font.
+		/// </summary>
 		private IntPtr sans = IntPtr.Zero;
 
+		/// <summary>
+		/// Is element placed on the Screen or in the Scene.
+		/// </summary>
 		public bool worldSpace = false;
 
 		internal override void Initialize()
@@ -24,6 +46,25 @@ namespace Clever2D.UI
 
 		internal override void Render()
 		{
+			switch (fontStyle)
+			{
+				case FontStyle.Normal:
+					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_NORMAL);
+					break;
+				case FontStyle.Italic:
+					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_ITALIC);
+					break;
+				case FontStyle.Bold:
+					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_BOLD);
+					break;
+				case FontStyle.Underline:
+					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_UNDERLINE);
+					break;
+				case FontStyle.Strikethrough:
+					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_STRIKETHROUGH);
+					break;
+			}
+
 			IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(sans, text, color);
 
 			IntPtr fpsText = SDL.SDL_CreateTextureFromSurface(Clever.Renderer, surfaceMessage);
@@ -92,6 +133,9 @@ namespace Clever2D.UI
 			SDL.SDL_DestroyTexture(fpsText);
 		}
 
+		/// <summary>
+		/// Text element for UI.
+		/// </summary>
 		public Text(int size)
 		{
 			this.text = "";
@@ -104,6 +148,9 @@ namespace Clever2D.UI
 				a = 255
 			};
 		}
+		/// <summary>
+		/// Text element for UI.
+		/// </summary>
 		public Text(string text, int size)
 		{
 			this.text = text;
@@ -116,12 +163,18 @@ namespace Clever2D.UI
 				a = 255
 			};
 		}
+		/// <summary>
+		/// Text element for UI.
+		/// </summary>
 		public Text(string text, int size, SDL.SDL_Color color)
 		{
 			this.text = text;
 			this.size = size;
 			this.color = color;
 		}
+		/// <summary>
+		/// Text element for UI.
+		/// </summary>
 		public Text(SDL.SDL_Color color)
 		{
 			this.text = "";
@@ -137,5 +190,13 @@ namespace Clever2D.UI
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
+	}
+
+	/// <summary>
+	/// Font styles for UI elements.
+	/// </summary>
+	public enum FontStyle
+	{
+		Normal, Italic, Bold, Underline, Strikethrough
 	}
 }

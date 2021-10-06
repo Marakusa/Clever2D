@@ -31,6 +31,7 @@ namespace Clever2D.Engine
 		/// 2D array of Sprites.
 		/// </summary>
 		/// <param name="spritePath">Target Sprite asset path.</param>
+		/// <param name="pivot">Split sprites pivot point.</param>
 		/// <param name="rows">Split Sprite rows count.</param>
 		/// <param name="columns">Split Sprite columns count.</param>
 		public SpriteArray(string spritePath, Vector2 pivot, int rows, int columns)

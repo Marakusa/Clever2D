@@ -39,7 +39,6 @@ namespace Clever2D.Core
         internal static bool Quit { get; set; } = false;
         private static WindowState CurrentState { get; set; } = WindowState.Windowed;
         
-        private static Thread mainLoopThread = null;
         private static Thread inputThread = null;
 
         private const int defaultWidth = 1366;
