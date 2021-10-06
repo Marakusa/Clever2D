@@ -128,7 +128,8 @@ namespace Clever2D.Core
             }
 
             List<IntPtr> fonts = new();
-            fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/sans.ttf", 24));
+            fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/Pixel-UniCode.ttf", 72));
+            fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/Poppins-Regular.ttf", 72));
 
             Fonts = fonts.ToArray();
             
@@ -142,6 +143,9 @@ namespace Clever2D.Core
             );
             
             Renderer = SDL.SDL_CreateRenderer(WindowHandle, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+
+            // VSync
+            SDL.SDL_GL_SetSwapInterval(1);
             
             // TODO: Fix fullscreen
             /*SetScreenState += (WindowState state) =>

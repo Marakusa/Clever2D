@@ -13,7 +13,7 @@ namespace Clever2D.UI
 		/// <summary>
 		/// Text element text.
 		/// </summary>
-		public string text = "";
+		public string text;
 		/// <summary>
 		/// Text element text style.
 		/// </summary>
@@ -21,11 +21,11 @@ namespace Clever2D.UI
 		/// <summary>
 		/// Text element text font size.
 		/// </summary>
-		public int size = 12;
+		public int size;
 		/// <summary>
 		/// Text element text color.
 		/// </summary>
-		public SDL.SDL_Color color = new SDL.SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
+		public SDL.SDL_Color color;
 		/// <summary>
 		/// Text element text font.
 		/// </summary>
@@ -64,13 +64,14 @@ namespace Clever2D.UI
 					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_STRIKETHROUGH);
 					break;
 			}
-
-			IntPtr surfaceMessage = SDL_ttf.TTF_RenderText_Solid(sans, text, color);
-
+			
+			// Enable antialiasing
+			SDL.SDL_SetHint(SDL.SDL_HINT_RENDER_SCALE_QUALITY, "1");
+			
+			IntPtr surfaceMessage = SDL_ttf.TTF_RenderUTF8_Solid(sans, text, color);
 			IntPtr fpsText = SDL.SDL_CreateTextureFromSurface(Clever.Renderer, surfaceMessage);
-
 			SDL.SDL_FreeSurface(surfaceMessage);
-
+			
 			surfaceMessage = IntPtr.Zero;
 
 			float x = 0;
@@ -82,7 +83,7 @@ namespace Clever2D.UI
 			if (!worldSpace)
 			{
 				w = text.Length * (18f * (size / 28f));
-				h = size;
+				h = size + 24;
 
 				float width = Clever.Size.Width;
 				float height = Clever.Size.Height;
@@ -101,7 +102,7 @@ namespace Clever2D.UI
 					float cameraOffsetY = scale * -cameraTransform.Position.y;
 
 					w = text.Length * (18f * (size / 28f)) * scale * transform.Scale.x;
-					h = size * scale * transform.Scale.y;
+					h = size + 12 * scale * transform.Scale.y;
 
 					if (gameObject.parent != null)
 					{
@@ -128,8 +129,9 @@ namespace Clever2D.UI
 			fpsRect.y = (int)Math.Round(y);
 			fpsRect.w = (int)Math.Round(w);
 			fpsRect.h = (int)Math.Round(h);
-			
+
 			SDL.SDL_RenderCopy(Clever.Renderer, fpsText, IntPtr.Zero, ref fpsRect);
+			
 			SDL.SDL_DestroyTexture(fpsText);
 		}
 
