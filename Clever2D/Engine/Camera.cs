@@ -15,12 +15,12 @@ namespace Clever2D.Engine
 				return mainCamera;
 			}
 		}
-		
-		public override void Start()
-		{
-			mainCamera = this;
-		}
-		
+
+        public Camera()
+        {
+            mainCamera = this;
+        }
+
 		public override void Update()
 		{
 			if (Camera.mainCamera == null)
@@ -99,6 +99,15 @@ namespace Clever2D.Engine
             }
             
             SDL.SDL_RenderPresent(renderer);
-		}
-	}
+        }
+
+        /// <summary>
+        /// Disposes and destroys this Component.
+        /// </summary>
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+    }
 }

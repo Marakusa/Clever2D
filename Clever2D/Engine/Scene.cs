@@ -58,6 +58,11 @@ namespace Clever2D.Engine
         }
 
         /// <summary>
+        /// Is the Scene initialized.
+        /// </summary>
+        public bool isInitialized = false;
+
+        /// <summary>
         /// Spawn a GameObejct to this Scene if loaded.
         /// </summary>
         /// <param name="gameObject">The GameObject to spawn.</param>
@@ -155,6 +160,8 @@ namespace Clever2D.Engine
         {
             if (SceneManager.LoadedScene == this)
             {
+                isInitialized = false;
+
                 bool added = false;
                 
                 while (!added)
@@ -181,44 +188,10 @@ namespace Clever2D.Engine
                 {
                     component.gameObject = gameObject;
                     component.transform = gameObject.transform;
-
-                    if ((component as CleverScript) != null)
-                    {
-                        ((CleverScript)component).Start();
-
-                        Clever.Update += () =>
-                        {
-                            ((CleverScript)component).Update();
-                        };
-
-                        Thread thread = new(() =>
-                        {
-                            System.Timers.Timer tickTimer = new();
-
-                            DateTime frameStart = DateTime.Now;
-                            DateTime frameEnd = DateTime.Now;
-
-                            tickTimer.Interval = 1f / 60f;
-                            tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
-                            {
-                                ((CleverScript)component).FixedUpdate();
-                                //frameEnd = DateTime.Now;
-                                //double fps = (60000f / (frameEnd - frameStart).TotalMilliseconds);
-                                //frameStart = DateTime.Now;
-                            };
-
-                            tickTimer.Start();
-
-                            ((CleverScript)component).timer = tickTimer;
-                        });
-
-                        thread.Start();
-                    }
-                    else
-                    {
-                        component.Initialize();
-                    }
+                    component.Initialize();
                 }
+
+                isInitialized = true;
             }
             else
             {
@@ -233,16 +206,8 @@ namespace Clever2D.Engine
         {
             if (SceneManager.LoadedScene == this)
             {
-                foreach (Component component in gameObject.components)
-                {
-                    if ((component as CleverScript) != null)
-                    {
-                        ((CleverScript)component).timer.Stop();
-                        ((CleverScript)component).timer = null;
-                    }
-                }
-
                 spawnedGameObjects.Remove(gameObject.InstanceId);
+                gameObject.Dispose();
             }
             else
             {

@@ -1,4 +1,6 @@
-﻿namespace Clever2D.Engine
+﻿using System;
+
+namespace Clever2D.Engine
 {
     /// <summary>
     /// Component that manages the Sprite wanted to be rendered in a GameObject.
@@ -47,7 +49,16 @@
 
         internal override void Initialize()
         {
-            
+
+        }
+
+        /// <summary>
+        /// Disposes and destroys this Component.
+        /// </summary>
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

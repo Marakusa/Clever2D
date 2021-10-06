@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using Clever2D.UI;
 using SDL2;
+using System.Timers;
 
 namespace Clever2D.Core
 {
@@ -186,6 +187,16 @@ namespace Clever2D.Core
 
                 OnInitialized?.Invoke();
 
+                System.Timers.Timer tickTimer = new()
+                {
+                    Interval = 1f / 30f
+                };
+                tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                {
+                    FixedUpdate?.Invoke();
+                };
+                tickTimer.Start();
+
                 ulong lastFPSTick = 0;
                 ulong framesInFrame = 0;
 
@@ -332,6 +343,11 @@ namespace Clever2D.Core
         /// Invoked once every window event loop.
         /// </summary>
         public static event Action Update;
+
+        /// <summary>
+        /// Frame-rate indepedent window event loop.
+        /// </summary>
+        public static event Action FixedUpdate;
 
         /// <summary>
         /// Invoked when the application has started to destroy.

@@ -7,7 +7,7 @@ namespace Clever2D.Engine
     /// <summary>
     /// Base class for all entities in scenes.
     /// </summary>
-    public class GameObject
+    public class GameObject : IDisposable
     {
         internal int instanceId;
 
@@ -124,6 +124,45 @@ namespace Clever2D.Engine
             catch (Exception exception)
             {
                 Player.LogError(exception.Message, exception);
+            }
+        }
+
+        private bool disposed = false;
+
+        /// <summary>
+        /// Disposes and destroys this GameObject.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes this GameObject and its components and children.
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    foreach (Component component in components)
+                    {
+                        component.Dispose();
+                    }
+
+                    components.Clear();
+
+                    foreach (GameObject child in children)
+                    {
+                        child.Dispose();
+                    }
+
+                    children.Clear();
+                }
+
+                disposed = true;
             }
         }
     }

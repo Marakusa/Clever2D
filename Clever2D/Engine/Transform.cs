@@ -105,5 +105,14 @@ namespace Clever2D.Engine
         internal override void Initialize()
         {
         }
+
+        /// <summary>
+        /// Disposes and destroys this Component.
+        /// </summary>
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

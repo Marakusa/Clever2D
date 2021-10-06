@@ -128,5 +128,14 @@ namespace Clever2D.UI
 			this.size = 12;
 			this.color = color;
 		}
+
+		/// <summary>
+		/// Disposes and destroys this Component.
+		/// </summary>
+		public override void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 	}
 }

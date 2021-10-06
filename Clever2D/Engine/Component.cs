@@ -5,7 +5,7 @@ namespace Clever2D.Engine
     /// <summary>
     /// Base class for everything attached to GameObjects.
     /// </summary>
-    public abstract class Component
+    public abstract class Component : IDisposable
     {
         /// <summary>
         /// The GameObject where this component is assigned.
@@ -33,5 +33,23 @@ namespace Clever2D.Engine
 
         internal bool isInitialized = false;
         internal abstract void Initialize();
+
+        private bool disposed = false;
+
+        /// <summary>
+        /// Disposes and destroys this Component.
+        /// </summary>
+        public abstract void Dispose();
+
+        /// <summary>
+        /// Disposes this Component.
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                disposed = true;
+            }
+        }
     }
 }

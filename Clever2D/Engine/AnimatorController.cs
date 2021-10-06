@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -57,6 +58,15 @@ namespace Clever2D.Engine
 		{
 			if (isInitialized)
 				animator.SetCondition(name, value);
+		}
+
+		/// <summary>
+		/// Disposes and destroys this Component.
+		/// </summary>
+		public override void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 	}
 }
