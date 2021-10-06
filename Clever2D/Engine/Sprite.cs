@@ -22,7 +22,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Sprite pivot (scales from 0 to 1 per dimension).
         /// </summary>
-        public Vector2 pivot = Vector2.zero;
+        public Vector2 pivot = Vector2.Zero;
 
         /// <summary>
         /// Path to the source of the image of this Sprite.
@@ -31,29 +31,23 @@ namespace Clever2D.Engine
         /// <summary>
         /// Returns the path to the source of the image of this Sprite.
         /// </summary>
-        public string Path
-        {
-            get
-            {
-                return path;
-            }
-        }
+        public string Path => path;
 
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
         public Sprite(string path, Vector2 pivot)
         {
-            path = Application.ExecutableDirectory + "/assets/" + path;
+            path = $"{Application.ExecutableDirectory}/assets/{path}";
 
             if (File.Exists(path))
             {
                 this.path = path;
                 this.pivot = pivot;
                 
-                Image image = Image.Load(path);
-                int width = image.Width;
-                int height = image.Height;
+                var spriteImage = Image.Load(path);
+                var width = spriteImage.Width;
+                var height = spriteImage.Height;
                 
                 LoadSprite(width, height, 0, 0);
             }
@@ -67,19 +61,19 @@ namespace Clever2D.Engine
         /// </summary>
         public Sprite(string path, Vector2 pivot, Vector2Int size)
         {
-            path = Application.ExecutableDirectory + "/assets/" + path;
+            path = $"{Application.ExecutableDirectory}/assets/{path}";
 
             if (File.Exists(path))
             {
                 this.path = path;
                 this.pivot = pivot;
 
-                Image image = Image.Load(path);
-                int width = image.Width;
-                int height = image.Height;
+                var spriteImage = Image.Load(path);
+                var width = spriteImage.Width;
+                var height = spriteImage.Height;
 
-                int w = size.x < 0 ? width : size.x;
-                int h = size.y < 0 ? height : size.y;
+                var w = size.x < 0 ? width : size.x;
+                var h = size.y < 0 ? height : size.y;
                 
                 LoadSprite(w, h, 0, 0);
             }
@@ -91,28 +85,27 @@ namespace Clever2D.Engine
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
-        /// <param name="offset">Offset of the rendering area of the texture.</param>
         public Sprite(string path, Vector2 pivot, Vector2Int size, Vector2 offset)
         {
-            path = Application.ExecutableDirectory + "/assets/" + path;
+            path = $"{Application.ExecutableDirectory}/assets/{path}";
 
             if (File.Exists(path))
             {
                 this.path = path;
                 this.pivot = pivot;
 
-                Image image = Image.Load(path);
-                int width = image.Width;
-                int height = image.Height;
+                Image spriteImage = Image.Load(path);
+                var width = spriteImage.Width;
+                var height = spriteImage.Height;
 
-                int w = size.x < 0 ? width : size.x;
-                int h = size.y < 0 ? height : size.y;
+                var w = size.x < 0 ? width : size.x;
+                var h = size.y < 0 ? height : size.y;
                 
                 LoadSprite(w, h, (int) Math.Round(offset.x), (int) Math.Round(offset.y));
             }
             else
             {
-                Player.LogError("File doesn't exist in " + path);
+                Player.LogError($"File doesn't exist in {path}");
             }
         }
 
@@ -125,7 +118,7 @@ namespace Clever2D.Engine
 
             this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, this.path);
 
-            Clever.Destroying += () => { SDL.SDL_DestroyTexture(this.image); };
+            Clever.Destroying += () => SDL.SDL_DestroyTexture(this.image);
         }
     }
 }

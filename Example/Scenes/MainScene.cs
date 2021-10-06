@@ -28,7 +28,7 @@ namespace Example
                         Rotation = new Vector2(0f, 0f),
                         Scale = new Vector2(1f, 1f)
                     },
-                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.zero))
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.Zero))
                 },
                 tag = "Background"
             },
@@ -42,7 +42,7 @@ namespace Example
                         Rotation = new Vector2(0f, 0f),
                         Scale = new Vector2(1f, 1f)
                     },
-                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.zero))
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.Zero))
                 },
                 tag = "Background"
             },
@@ -56,7 +56,7 @@ namespace Example
                         Rotation = new Vector2(0f, 0f),
                         Scale = new Vector2(1f, 1f)
                     },
-                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.zero))
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.Zero))
                 },
                 tag = "Background"
             },
@@ -70,7 +70,7 @@ namespace Example
                         Rotation = new Vector2(0f, 0f),
                         Scale = new Vector2(1f, 1f)
                     },
-                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.zero))
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.Zero))
                 },
                 tag = "Background"
             },
@@ -88,7 +88,7 @@ namespace Example
                     {
                         speed = 2f
                     },
-                    new SpriteRenderer(new SpriteArray("resources/Skeleton.png", Vector2.one / 2f, 4, 4)),
+                    new SpriteRenderer(new SpriteArray("resources/Skeleton.png", Vector2.One / 2f, 4, 4)),
                     new AnimatorController("animations/skeleton.anim")
                 },
                 tag = "Player",
@@ -126,8 +126,8 @@ namespace Example
                     new Transform(),
                     new Text(28)
                     {
-                        screenAlign = Vector2.right,
-                        pivot = Vector2.right
+                        screenAlign = Vector2.Right,
+                        pivot = Vector2.Right
                     },
                     new FPSCounter()
                 },

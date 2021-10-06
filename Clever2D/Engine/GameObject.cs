@@ -79,14 +79,14 @@ namespace Clever2D.Engine
         /// </summary>
         public static void Spawn(GameObject gameObject)
         {
-            SpawnGameObject(gameObject, Vector2.zero, Vector2.zero);
+            SpawnGameObject(gameObject, Vector2.Zero, Vector2.Zero);
         }
         /// <summary>
         /// Spawns the GameObject into the loaded scene.
         /// </summary>
         public static void Spawn(GameObject gameObject, Vector2 position)
         {
-            SpawnGameObject(gameObject, position, Vector2.zero);
+            SpawnGameObject(gameObject, position, Vector2.Zero);
         }
         /// <summary>
         /// Spawns the GameObject into the loaded scene.
@@ -127,7 +127,7 @@ namespace Clever2D.Engine
             }
         }
 
-        private bool disposed = false;
+        private bool disposed;
 
         /// <summary>
         /// Disposes and destroys this GameObject.

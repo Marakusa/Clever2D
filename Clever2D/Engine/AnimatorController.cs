@@ -2,20 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Clever2D.Core;
 using Newtonsoft.Json;
 
 namespace Clever2D.Engine
 {
+	/// <summary>
+	/// The controller of the animators animations.
+	/// </summary>
 	public class AnimatorController : Component
 	{
-		private string animatorPath = "";
-		private SpriteRenderer spriteRenderer;
+		private string _animatorPath;
+		
+		/// <summary>
+		/// The animator assigned to this controller.
+		/// </summary>
 		public Animator animator;
-
+		
+		private SpriteRenderer spriteRenderer;
+		
+		/// <summary>
+		/// The controller of the animators animations.
+		/// </summary>
 		public AnimatorController(string path)
 		{
-			animatorPath = Application.ExecutableDirectory + "/assets/" + path;
+			_animatorPath = Application.ExecutableDirectory + "/assets/" + path;
 		}
 
 		internal override void Initialize()
@@ -28,7 +38,7 @@ namespace Clever2D.Engine
 
 				List<Animator> items;
 					
-				using (StreamReader r = new StreamReader(animatorPath))
+				using (StreamReader r = new StreamReader(_animatorPath))
 				{
 					string json = r.ReadToEnd();
 					items = JsonConvert.DeserializeObject<List<Animator>>(json);
@@ -49,11 +59,21 @@ namespace Clever2D.Engine
 			isInitialized = true;
 		}
 		
+		/// <summary>
+		/// Set an animators bool conditions value.
+		/// </summary>
+		/// <param name="name">Animator condition name.</param>
+		/// <param name="value">Condition value.</param>
 		public void SetBool(string name, bool value)
 		{
 			if (isInitialized)
 				animator.SetCondition(name, value);
 		}
+		/// <summary>
+		/// Set an animators int conditions value.
+		/// </summary>
+		/// <param name="name">Animator condition name.</param>
+		/// <param name="value">Condition value.</param>
 		public void SetInt(string name, int value)
 		{
 			if (isInitialized)

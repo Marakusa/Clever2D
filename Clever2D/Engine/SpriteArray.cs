@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Clever2D.Core;
-using SDL2;
 using SixLabors.ImageSharp;
 
 namespace Clever2D.Engine
@@ -13,19 +11,12 @@ namespace Clever2D.Engine
 	public class SpriteArray
 	{
 		/// <summary>
-		/// Sprite array.
-		/// </summary>
-		private Sprite[] sprites = new Sprite[0];
-		/// <summary>
 		/// Returns this Sprite array.
 		/// </summary>
 		public Sprite[] Sprites
 		{
-			get
-			{
-				return sprites;
-			}
-		}
+			get;
+		} = Array.Empty<Sprite>();
 
 		/// <summary>
 		/// 2D array of Sprites.
@@ -36,13 +27,13 @@ namespace Clever2D.Engine
 		/// <param name="columns">Split Sprite columns count.</param>
 		public SpriteArray(string spritePath, Vector2 pivot, int rows, int columns)
 		{
-			string path = Application.ExecutableDirectory + "/assets/" + spritePath;
+			var path = $"{Application.ExecutableDirectory}/assets/{spritePath}";
 			
 			if (File.Exists(path))
 			{
-				Image image = Image.Load(path);
-				int width = image.Width;
-				int height = image.Height;
+				var spriteImage = Image.Load(path);
+				var width = (float)spriteImage.Width;
+				var height = (float)spriteImage.Height;
 				
 				List<Sprite> sprites = new();
 
@@ -50,30 +41,30 @@ namespace Clever2D.Engine
 				{
 					for (int x = 0; x < columns; x++)
 					{
-						int splitWidth = (int)Math.Floor((double)width / (double)columns);
-						int splitHeight = (int)Math.Floor((double)height / (double)rows);
+						var splitWidth = width / columns;
+						var splitHeight = height / rows;
 						
-						Sprite sprite = new(
+						var sprite = new Sprite(
 							spritePath, 
 							pivot, 
-							new Vector2Int(
-								splitWidth, 
-								splitHeight
+							new(
+								(int)Math.Floor(splitWidth), 
+								(int)Math.Floor(splitHeight)
 							), 
-							new Vector2(
-								(float)splitWidth * (float)x, 
-								(float)splitHeight * (float)y
+							new(
+								splitWidth * x, 
+								splitHeight * y
 							)
 						);
 						sprites.Add(sprite);
 					}
 				}
 				
-				this.sprites = sprites.ToArray();
+				this.Sprites = sprites.ToArray();
 			}
 			else
 			{
-				Player.LogError("File doesn't exist in " + path);
+				Player.LogError($"File doesn't exist in {path}");
 			}
 		}
 	}

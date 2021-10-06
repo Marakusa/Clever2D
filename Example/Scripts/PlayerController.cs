@@ -17,23 +17,23 @@ namespace Example
 
         public override void FixedUpdate()
         {
-            Vector2 move = Vector2.zero;
+            Vector2 move = Vector2.Zero;
 
             if (Input.GetButton("up"))
             {
-                move += Vector2.up;
+                move += Vector2.Up;
             }
             if (Input.GetButton("right"))
             {
-                move += Vector2.right;
+                move += Vector2.Right;
             }
             if (Input.GetButton("down"))
             {
-                move += Vector2.down;
+                move += Vector2.Down;
             }
             if (Input.GetButton("left"))
             {
-                move += Vector2.left;
+                move += Vector2.Left;
             }
             
             Vector2 startPosition = transform.Position;

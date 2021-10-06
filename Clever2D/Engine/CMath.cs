@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Clever2D.Engine
+﻿namespace Clever2D.Engine
 {
+    /// <summary>
+    /// CMath contains additional math calculations.
+    /// </summary>
     public static class CMath
     {
-        public static ulong GCD(ulong a, ulong b)
+        /// <summary>
+        /// Greatest common divisor.
+        /// </summary>
+        public static ulong Gcd(ulong a, ulong b)
         {
             while (a != 0 && b != 0)
             {

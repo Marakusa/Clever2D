@@ -15,13 +15,13 @@ namespace Clever2D.Engine
         /// <summary>
         /// Path to the currently active log file.
         /// </summary>
-        private static string logFile = "";
+        private static string _logFile = "";
         /// <summary>
         /// Path to the currently active log files directory.
         /// </summary>
-        private static string logDirectory = "";
+        private static string _logDirectory = "";
 
-        private static List<string> logLines = new List<string>();
+        private static readonly List<string> LogLines = new();
 
         /// <summary>
         /// Logs a message into the log file and Console.
@@ -72,35 +72,35 @@ namespace Clever2D.Engine
         {
             try
             {
-                if (logFile == "")
+                if (_logFile == "")
                 {
-                    logDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/" + Application.CompanyName + "/" + Application.ProductName + "/";
-                    logFile = logDirectory + "PlayerLog.txt";
+                    _logDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/" + Application.CompanyName + "/" + Application.ProductName + "/";
+                    _logFile = _logDirectory + "PlayerLog.txt";
 
                     // Backup the of log file and remove old backup if exists
-                    if (File.Exists(logFile))
+                    if (File.Exists(_logFile))
                     {
-                        if (File.Exists(logFile + ".old")) File.Delete(logFile + ".old");
-                        File.Move(logFile, logFile + ".old");
+                        if (File.Exists(_logFile + ".old")) File.Delete(_logFile + ".old");
+                        File.Move(_logFile, _logFile + ".old");
                     }
 
                     // Log startup lines
-                    string[] logStart = new string[]
+                    string[] logStart = new[]
                     {
                     $"{Application.ProductName} {Application.ProductVersion} (c) {Application.CompanyName} {DateTime.Now.Year.ToString()} | Clever2D {Version.CurrentVersion} {Version.Copyright}",
-                    $"Log file location: {logFile}"
+                    $"Log file location: {_logFile}"
                     };
 
-                    if (!Directory.Exists(logDirectory))
+                    if (!Directory.Exists(_logDirectory))
                     {
-                        Directory.CreateDirectory(logDirectory);
+                        Directory.CreateDirectory(_logDirectory);
                     }
 
-                    File.WriteAllLines(logFile, logStart, Encoding.UTF8);
+                    File.WriteAllLines(_logFile, logStart, Encoding.UTF8);
 
                     foreach (string logMessage in logStart)
                     {
-                        logLines.Add(logMessage);
+                        LogLines.Add(logMessage);
                         Console.WriteLine(logMessage);
                     }
 
@@ -110,7 +110,7 @@ namespace Clever2D.Engine
                     {
                         Interval = 3f
                     };
-                    saveTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                    saveTimer.Elapsed += delegate
                     {
                         SaveLogs();
                     };
@@ -121,11 +121,11 @@ namespace Clever2D.Engine
                 Console.WriteLine(message);
                 Console.ForegroundColor = ConsoleColor.White;
 
-                logLines.Add(message);
+                LogLines.Add(message);
             }
             catch (Exception e)
             {
-                Player.LogError(e.Message, e);
+                LogError(e.Message, e);
             }
         }
         /// <summary>
@@ -141,9 +141,12 @@ namespace Clever2D.Engine
         {
             try
             {
-                File.WriteAllLines(logFile, logLines, Encoding.UTF8);
+                File.WriteAllLines(_logFile, LogLines, Encoding.UTF8);
             }
-            catch (Exception e) { }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

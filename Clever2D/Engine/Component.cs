@@ -34,7 +34,7 @@ namespace Clever2D.Engine
         internal bool isInitialized = false;
         internal abstract void Initialize();
 
-        private bool disposed = false;
+        private bool disposed;
 
         /// <summary>
         /// Disposes and destroys this Component.

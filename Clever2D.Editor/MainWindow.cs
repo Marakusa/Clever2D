@@ -1,10 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.IO;
-using Clever2D.Engine;
-using Gtk;
-using LibGit2Sharp;
-using LibGit2Sharp.Handlers;
+﻿using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 
 namespace Clever2D.Editor

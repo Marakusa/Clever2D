@@ -4,9 +4,7 @@ using Clever2D.Threading;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
-using Clever2D.UI;
 using SDL2;
 using System.Timers;
 
@@ -40,7 +38,7 @@ namespace Clever2D.Core
         /// <summary>
         /// Returns the applications quit status.
         /// </summary>
-        internal static bool Quit { get; set; } = false;
+        internal static bool Quit { get; set; }
         
         /// <summary>
         /// Returns the current window state.
@@ -83,7 +81,7 @@ namespace Clever2D.Core
         private static Size _sizeFullscreen = new Size(1920, 1080);
         private static Size _sizeWindowed = new Size(DefaultWidth, DefaultHeight);
 
-        private static bool cursorInWindow = false;
+        private static bool _cursorInWindow;
         
         private static readonly Scheduler CommandScheduler = new();
         private static readonly Scheduler EventScheduler = new();
@@ -117,7 +115,7 @@ namespace Clever2D.Core
         /// </summary>
         protected static void Initialize(ApplicationConfig config)
         {
-            Engine.Application.Config = config;
+            Application.Config = config;
 
             if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) < 0)
             {
@@ -207,17 +205,17 @@ namespace Clever2D.Core
                 };
                 tickTimer.Start();
 
-                ulong lastFPSTick = 0;
+                ulong lastFpsTick = 0;
                 ulong framesInFrame = 0;
 
                 while (!Quit)
                 {
                     CommandScheduler.Update();
 
-                    if (SDL.SDL_GetTicks() - lastFPSTick >= 1000)
+                    if (SDL.SDL_GetTicks() - lastFpsTick >= 1000)
                     {
                         Fps = framesInFrame.ToString();
-                        lastFPSTick = SDL.SDL_GetTicks();
+                        lastFpsTick = SDL.SDL_GetTicks();
                         framesInFrame = 0;
                     }
                     else
@@ -570,12 +568,12 @@ namespace Clever2D.Core
                     break;
 
                 case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
-                    cursorInWindow = true;
+                    _cursorInWindow = true;
                     ScheduleEvent(() => MouseEntered?.Invoke());
                     break;
 
                 case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
-                    cursorInWindow = false;
+                    _cursorInWindow = false;
                     ScheduleEvent(() => MouseLeft?.Invoke());
                     break;
             }

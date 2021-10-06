@@ -48,18 +48,18 @@ namespace Clever2D.Engine
         /// <summary>
         /// Gets the magnitude of this vector.
         /// </summary>
-        public float Magnitude
-        {
-            get
-            {
-                return (float)Math.Sqrt(Math.Pow(this.x, 2f) + Math.Pow(this.y, 2f) + Math.Pow(this.z, 2f));
-            }
-        }
+        protected float Magnitude => (float)Math.Sqrt(Math.Pow(this.x, 2f) + Math.Pow(this.y, 2f) + Math.Pow(this.z, 2f));
 
+        /// <summary>
+        /// Equals.
+        /// </summary>
         public static bool operator ==(Vector a, Vector b)
         {
             return a.x == b.x && a.y == b.y && a.z == b.z;
         }
+        /// <summary>
+        /// Doesn't match.
+        /// </summary>
         public static bool operator !=(Vector a, Vector b)
         {
             return a.x != b.x || a.y != b.y || a.z != b.z;
@@ -70,14 +70,14 @@ namespace Clever2D.Engine
         /// </summary>
         public Vector2 ToVector2()
         {
-            return new Vector2(this.x, this.y);
+            return new(this.x, this.y);
         }
         /// <summary>
         /// Converts any Vector value to Vector3.
         /// </summary>
         public Vector3 ToVector3()
         {
-            return new Vector3(this.x, this.y, this.z);
+            return new(this.x, this.y, this.z);
         }
     }
 
@@ -117,35 +117,35 @@ namespace Clever2D.Engine
         /// <summary>
         /// Shorthand for writing Vector2(1, 0).
         /// </summary>
-        public readonly static Vector2 right = new(1, 0);
+        public static Vector2 Right => new(1, 0);
         /// <summary>
         /// Shorthand for writing Vector2(-1, 0).
         /// </summary>
-        public readonly static Vector2 left = new(-1, 0);
+        public static Vector2 Left => new(-1, 0);
         /// <summary>
         /// Shorthand for writing Vector2(0, 1).
         /// </summary>
-        public readonly static Vector2 up = new(0, 1);
+        public static Vector2 Up => new(0, 1);
         /// <summary>
         /// Shorthand for writing Vector2(0, -1).
         /// </summary>
-        public readonly static Vector2 down = new(0, -1);
+        public static Vector2 Down => new(0, -1);
         /// <summary>
         /// Shorthand for writing Vector2(1, 1).
         /// </summary>
-        public readonly static Vector2 one = new(1, 1);
+        public static Vector2 One => new(1, 1);
         /// <summary>
         /// Shorthand for writing Vector2(0, 0).
         /// </summary>
-        public readonly static Vector2 zero = new(0, 0);
+        public static Vector2 Zero => new(0, 0);
         /// <summary>
         /// Shorthand for writing Vector2(float.PositiveInfinity, float.PositiveInfinity).
         /// </summary>
-        public readonly static Vector2 positiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity);
+        public static Vector2 PositiveInfinity => new(float.PositiveInfinity, float.PositiveInfinity);
         /// <summary>
         /// Shorthand for writing Vector2(float.NegativeInfinity, float.NegativeInfinity).
         /// </summary>
-        public readonly static Vector2 negativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity);
+        public static Vector2 NegativeInfinity => new(float.NegativeInfinity, float.NegativeInfinity);
 
         /// <summary>
         /// Set x and y components of an existing Vector2.
@@ -156,10 +156,16 @@ namespace Clever2D.Engine
             this.y = y;
         }
 
+        /// <summary>
+        /// Returns a formatted string for this vector.
+        /// </summary>
         public override string ToString()
         {
             return $"({this.x}, {this.y})";
         }
+        /// <summary>
+        /// Returns true if the given vector is exactly equal to this vector.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj != null &&
@@ -167,6 +173,9 @@ namespace Clever2D.Engine
                 this.y == (obj as Vector).y &&
                 this.z == (obj as Vector).z;
         }
+        /// <summary>
+        /// Gets the hash code for the Vector value.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(
@@ -185,78 +194,125 @@ namespace Clever2D.Engine
         {
             get
             {
-                float magnitude = this.Magnitude;
+                var magnitude = this.Magnitude;
                 return new Vector2(magnitude == 0 ? 0 : this.x / magnitude, magnitude == 0 ? 0 : this.y / magnitude);
             }
         }
 
+        /// <summary>
+        /// Add.
+        /// </summary>
         public static Vector2 operator +(Vector2 a, Vector2 b)
         {
-            return new Vector2(a.x + b.x, a.y + b.y);
+            return new(a.x + b.x, a.y + b.y);
         }
+        /// <summary>
+        /// Add.
+        /// </summary>
         public static Vector3 operator +(Vector2 a, Vector3 b)
         {
-            return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
+            return new(a.x + b.x, a.y + b.y, a.z + b.z);
         }
 
+        /// <summary>
+        /// Subtract.
+        /// </summary>
         public static Vector2 operator -(Vector2 a, Vector2 b)
         {
-            return new Vector2(a.x - b.x, a.y - b.y);
+            return new(a.x - b.x, a.y - b.y);
         }
+        /// <summary>
+        /// Subtract.
+        /// </summary>
         public static Vector3 operator -(Vector2 a, Vector3 b)
         {
-            return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
+            return new(a.x - b.x, a.y - b.y, a.z - b.z);
         }
+        /// <summary>
+        /// Subtract.
+        /// </summary>
         public static Vector3 operator -(Vector3 a, Vector2 b)
         {
-            return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
+            return new(a.x - b.x, a.y - b.y, a.z - b.z);
         }
 
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector2 operator *(Vector2 a, Vector2 b)
         {
-            return new Vector2(a.x * b.x, a.y * b.y);
+            return new(a.x * b.x, a.y * b.y);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector3 operator *(Vector2 a, Vector3 b)
         {
-            return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+            return new(a.x * b.x, a.y * b.y, a.z * b.z);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector3 operator *(Vector3 a, Vector2 b)
         {
-            return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+            return new(a.x * b.x, a.y * b.y, a.z * b.z);
         }
-
-        public static Vector2 operator /(Vector2 a, Vector2 b)
-        {
-            return new Vector2(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y);
-        }
-        public static Vector3 operator /(Vector2 a, Vector3 b)
-        {
-            return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
-        }
-        public static Vector3 operator /(Vector3 a, Vector2 b)
-        {
-            return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
-        }
-        public static Vector2 operator /(Vector2 a, float b)
-        {
-            return new Vector2(b == 0 ? 0 : a.x / b, b == 0 ? 0 : a.y / b);
-        }
-
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector2 operator *(Vector2 a, float b)
         {
-            return new Vector2(a.x * b, a.y * b);
+            return new(a.x * b, a.y * b);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector2 operator *(Vector2 a, int b)
         {
-            return new Vector2(a.x * b, a.y * b);
+            return new(a.x * b, a.y * b);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector2 operator *(Vector2 a, double b)
         {
-            return new Vector2(a.x * (float)b, a.y * (float)b);
+            return new(a.x * (float)b, a.y * (float)b);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector2 operator *(Vector2 a, decimal b)
         {
-            return new Vector2(a.x * (float)b, a.y * (float)b);
+            return new(a.x * (float)b, a.y * (float)b);
+        }
+
+        /// <summary>
+        /// Divide.
+        /// </summary>
+        public static Vector2 operator /(Vector2 a, Vector2 b)
+        {
+            return new(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y);
+        }
+        /// <summary>
+        /// Divide.
+        /// </summary>
+        public static Vector3 operator /(Vector2 a, Vector3 b)
+        {
+            return new(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
+        }
+        /// <summary>
+        /// Divide.
+        /// </summary>
+        public static Vector3 operator /(Vector3 a, Vector2 b)
+        {
+            return new(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
+        }
+        /// <summary>
+        /// Divide.
+        /// </summary>
+        public static Vector2 operator /(Vector2 a, float b)
+        {
+            return new(b == 0 ? 0 : a.x / b, b == 0 ? 0 : a.y / b);
         }
     }
 
@@ -305,43 +361,43 @@ namespace Clever2D.Engine
         /// <summary>
         /// Shorthand for writing Vector3(1, 0, 0).
         /// </summary>
-        public readonly static Vector3 right = new(1, 0, 0);
+        public static Vector3 Right => new(1, 0, 0);
         /// <summary>
         /// Shorthand for writing Vector3(-1, 0, 0).
         /// </summary>
-        public readonly static Vector3 left = new(-1, 0, 0);
+        public static Vector3 Left => new(-1, 0, 0);
         /// <summary>
         /// Shorthand for writing Vector3(0, 1, 0).
         /// </summary>
-        public readonly static Vector3 up = new(0, 1, 0);
+        public static Vector3 Up => new(0, 1, 0);
         /// <summary>
         /// Shorthand for writing Vector3(0, -1, 0).
         /// </summary>
-        public readonly static Vector3 down = new(0, -1, 0);
+        public static Vector3 Down => new(0, -1, 0);
         /// <summary>
         /// Shorthand for writing Vector3(0, 0, 1).
         /// </summary>
-        public readonly static Vector3 forward = new(0, 0, 1);
+        public static Vector3 Forward => new(0, 0, 1);
         /// <summary>
         /// Shorthand for writing Vector3(0, 0, -1).
         /// </summary>
-        public readonly static Vector3 back = new(0, 0, -1);
+        public static Vector3 Back => new(0, 0, -1);
         /// <summary>
         /// Shorthand for writing Vector3(1, 1, 1).
         /// </summary>
-        public readonly static Vector3 one = new(1, 1, 1);
+        public static Vector3 One => new(1, 1, 1);
         /// <summary>
         /// Shorthand for writing Vector3(0, 0, 0).
         /// </summary>
-        public readonly static Vector3 zero = new(0, 0, 0);
+        public static Vector3 Zero => new(0, 0, 0);
         /// <summary>
         /// Shorthand for writing Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity).
         /// </summary>
-        public readonly static Vector3 positiveInfinity = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+        public static Vector3 PositiveInfinity => new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
         /// <summary>
         /// Shorthand for writing Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity).
         /// </summary>
-        public readonly static Vector3 negativeInfinity = new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        public static Vector3 NegativeInfinity => new(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
 
         /// <summary>
         /// Set x and y components of an existing Vector3.
@@ -353,10 +409,16 @@ namespace Clever2D.Engine
             this.z = z;
         }
 
+        /// <summary>
+        /// Returns a formatted string for this vector.
+        /// </summary>
         public override string ToString()
         {
             return $"({this.x}, {this.y}, {this.z})";
         }
+        /// <summary>
+        /// Returns true if the given vector is exactly equal to this vector.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj != null &&
@@ -364,6 +426,9 @@ namespace Clever2D.Engine
                 this.y == (obj as Vector).y &&
                 this.z == (obj as Vector).z;
         }
+        /// <summary>
+        /// Gets the hash code for the Vector value.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(
@@ -387,61 +452,99 @@ namespace Clever2D.Engine
             }
         }
 
+        /// <summary>
+        /// Add.
+        /// </summary>
         public static Vector3 operator +(Vector3 a, Vector2 b)
         {
-            return new Vector3(a.x + b.x, a.y + b.y, a.z);
+            return new(a.x + b.x, a.y + b.y, a.z);
         }
+        /// <summary>
+        /// Add.
+        /// </summary>
         public static Vector3 operator +(Vector3 a, Vector3 b)
         {
-            return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
+            return new(a.x + b.x, a.y + b.y, a.z + b.z);
         }
 
+        /// <summary>
+        /// Subtract.
+        /// </summary>
         public static Vector3 operator -(Vector3 a, Vector2 b)
         {
-            return new Vector3(a.x - b.x, a.y - b.y, a.z);
+            return new(a.x - b.x, a.y - b.y, a.z);
         }
+        /// <summary>
+        /// Subtract.
+        /// </summary>
         public static Vector3 operator -(Vector3 a, Vector3 b)
         {
-            return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
+            return new(a.x - b.x, a.y - b.y, a.z - b.z);
         }
 
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector3 operator *(Vector3 a, Vector3 b)
         {
-            return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+            return new(a.x * b.x, a.y * b.y, a.z * b.z);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector3 operator *(Vector3 a, Vector2 b)
         {
-            return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+            return new(a.x * b.x, a.y * b.y, a.z * b.z);
         }
-
-        public static Vector3 operator /(Vector3 a, Vector3 b)
-        {
-            return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
-        }
-        public static Vector3 operator /(Vector3 a, Vector2 b)
-        {
-            return new Vector3(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
-        }
-        public static Vector3 operator /(Vector3 a, float b)
-        {
-            return new Vector3(b == 0 ? 0 : a.x / b, b == 0 ? 0 : a.y / b, b == 0 ? 0 : a.z / b);
-        }
-
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector3 operator *(Vector3 a, float b)
         {
-            return new Vector3(a.x * b, a.y * b, a.z * b);
+            return new(a.x * b, a.y * b, a.z * b);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector3 operator *(Vector3 a, int b)
         {
-            return new Vector3(a.x * b, a.y * b, a.z * b);
+            return new(a.x * b, a.y * b, a.z * b);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector3 operator *(Vector3 a, double b)
         {
-            return new Vector3(a.x * (float)b, a.y * (float)b, a.z * (float)b);
+            return new(a.x * (float)b, a.y * (float)b, a.z * (float)b);
         }
+        /// <summary>
+        /// Multiply.
+        /// </summary>
         public static Vector3 operator *(Vector3 a, decimal b)
         {
-            return new Vector3(a.x * (float)b, a.y * (float)b, a.z * (float)b);
+            return new(a.x * (float)b, a.y * (float)b, a.z * (float)b);
+        }
+
+        /// <summary>
+        /// Divide.
+        /// </summary>
+        public static Vector3 operator /(Vector3 a, Vector3 b)
+        {
+            return new(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
+        }
+        /// <summary>
+        /// Divide.
+        /// </summary>
+        public static Vector3 operator /(Vector3 a, Vector2 b)
+        {
+            return new(b.x == 0 ? 0 : a.x / b.x, b.y == 0 ? 0 : a.y / b.y, b.z == 0 ? 0 : a.z / b.z);
+        }
+        /// <summary>
+        /// Divide.
+        /// </summary>
+        public static Vector3 operator /(Vector3 a, float b)
+        {
+            return new(b == 0 ? 0 : a.x / b, b == 0 ? 0 : a.y / b, b == 0 ? 0 : a.z / b);
         }
     }
 }

@@ -9,21 +9,6 @@ namespace Clever2D.Engine
     public class SceneManager
     {
         /// <summary>
-        /// Is the SceneManager initialized.
-        /// </summary>
-        private static bool isInitialized = false;
-        /// <summary>
-        /// Returns is the SceneManager initialized.
-        /// </summary>
-        public static bool IsInitialized
-        {
-            get
-            {
-                return isInitialized;
-            }
-        }
-
-        /// <summary>
         /// Start the game and load the first Scene.
         /// </summary>
         public static void Initialize()
@@ -86,18 +71,12 @@ namespace Clever2D.Engine
         }
 
         /// <summary>
-        /// The loaded Scene.
-        /// </summary>
-        private static Scene loadedScene;
-        /// <summary>
         /// Returns the loaded Scene.
         /// </summary>
         public static Scene LoadedScene
         {
-            get
-            {
-                return loadedScene;
-            }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -129,25 +108,23 @@ namespace Clever2D.Engine
         {
             Player.Log("Loading a Scene named \"" + scene.Name + "\"...");
 
-            OnLoad?.Invoke(null, new SceneEventArgs(loadedScene));
+            OnLoad?.Invoke(null, new SceneEventArgs(LoadedScene));
 
             try
             {
-                if (loadedScene != null)
+                if (LoadedScene != null)
                 {
-                    loadedScene.SpawnedGameObjects.Clear();
+                    LoadedScene.SpawnedGameObjects.Clear();
                 }
 
-                loadedScene = scene;
+                LoadedScene = scene;
 
-                foreach (GameObject obj in loadedScene.SceneGameObjects)
+                foreach (GameObject obj in LoadedScene.SceneGameObjects)
                 {
-                    loadedScene.SpawnGameObject(obj);
+                    LoadedScene.SpawnGameObject(obj);
                 }
 
-                isInitialized = true;
-
-                OnLoaded?.Invoke(null, new SceneEventArgs(loadedScene));
+                OnLoaded?.Invoke(null, new(LoadedScene));
 
                 return true;
             }

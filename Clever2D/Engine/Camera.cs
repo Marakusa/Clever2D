@@ -5,26 +5,34 @@ using SDL2;
 
 namespace Clever2D.Engine
 {
+	/// <summary>
+	/// Camera renders the loaded Scene.
+	/// </summary>
 	public class Camera : CleverScript
 	{
-		private static Camera mainCamera;
+		/// <summary>
+		/// Returns the global main camera.
+		/// </summary>
 		public static Camera MainCamera
 		{
-			get
-			{
-				return mainCamera;
-			}
+			get;
+			private set;
 		}
 
-        public Camera()
+		/// <summary>
+		/// Camera renders the loaded Scene.
+		/// </summary>
+		public Camera()
         {
-            mainCamera = this;
+	        if (Camera.MainCamera == null) MainCamera = this;
         }
 
-		public override void Update()
+		/// <summary>
+		/// Update is called on every frame.
+		/// </summary>
+		protected override void Update()
 		{
-			if (Camera.mainCamera == null)
-				mainCamera = this;
+			if (Camera.MainCamera == null) MainCamera = this;
 			
 			IntPtr renderer = Clever.Renderer;
 			

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Timers;
-using Clever2D.Core;
 
 namespace Clever2D.Engine
 {
@@ -57,10 +54,11 @@ namespace Clever2D.Engine
             }
         }
 
+        private bool isInitialized;
         /// <summary>
-        /// Is the Scene initialized.
+        /// Returns if the Scene is initialized.
         /// </summary>
-        public bool isInitialized = false;
+        public bool IsInitialized => isInitialized;
 
         /// <summary>
         /// Spawn a GameObejct to this Scene if loaded.
@@ -74,40 +72,21 @@ namespace Clever2D.Engine
                 {
                     gameObject.transform = gameObject.GetComponent<Transform>();
 
-                    if (nextId <= 2147483647 && nextId >= -2147483648)
+                    if (availableIds.Count > 0)
                     {
-                        if (gameObject != null)
-                        {
-                            if (availableIds.Count > 0)
-                            {
-                                int id = availableIds[0];
+                        int id = availableIds[0];
 
-                                availableIds.Remove(id);
+                        availableIds.Remove(id);
 
-                                gameObject.instanceId = id;
-                                AddGameObject(id, gameObject);
-                            }
-                            else
-                            {
-                                gameObject.instanceId = nextId;
-                                AddGameObject(nextId, gameObject);
-
-                                nextId++;
-                            }
-                        }
-                        else
-                        {
-                            Player.LogError("GameObject could not be instantiated. Given GameObject was null.", new NullReferenceException());
-                        }
+                        gameObject.instanceId = id;
+                        AddGameObject(id, gameObject);
                     }
                     else
                     {
-                        if (nextId > 2147483647)
-                            Player.LogError("GameObject could not be instantiated. The next instance ID available was larger than the 32-bit limit (2147483647).");
-                        else if (nextId < -2147483648)
-                            Player.LogError("GameObject could not be instantiated. The next instance ID available was smaller than the 32-bit limit (-2147483648).");
-                        else
-                            Player.LogError("GameObject could not be instantiated.");
+                        gameObject.instanceId = nextId;
+                        AddGameObject(nextId, gameObject);
+
+                        nextId++;
                     }
                 }
                 catch (Exception exception)
@@ -121,7 +100,7 @@ namespace Clever2D.Engine
             }
         }
         /// <summary>
-        /// Destroy a GameObejct in this Scene if loaded.
+        /// Destroy a GameObject in this Scene if loaded.
         /// </summary>
         /// <param name="gameObject">The GameObject to destroy.</param>
         internal void DestroyGameObject(GameObject gameObject)
