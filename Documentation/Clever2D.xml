@@ -66,6 +66,11 @@
             Invoked when the application has started to destroy.
             </summary>
         </member>
+        <member name="E:Clever2D.Core.Clever.Destroyed">
+            <summary>
+            Invoked when the application has destroyed.
+            </summary>
+        </member>
         <member name="T:Clever2D.Core.Clever.WindowMovedHandler">
             <summary>
             Delegate handler for window position change.

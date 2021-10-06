@@ -267,16 +267,24 @@ namespace Clever2D.Core
                     
                     Update?.Invoke();
                 }
-
-                Destroying?.Invoke();
-                
-                SDL.SDL_DestroyRenderer(renderer);
-                SDL.SDL_DestroyWindow(WindowHandle);
-
-                SDL_ttf.TTF_Quit();
-                SDL_image.IMG_Quit();
-                SDL.SDL_Quit();
             }
+
+            Player.Log("Closing application...");
+
+            Destroying?.Invoke();
+
+            Player.Log("Destroying SDL objects...");
+            SDL.SDL_DestroyRenderer(renderer);
+            SDL.SDL_DestroyWindow(WindowHandle);
+
+            Player.Log("Quit SDL TTF...");
+            SDL_ttf.TTF_Quit();
+            Player.Log("Quit SDL Image...");
+            SDL_image.IMG_Quit();
+            Player.Log("Quit SDL...");
+            SDL.SDL_Quit();
+
+            Destroyed?.Invoke();
         }
         /// <summary>
         /// Starts the engine and main loop.
@@ -353,6 +361,11 @@ namespace Clever2D.Core
         /// Invoked when the application has started to destroy.
         /// </summary>
         public static event Action Destroying;
+
+        /// <summary>
+        /// Invoked when the application has destroyed.
+        /// </summary>
+        public static event Action Destroyed;
 
         /// <summary>
         /// Delegate handler for window position change.
