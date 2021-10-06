@@ -44,7 +44,7 @@ namespace Clever2D.Engine
         /// </summary>
         public Sprite(string path, Vector2 pivot)
         {
-            path = Clever.executableDirectory + "/assets/" + path;
+            path = Application.ExecutableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {
@@ -67,7 +67,7 @@ namespace Clever2D.Engine
         /// </summary>
         public Sprite(string path, Vector2 pivot, Vector2Int size)
         {
-            path = Clever.executableDirectory + "/assets/" + path;
+            path = Application.ExecutableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {
@@ -94,7 +94,7 @@ namespace Clever2D.Engine
         /// <param name="offset">Offset of the rendering area of the texture.</param>
         public Sprite(string path, Vector2 pivot, Vector2Int size, Vector2 offset)
         {
-            path = Clever.executableDirectory + "/assets/" + path;
+            path = Application.ExecutableDirectory + "/assets/" + path;
 
             if (File.Exists(path))
             {

@@ -36,7 +36,7 @@ namespace Clever2D.Engine
 		/// <param name="columns">Split Sprite columns count.</param>
 		public SpriteArray(string spritePath, Vector2 pivot, int rows, int columns)
 		{
-			string path = Clever.executableDirectory + "/assets/" + spritePath;
+			string path = Application.ExecutableDirectory + "/assets/" + spritePath;
 			
 			if (File.Exists(path))
 			{

@@ -7,7 +7,7 @@ namespace Example
 {
     public class PlayerController : CleverScript
     {
-        public AnimatorController animator;
+        private AnimatorController animator;
         public float speed = 1f;
 
         public override void Start()
@@ -19,21 +19,19 @@ namespace Example
         {
             Vector2 move = Vector2.zero;
 
-            int d = 0;
-
-            if (Input.GetKey(SDL.SDL_Keycode.SDLK_w))
+            if (Input.GetButton("up"))
             {
                 move += Vector2.up;
             }
-            if (Input.GetKey(SDL.SDL_Keycode.SDLK_d))
+            if (Input.GetButton("right"))
             {
                 move += Vector2.right;
             }
-            if (Input.GetKey(SDL.SDL_Keycode.SDLK_s))
+            if (Input.GetButton("down"))
             {
                 move += Vector2.down;
             }
-            if (Input.GetKey(SDL.SDL_Keycode.SDLK_a))
+            if (Input.GetButton("left"))
             {
                 move += Vector2.left;
             }
@@ -42,7 +40,9 @@ namespace Example
             Vector2 movedPosition = transform.Position + move.Normalized * speed * 50f * Time.DeltaTime;
             
             Vector2 direction = (movedPosition - startPosition).Normalized;
-            Vector2Int animDirection = new Vector2Int((int)Math.Round(direction.x), (int)Math.Round(direction.y));
+            Vector2Int animDirection = new((int)Math.Round(direction.x), (int)Math.Round(direction.y));
+
+            int d;
 
             if (animDirection.y != 0)
                 d = animDirection.y > 0 ? 1 : 3;

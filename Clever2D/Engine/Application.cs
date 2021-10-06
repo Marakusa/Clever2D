@@ -8,6 +8,14 @@ namespace Clever2D.Engine
     public static class Application
     {
         /// <summary>
+        /// Executable directory (path to .exe without the executable file).
+        /// </summary>
+        public static string ExecutableDirectory
+        {
+            get;
+        } = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+        /// <summary>
         /// Applications configuration.
         /// </summary>
         private static ApplicationConfig config = new();

@@ -236,6 +236,51 @@
             <param name="path">The path string to standardise.</param>
             <returns>The standardised path string.</returns>
         </member>
+        <member name="T:Clever2D.Engine.AnimationCondition">
+            <summary>
+            Conditions for animation transitions.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationCondition.name">
+            <summary>
+            Condition name.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationCondition.value">
+            <summary>
+            Condition name (unset type).
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.AnimationTransition">
+            <summary>
+            Animation transition from animation to animation.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationTransition.conditions">
+            <summary>
+            Transition conditions.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationTransition.to">
+            <summary>
+            ID of the animation to transition.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.AnimationTransitionCondition">
+            <summary>
+            Animation transitions set conditions.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationTransitionCondition.name">
+            <summary>
+            Condition name.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationTransitionCondition.value">
+            <summary>
+            Conditions set value.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.AnimatorController.Dispose">
             <summary>
             Disposes and destroys this Component.
@@ -735,6 +780,7 @@
             2D array of Sprites.
             </summary>
             <param name="spritePath">Target Sprite asset path.</param>
+            <param name="pivot">Split sprites pivot point.</param>
             <param name="rows">Split Sprite rows count.</param>
             <param name="columns">Split Sprite columns count.</param>
         </member>
@@ -1078,6 +1124,16 @@
             Gets the hash code for the Vector value.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.VectorInt.op_Equality(Clever2D.Engine.VectorInt,Clever2D.Engine.VectorInt)">
+            <summary>
+            Compare Vectors.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.VectorInt.op_Inequality(Clever2D.Engine.VectorInt,Clever2D.Engine.VectorInt)">
+            <summary>
+            Compare Vectors (doesn't match).
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.VectorInt.ToVector2Int">
             <summary>
             Converts any Vector value to Vector2Int.
@@ -1141,6 +1197,21 @@
         <member name="M:Clever2D.Engine.Vector2Int.Set(System.Int32,System.Int32)">
             <summary>
             Set x and y components of an existing Vector2.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.ToString">
+            <summary>
+            Convert Vector to string.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.Equals(System.Object)">
+            <summary>
+            Compare Vectors.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.GetHashCode">
+            <summary>
+            Returns the hash code of this Vector.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Vector3Int">
@@ -1223,6 +1294,12 @@
             Returns a bool value if the given key is pressed at the moment.
             </summary>
             <param name="key">Key to be checked for input.</param>
+        </member>
+        <member name="M:Clever2D.Input.Input.GetButton(System.String)">
+            <summary>
+            Returns a bool value if the given key is pressed at the moment.
+            </summary>
+            <param name="button">Button name to be checked for input.</param>
         </member>
         <member name="T:Clever2D.Input.InputManager">
             <summary>
@@ -1474,9 +1551,69 @@
             The current time, represented solely by the accumulated <see cref="T:System.Diagnostics.Stopwatch"/> time.
             </summary>
         </member>
+        <member name="T:Clever2D.UI.Text">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.text">
+            <summary>
+            Text element text.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.fontStyle">
+            <summary>
+            Text element text style.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.size">
+            <summary>
+            Text element text font size.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.color">
+            <summary>
+            Text element text color.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.sans">
+            <summary>
+            Text element text font.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.worldSpace">
+            <summary>
+            Is element placed on the Screen or in the Scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor(System.Int32)">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor(System.String,System.Int32)">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor(System.String,System.Int32,SDL2.SDL.SDL_Color)">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor(SDL2.SDL.SDL_Color)">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
         <member name="M:Clever2D.UI.Text.Dispose">
             <summary>
             Disposes and destroys this Component.
+            </summary>
+        </member>
+        <member name="T:Clever2D.UI.FontStyle">
+            <summary>
+            Font styles for UI elements.
             </summary>
         </member>
         <member name="F:Clever2D.UI.UIElement.screenAlign">

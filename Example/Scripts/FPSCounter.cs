@@ -15,7 +15,7 @@ namespace Example
 
 		public override void FixedUpdate()
 		{
-			text.text = Clever.FPS + " fps";
+			text.text = Clever.Fps + " fps";
 		}
 	}
 }

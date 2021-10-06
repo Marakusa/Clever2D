@@ -15,7 +15,7 @@ namespace Clever2D.Engine
 
 		public AnimatorController(string path)
 		{
-			animatorPath = Clever.executableDirectory + "/assets/" + path;
+			animatorPath = Application.ExecutableDirectory + "/assets/" + path;
 		}
 
 		internal override void Initialize()

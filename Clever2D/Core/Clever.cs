@@ -17,83 +17,91 @@ namespace Clever2D.Core
     /// </summary>
     public class Clever
     {
-        /// <summary>
-        /// Executable directory (path to .exe without the executable file).
-        /// </summary>
-        public static readonly string executableDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        private static IntPtr WindowHandle { get; set; } = IntPtr.Zero;
         
-        internal static IntPtr WindowHandle { get; private set; } = IntPtr.Zero;
-        private static IntPtr renderer = IntPtr.Zero;
+        /// <summary>
+        /// Returns the current screen renderer.
+        /// </summary>
         internal static IntPtr Renderer
         {
-            get { return renderer; }
-            private set { renderer = value; }
-        }
-        
-        private static bool focused;
-        private static bool Focused
-        {
-            get { return focused; }
-            set { focused = value; }
-        }
-        internal static bool Quit { get; set; } = false;
-        private static WindowState CurrentState { get; set; } = WindowState.Windowed;
-        
-        private static Thread inputThread = null;
+            get;
+            private set;
+        } = IntPtr.Zero;
 
-        private const int defaultWidth = 1366;
-        private const int defaultHeight = 768;
+        /// <summary>
+        /// Returns the window focus status.
+        /// </summary>
+        public static bool Focused
+        {
+            get;
+            set;
+        }
         
-        private static Size size = new Size(defaultWidth, defaultHeight);
+        /// <summary>
+        /// Returns the applications quit status.
+        /// </summary>
+        internal static bool Quit { get; set; } = false;
+        
+        /// <summary>
+        /// Returns the current window state.
+        /// </summary>
+        public static WindowState CurrentState { get; set; } = WindowState.Windowed;
+        
+        private const int DefaultWidth = 1366;
+        private const int DefaultHeight = 768;
+        
+        private static Size _size = new Size(DefaultWidth, DefaultHeight);
         /// <summary>
         /// Returns or sets the window's internal size, before scaling.
         /// </summary>
         public static Size Size
         {
-            get => size;
+            get => _size;
             private set
             {
-                if (value.Equals(size)) return;
+                if (value.Equals(_size)) return;
 
-                size = value;
-                ScheduleEvent(() => Resized?.Invoke(size));
+                _size = value;
+                ScheduleEvent(() => Resized?.Invoke(_size));
             }
         }
         
-        private static Point position;
+        private static Point _position;
         /// <summary>
         /// Returns or sets the window's position in screen space.
         /// </summary>
         public static Point Position
         {
-            get => position;
+            get => _position;
             set
             {
-                position = value;
+                _position = value;
                 ScheduleCommand(() => SDL.SDL_SetWindowPosition(WindowHandle, value.X, value.Y));
             }
         }
         
-        private static readonly Size sizeFullscreen = new Size(1920, 1080);
-        private static readonly Size sizeWindowed = new Size(defaultWidth, defaultHeight);
-        
-        private static readonly Scheduler commandScheduler = new();
-        private static readonly Scheduler eventScheduler = new();
+        private static Size _sizeFullscreen = new Size(1920, 1080);
+        private static Size _sizeWindowed = new Size(DefaultWidth, DefaultHeight);
 
-        private static List<IntPtr> fonts = new List<IntPtr>();
+        private static bool cursorInWindow = false;
+        
+        private static readonly Scheduler CommandScheduler = new();
+        private static readonly Scheduler EventScheduler = new();
+
+        /// <summary>
+        /// Returns the loaded fonts.
+        /// </summary>
         public static IntPtr[] Fonts
         {
-            get
-            {
-                return fonts.ToArray();
-            }
+            get;
+            private set;
         }
-        
+
         /// <summary>
         /// Registers a new scheduled command.
         /// </summary>
         /// <param name="action">Scheduled action.</param>
-        protected static void ScheduleCommand(Action action) => commandScheduler.Add(action, false);
+        private static void ScheduleCommand(Action action) => CommandScheduler.Add(action, false);
 
         /// <summary>
         /// Delegate for Clever finishing initialization.
@@ -107,7 +115,7 @@ namespace Clever2D.Core
         /// <summary>
         /// Initializes the engine and starts the game. Call Start() method after this to start the engine.
         /// </summary>
-        public static void Initialize(ApplicationConfig config)
+        protected static void Initialize(ApplicationConfig config)
         {
             Engine.Application.Config = config;
 
@@ -121,8 +129,11 @@ namespace Clever2D.Core
                 Player.LogError("There was an error initializing SDL_ttf. " + SDL.SDL_GetError());
             }
 
-            fonts.Add(SDL_ttf.TTF_OpenFont(Clever.executableDirectory + "/res/fonts/sans.ttf", 24));
+            List<IntPtr> fonts = new();
+            fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/sans.ttf", 24));
 
+            Fonts = fonts.ToArray();
+            
             WindowHandle = SDL.SDL_CreateWindow(
                 $"{Application.CompanyName} - {Application.ProductName} {Application.ProductVersion}",
                 SDL.SDL_WINDOWPOS_CENTERED,
@@ -132,7 +143,7 @@ namespace Clever2D.Core
                 SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE
             );
             
-            renderer = SDL.SDL_CreateRenderer(WindowHandle, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            Renderer = SDL.SDL_CreateRenderer(WindowHandle, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
             
             // TODO: Fix fullscreen
             /*SetScreenState += (WindowState state) =>
@@ -174,12 +185,12 @@ namespace Clever2D.Core
             { 
                 SDL.SDL_GetWindowPosition(WindowHandle, out int x, out int y);
                 var newPosition = new Point(x, y);
-                position = newPosition;
+                Position = newPosition;
                 ScheduleEvent(() => Moved?.Invoke(newPosition));
 
                 SDL.SDL_GetWindowSize(WindowHandle, out int w, out int h);
                 var newSize = new Size(w, h);
-                size = newSize;
+                Size = newSize;
                 ScheduleEvent(() => Resized?.Invoke(newSize));
                 
                 SDL.SDL_Event e;
@@ -201,11 +212,11 @@ namespace Clever2D.Core
 
                 while (!Quit)
                 {
-                    commandScheduler.Update();
+                    CommandScheduler.Update();
 
                     if (SDL.SDL_GetTicks() - lastFPSTick >= 1000)
                     {
-                        FPS = framesInFrame.ToString();
+                        Fps = framesInFrame.ToString();
                         lastFPSTick = SDL.SDL_GetTicks();
                         framesInFrame = 0;
                     }
@@ -262,7 +273,7 @@ namespace Clever2D.Core
                         }
                     }
                     
-                    eventScheduler.Update();
+                    EventScheduler.Update();
                     
                     Update?.Invoke();
                 }
@@ -273,7 +284,7 @@ namespace Clever2D.Core
             Destroying?.Invoke();
 
             Player.Log("Destroying SDL objects...");
-            SDL.SDL_DestroyRenderer(renderer);
+            SDL.SDL_DestroyRenderer(Renderer);
             SDL.SDL_DestroyWindow(WindowHandle);
 
             Player.Log("Quit SDL TTF...");
@@ -289,12 +300,12 @@ namespace Clever2D.Core
         /// Starts the engine and main loop.
         /// </summary>
         /// <param name="scenes">Scenes to load.</param>
-        public static void Start(Scene[] scenes)
+        protected static void Start(Scene[] scenes)
         {
             SceneManager.AddScenes(scenes);
             Player.Log("Scenes loaded.");
 
-            inputThread = new(() =>
+            Thread inputThread = new(() =>
             {
                 InputManager inputManager = new();
                 inputManager.Initialize();
@@ -307,20 +318,16 @@ namespace Clever2D.Core
             {
                 if (SceneManager.IsInitialized)
                 {
-                    Player.Log("\"" + SceneManager.LoadedScene.Name + "\" loaded.");
+                    Player.Log($"\"{SceneManager.LoadedScene.Name}\" loaded.");
                 }
                 else
                 {
                     Player.LogError("Scene loading failed.");
                     Quit = true;
-                    return;
                 }
             };
 
             SceneManager.Initialize();
-
-            //mainLoopThread = new(MainLoop);
-            //mainLoopThread.Start();
         }
 
         private static SDL.SDL_DisplayMode GetClosestDisplayMode(Size size, int refreshRate, int displayIndex)
@@ -352,7 +359,7 @@ namespace Clever2D.Core
         public static event Action Update;
 
         /// <summary>
-        /// Frame-rate indepedent window event loop.
+        /// Frame-rate independent window event loop.
         /// </summary>
         public static event Action FixedUpdate;
 
@@ -365,6 +372,16 @@ namespace Clever2D.Core
         /// Invoked when the application has destroyed.
         /// </summary>
         public static event Action Destroyed;
+
+        /// <summary>
+        /// Invoked when mouse has entered the window.
+        /// </summary>
+        public static event Action MouseEntered;
+        
+        /// <summary>
+        /// Invoked when mouse has left the window.
+        /// </summary>
+        public static event Action MouseLeft;
 
         /// <summary>
         /// Delegate handler for window position change.
@@ -523,7 +540,7 @@ namespace Clever2D.Core
 
                     if (!newPosition.Equals(Position))
                     {
-                        position = newPosition;
+                        Position = newPosition;
                         ScheduleEvent(() => Moved?.Invoke(newPosition));
                     }
 
@@ -536,7 +553,7 @@ namespace Clever2D.Core
 
                     if (!newSize.Equals(Size))
                     {
-                        size = newSize;
+                        Size = newSize;
                         ScheduleEvent(() => Resized?.Invoke(newSize));
                     }
 
@@ -552,81 +569,32 @@ namespace Clever2D.Core
                     ScheduleEvent(() => Focused = false);
                     break;
 
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_CLOSE:
-                    break;
-            }
-            // TODO: HandleMouseButtonEvent
-            /*updateWindowSpecifics();
-
-            switch (evtWindow.windowEvent)
-            {
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MOVED:
-                    // explicitly requery as there are occasions where what SDL has provided us with is not up-to-date.
-                    SDL.SDL_GetWindowPosition(SDLWindowHandle, out int x, out int y);
-                    var newPosition = new Point(x, y);
-
-                    if (!newPosition.Equals(Position))
-                    {
-                        position = newPosition;
-                        ScheduleEvent(() => Moved?.Invoke(newPosition));
-
-                        if (WindowMode.Value == Configuration.WindowMode.Windowed)
-                            storeWindowPositionToConfig();
-                    }
-
-                    break;
-
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_SIZE_CHANGED:
-                    updateWindowSize();
-                    break;
-
                 case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
-                    cursorInWindow.Value = true;
+                    cursorInWindow = true;
                     ScheduleEvent(() => MouseEntered?.Invoke());
                     break;
 
                 case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
-                    cursorInWindow.Value = false;
+                    cursorInWindow = false;
                     ScheduleEvent(() => MouseLeft?.Invoke());
                     break;
-
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESTORED:
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
-                    ScheduleEvent(() => Focused = true);
-                    break;
-
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MINIMIZED:
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
-                    ScheduleEvent(() => Focused = false);
-                    break;
-
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_CLOSE:
-                    break;
-            }*/
+            }
         }
 
         /// <summary>
         /// Adds an Action to the Scheduler expected to handle event callbacks.
         /// </summary>
         /// <param name="action">The Action to execute.</param>
-        private static void ScheduleEvent(Action action) => eventScheduler.Add(action, false);
+        private static void ScheduleEvent(Action action) => EventScheduler.Add(action, false);
 
-        private static string fps = "0";
         /// <summary>
-        /// Returns the main threads fps
+        /// Returns the renderer fps.
         /// </summary>
-        /// <param name="format">Format the fps output.</param>
-        public static string FPS
+        public static string Fps
         {
-            get
-            {
-                return fps;
-            }
-            private set
-            {
-                fps = value;
-            }
-        }
+            get;
+            private set;
+        } = "0";
     }
 
     /// <summary>
