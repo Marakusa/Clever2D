@@ -56,9 +56,19 @@
             Invoked once every window event loop.
             </summary>
         </member>
+        <member name="E:Clever2D.Core.Clever.FixedUpdate">
+            <summary>
+            Frame-rate indepedent window event loop.
+            </summary>
+        </member>
         <member name="E:Clever2D.Core.Clever.Destroying">
             <summary>
             Invoked when the application has started to destroy.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.Destroyed">
+            <summary>
+            Invoked when the application has destroyed.
             </summary>
         </member>
         <member name="T:Clever2D.Core.Clever.WindowMovedHandler">
@@ -226,6 +236,11 @@
             <param name="path">The path string to standardise.</param>
             <returns>The standardised path string.</returns>
         </member>
+        <member name="M:Clever2D.Engine.AnimatorController.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.Application">
             <summary>
             Access to application data.
@@ -281,14 +296,14 @@
             Returns application product version.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.Camera.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.CleverScript">
             <summary>
             CleverScript is the base class from which every Clever script delivers.
-            </summary>
-        </member>
-        <member name="F:Clever2D.Engine.CleverScript.timer">
-            <summary>
-            A timer for Update functions.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.CleverScript.Start">
@@ -304,6 +319,11 @@
         <member name="M:Clever2D.Engine.CleverScript.FixedUpdate">
             <summary>
             Frame-rate independ Update method.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.CleverScript.Dispose">
+            <summary>
+            Disposes and destroys this Component.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Component">
@@ -324,6 +344,16 @@
         <member name="M:Clever2D.Engine.Component.Destroy(Clever2D.Engine.Component)">
             <summary>
             Removes a GameObject, component or asset.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Component.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Component.Dispose(System.Boolean)">
+            <summary>
+            Disposes this Component.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.GameObject">
@@ -400,6 +430,16 @@
         <member name="M:Clever2D.Engine.GameObject.Destroy(Clever2D.Engine.GameObject)">
             <summary>
             Removes a GameObject, component or asset.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.Dispose">
+            <summary>
+            Disposes and destroys this GameObject.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.Dispose(System.Boolean)">
+            <summary>
+            Disposes this GameObject and its components and children.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Player">
@@ -487,6 +527,11 @@
         <member name="P:Clever2D.Engine.Scene.SpawnedGameObjects">
             <summary>
             Returns the list of all spawned GameObjects.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Scene.isInitialized">
+            <summary>
+            Is the Scene initialized.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.Scene.SpawnGameObject(Clever2D.Engine.GameObject)">
@@ -723,6 +768,11 @@
             Component that manages the Sprite wanted to be rendered in a GameObject.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.SpriteRenderer.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.Time">
             <summary>
             The base class that manages the time of this Clever game.
@@ -776,6 +826,11 @@
         <member name="M:Clever2D.Engine.Transform.#ctor">
             <summary>
             Component that handles the GameObjects position, rotation and scale in the Scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Transform.Dispose">
+            <summary>
+            Disposes and destroys this Component.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Vector">
@@ -1417,6 +1472,11 @@
         <member name="P:Clever2D.Timing.StopwatchClock.stopwatchCurrentTime">
             <summary>
             The current time, represented solely by the accumulated <see cref="T:System.Diagnostics.Stopwatch"/> time.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.Dispose">
+            <summary>
+            Disposes and destroys this Component.
             </summary>
         </member>
         <member name="F:Clever2D.UI.UIElement.screenAlign">

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using Clever2D.UI;
 using SDL2;
+using System.Timers;
 
 namespace Clever2D.Core
 {
@@ -38,7 +39,6 @@ namespace Clever2D.Core
         internal static bool Quit { get; set; } = false;
         private static WindowState CurrentState { get; set; } = WindowState.Windowed;
         
-        private static Thread mainLoopThread = null;
         private static Thread inputThread = null;
 
         private const int defaultWidth = 1366;
@@ -186,6 +186,16 @@ namespace Clever2D.Core
 
                 OnInitialized?.Invoke();
 
+                System.Timers.Timer tickTimer = new()
+                {
+                    Interval = 1f / 30f
+                };
+                tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                {
+                    FixedUpdate?.Invoke();
+                };
+                tickTimer.Start();
+
                 ulong lastFPSTick = 0;
                 ulong framesInFrame = 0;
 
@@ -256,16 +266,24 @@ namespace Clever2D.Core
                     
                     Update?.Invoke();
                 }
-
-                Destroying?.Invoke();
-                
-                SDL.SDL_DestroyRenderer(renderer);
-                SDL.SDL_DestroyWindow(WindowHandle);
-
-                SDL_ttf.TTF_Quit();
-                SDL_image.IMG_Quit();
-                SDL.SDL_Quit();
             }
+
+            Player.Log("Closing application...");
+
+            Destroying?.Invoke();
+
+            Player.Log("Destroying SDL objects...");
+            SDL.SDL_DestroyRenderer(renderer);
+            SDL.SDL_DestroyWindow(WindowHandle);
+
+            Player.Log("Quit SDL TTF...");
+            SDL_ttf.TTF_Quit();
+            Player.Log("Quit SDL Image...");
+            SDL_image.IMG_Quit();
+            Player.Log("Quit SDL...");
+            SDL.SDL_Quit();
+
+            Destroyed?.Invoke();
         }
         /// <summary>
         /// Starts the engine and main loop.
@@ -334,9 +352,19 @@ namespace Clever2D.Core
         public static event Action Update;
 
         /// <summary>
+        /// Frame-rate indepedent window event loop.
+        /// </summary>
+        public static event Action FixedUpdate;
+
+        /// <summary>
         /// Invoked when the application has started to destroy.
         /// </summary>
         public static event Action Destroying;
+
+        /// <summary>
+        /// Invoked when the application has destroyed.
+        /// </summary>
+        public static event Action Destroyed;
 
         /// <summary>
         /// Delegate handler for window position change.

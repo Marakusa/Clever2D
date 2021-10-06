@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Clever2D.Core;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Timers;
 
 namespace Clever2D.Engine
 {
@@ -17,6 +20,8 @@ namespace Clever2D.Engine
         /// Path to the currently active log files directory.
         /// </summary>
         private static string logDirectory = "";
+
+        private static List<string> logLines = new List<string>();
 
         /// <summary>
         /// Logs a message into the log file and Console.
@@ -95,15 +100,28 @@ namespace Clever2D.Engine
 
                     foreach (string logMessage in logStart)
                     {
+                        logLines.Add(logMessage);
                         Console.WriteLine(logMessage);
                     }
+
+                    Clever.Destroyed += SaveLogs;
+
+                    Timer saveTimer = new()
+                    {
+                        Interval = 3f
+                    };
+                    saveTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                    {
+                        SaveLogs();
+                    };
+                    saveTimer.Start();
                 }
 
                 Console.ForegroundColor = color;
                 Console.WriteLine(message);
                 Console.ForegroundColor = ConsoleColor.White;
 
-                File.AppendAllText(logFile, "\n" + message, Encoding.UTF8);
+                logLines.Add(message);
             }
             catch (Exception e)
             {
@@ -117,6 +135,15 @@ namespace Clever2D.Engine
         {
             DateTime dateTime = DateTime.Now;
             return $"{dateTime:MMM d} {dateTime.ToLongTimeString()}";
+        }
+
+        private static void SaveLogs()
+        {
+            try
+            {
+                File.WriteAllLines(logFile, logLines, Encoding.UTF8);
+            }
+            catch (Exception e) { }
         }
     }
 }

@@ -96,15 +96,20 @@ namespace Clever2D.Engine
 						if (!condition.value.Equals(value))
 						{
 							frameDone = true;
-							
+
 							lastAnimation = -1;
 							activeAnimation = 0;
 							nextFrameIndex = 0;
 							frameDone = true;
-							
+
 							condition.value = value;
 
 							List<AnimationCondition> conds = conditions.ToList();
+
+							if (animations.Length > lastAnimation || lastAnimation < 0)
+							{
+								lastAnimation = 0;
+							}
 
 							foreach (AnimationTransition transition in animations[lastAnimation].transitions)
 							{

@@ -33,10 +33,16 @@ namespace Clever2D.Engine
         /// </summary>
         public abstract override int GetHashCode();
 
+        /// <summary>
+        /// Compare Vectors.
+        /// </summary>
         public static bool operator ==(VectorInt a, VectorInt b)
         {
             return a.x == b.x && a.y == b.y && a.z == b.z;
         }
+        /// <summary>
+        /// Compare Vectors (doesn't match).
+        /// </summary>
         public static bool operator !=(VectorInt a, VectorInt b)
         {
             return a.x != b.x || a.y != b.y || a.z != b.z;
@@ -125,10 +131,16 @@ namespace Clever2D.Engine
             this.y = y;
         }
 
+        /// <summary>
+        /// Convert Vector to string.
+        /// </summary>
         public override string ToString()
         {
             return $"({this.x.ToString()}, {this.y.ToString()})";
         }
+        /// <summary>
+        /// Compare Vectors.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj != null &&
@@ -136,6 +148,9 @@ namespace Clever2D.Engine
                 this.y == (obj as Vector).y &&
                 this.z == (obj as Vector).z;
         }
+        /// <summary>
+        /// Returns the hash code of this Vector.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(
