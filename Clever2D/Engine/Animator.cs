@@ -3,15 +3,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using Newtonsoft.Json;
 
 namespace Clever2D.Engine
 {
+	/// <summary>
+	/// Animator is the base of an GameObjects sprite animations.
+	/// </summary>
 	public class Animator
 	{
-		public Animation[] animations;
-		public AnimationCondition[] conditions;
+		/// <summary>
+		/// Animators animations.
+		/// </summary>
+		[JsonProperty]
+		private Animation[] animations;
+		/// <summary>
+		/// Animators conditions.
+		/// </summary>
+		[JsonProperty]
+		private AnimationCondition[] conditions;
 
-		public int activeAnimation = 0;
+		/// <summary>
+		/// Currently active animation.
+		/// </summary>
+		private int activeAnimation;
 
 		private int lastAnimation = -1;
 
@@ -27,53 +42,53 @@ namespace Clever2D.Engine
 			
 			while (!Clever.Quit)
 			{
-				if (animations.Length > 0)
+				if (animations.Length <= 0)
+					continue;
+
+				if (lastAnimation != activeAnimation)
 				{
-					if (lastAnimation != activeAnimation)
-					{
-						lastAnimation = activeAnimation;
-						nextFrameIndex = 0;
-						animationKeyCount = animations[activeAnimation].timeline.Length;
-						frameDone = true;
-					}
-
-					if (frameDone)
-					{
-						frameDone = false;
-
-						int i = nextFrameIndex;
-						nextFrameIndex = nextFrameIndex + 1 >= animationKeyCount ? 0 : nextFrameIndex + 1;
-
-						if (activeAnimation >= animations.Length)
-							activeAnimation = 0;
-						
-						if (nextFrameIndex >= animations[activeAnimation].timeline.Length)
-							nextFrameIndex = 0;
-						if (i >= animations[activeAnimation].timeline.Length)
-							i = 0;
-						
-						int interval = animations[activeAnimation].timeline[nextFrameIndex].time - animations[activeAnimation].timeline[i].time;
-						interval = interval <= 0 ? 1 : interval;
-
-						if (frameTimer != null)
-						{
-							frameTimer.Stop();
-							frameTimer.Close();
-							frameTimer.Dispose();
-						}
-
-						frameTimer = new() { Interval = interval };
-						frameTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
-						{
-							frameTimer.Stop();
-							renderer.Sprite = renderer.spriteArray.Sprites[animations[activeAnimation].timeline[nextFrameIndex].spriteIndex];
-							frameDone = true;
-							frameTimer.Dispose();
-						};
-
-						frameTimer.Start();
-					}
+					lastAnimation = activeAnimation;
+					nextFrameIndex = 0;
+					animationKeyCount = animations[activeAnimation].timeline.Length;
+					frameDone = true;
 				}
+
+				if (!frameDone)
+					continue;
+
+				frameDone = false;
+
+				var i = nextFrameIndex;
+				nextFrameIndex = nextFrameIndex + 1 >= animationKeyCount ? 0 : nextFrameIndex + 1;
+
+				if (activeAnimation >= animations.Length)
+					activeAnimation = 0;
+						
+				if (nextFrameIndex >= animations[activeAnimation].timeline.Length)
+					nextFrameIndex = 0;
+				if (i >= animations[activeAnimation].timeline.Length)
+					i = 0;
+						
+				var interval = animations[activeAnimation].timeline[nextFrameIndex].time - animations[activeAnimation].timeline[i].time;
+				interval = interval <= 0 ? 1 : interval;
+
+				if (frameTimer != null)
+				{
+					frameTimer.Stop();
+					frameTimer.Close();
+					frameTimer.Dispose();
+				}
+
+				frameTimer = new() { Interval = interval };
+				frameTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+				{
+					frameTimer.Stop();
+					renderer.Sprite = renderer.spriteArray.Sprites[animations[activeAnimation].timeline[nextFrameIndex].spriteIndex];
+					frameDone = true;
+					frameTimer.Dispose();
+				};
+
+				frameTimer.Start();
 			}
 		}
 
@@ -83,8 +98,8 @@ namespace Clever2D.Engine
 			{
 				if (name == condition.name)
 				{
-					Type ct = condition.value.GetType();
-					Type vt = value.GetType();
+					var ct = condition.value.GetType();
+					var vt = value.GetType();
 
 					if (ct.Name.StartsWith("Int"))
 						ct = typeof(int);
@@ -104,7 +119,7 @@ namespace Clever2D.Engine
 
 							condition.value = value;
 
-							List<AnimationCondition> conds = conditions.ToList();
+							var conditionsList = conditions.ToList();
 
 							if (animations.Length > lastAnimation || lastAnimation < 0)
 							{
@@ -117,18 +132,18 @@ namespace Clever2D.Engine
 
 								foreach (AnimationTransitionCondition con in transition.conditions)
 								{
-									AnimationCondition c = conds.Find(f => f.name == con.name);
-									if (c != null)
+									var c = conditionsList.Find(f => f.name == con.name);
+									if (c == null)
+										continue;
+
+									if (c.value.ToString() != con.value.ToString())
 									{
-										if (c.value.ToString() != con.value.ToString())
-										{
-											meetsConditions = false;
-										}
-										else
-										{
-											activeAnimation = transition.to;
-											break;
-										}
+										meetsConditions = false;
+									}
+									else
+									{
+										activeAnimation = transition.to;
+										break;
 									}
 								}
 

@@ -6,15 +6,12 @@ namespace Clever2D.Engine
     /// <summary>
     /// Collection of entities and components.
     /// </summary>
-    public abstract class Scene
+    public class Scene
     {
         /// <summary>
         /// Name of the scene.
         /// </summary>
-        public abstract string Name
-        {
-            get;
-        }
+        public string name;
 
         /// <summary>
         /// Get the ID of the scene.
@@ -195,16 +192,13 @@ namespace Clever2D.Engine
         {
             if (!SceneManager.LoadScene(this))
             {
-                Player.LogError($"Loading \"{Name}\" failed.");
+                Player.LogError($"Loading \"{name}\" failed.");
             }
         }
 
         /// <summary>
         /// List of the GameObjects in this Scene.
         /// </summary>
-        public abstract List<GameObject> SceneGameObjects
-        {
-            get;
-        }
+        public List<GameObject> sceneGameObjects = new();
     }
 }

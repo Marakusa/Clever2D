@@ -41,7 +41,7 @@ namespace Clever2D.Engine
 
             Scene loadedScene = SceneManager.LoadedScene;
             
-            if (loadedScene != null)
+            if (loadedScene is { IsInitialized: true })
             {
                 var instances = loadedScene.SpawnedGameObjects;
 
@@ -51,35 +51,35 @@ namespace Clever2D.Engine
                     {
                         SpriteRenderer spriteRenderer = instance.Value.GetComponent<SpriteRenderer>();
                         
-                        if (spriteRenderer != null)
+                        if (spriteRenderer != null && spriteRenderer.Sprite != null)
                         {
                             float scale = (Clever.Size.Height / 600f) * 2f;
 
                             float x, y, w, h;
                             
                             SDL.SDL_Rect tRect;
-                            w = spriteRenderer.Sprite.rect.w * scale * instance.Value.transform.Scale.x;
-                            h = spriteRenderer.Sprite.rect.h * scale * instance.Value.transform.Scale.y;
+                            w = spriteRenderer.Sprite.rect.w * scale * instance.Value.transform.scale.x;
+                            h = spriteRenderer.Sprite.rect.h * scale * instance.Value.transform.scale.y;
 
-                            float cameraOffsetX = scale * transform.Position.x - Clever.Size.Width / 2f;
-                            float cameraOffsetY = scale * -transform.Position.y - Clever.Size.Height / 2f;
+                            float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
+                            float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
 
-                            float scaledX = instance.Value.transform.Position.x * scale;
-                            float scaledY = -instance.Value.transform.Position.y * scale;
-                            float posX = scaledX * instance.Value.transform.Position.x - cameraOffsetX;
-                            float posY = -instance.Value.transform.Position.y * scale * instance.Value.transform.Position.y - cameraOffsetY;
+                            float scaledX = instance.Value.transform.position.x * scale;
+                            float scaledY = -instance.Value.transform.position.y * scale;
+                            float posX = scaledX * instance.Value.transform.position.x - cameraOffsetX;
+                            float posY = -instance.Value.transform.position.y * scale * instance.Value.transform.position.y - cameraOffsetY;
 
                             if (instance.Value.parent != null)
                             {
-                                x = posX + instance.Value.parent.transform.Position.x * scale * instance.Value.parent.transform.Scale.x + scale * instance.Value.transform.Position.x - cameraOffsetX;
-                                y = posY - instance.Value.parent.transform.Position.y * scale * instance.Value.parent.transform.Scale.y + scale * -instance.Value.transform.Position.y - cameraOffsetY;
-                                w *= spriteRenderer.Sprite.rect.w * instance.Value.transform.Scale.x;
-                                h *= spriteRenderer.Sprite.rect.h * instance.Value.transform.Scale.y;
+                                x = posX + instance.Value.parent.transform.position.x * scale * instance.Value.parent.transform.scale.x + scale * instance.Value.transform.position.x - cameraOffsetX;
+                                y = posY - instance.Value.parent.transform.position.y * scale * instance.Value.parent.transform.scale.y + scale * -instance.Value.transform.position.y - cameraOffsetY;
+                                w *= spriteRenderer.Sprite.rect.w * instance.Value.transform.scale.x;
+                                h *= spriteRenderer.Sprite.rect.h * instance.Value.transform.scale.y;
                             }
                             else
                             {
-                                x = scaledX * instance.Value.transform.Scale.x - cameraOffsetX;
-                                y = scaledY * instance.Value.transform.Scale.y - cameraOffsetY;
+                                x = scaledX * instance.Value.transform.scale.x - cameraOffsetX;
+                                y = scaledY * instance.Value.transform.scale.y - cameraOffsetY;
                             }
                             
                             float pivotOffsetX = spriteRenderer.Sprite.rect.w * spriteRenderer.Sprite.pivot.x * scale;

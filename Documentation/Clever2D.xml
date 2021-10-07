@@ -370,9 +370,34 @@
             Conditions set value.
             </summary>
         </member>
+        <member name="T:Clever2D.Engine.Animator">
+            <summary>
+            Animator is the base of an GameObjects sprite animations.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animator.animations">
+            <summary>
+            Animators animations.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animator.conditions">
+            <summary>
+            Animators conditions.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animator.activeAnimation">
+            <summary>
+            Currently active animation.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.AnimatorController">
             <summary>
             The controller of the animators animations.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimatorController.animatorPath">
+            <summary>
+            Assigned animators file path.
             </summary>
         </member>
         <member name="F:Clever2D.Engine.AnimatorController.animator">
@@ -692,7 +717,7 @@
             Collection of entities and components.
             </summary>
         </member>
-        <member name="P:Clever2D.Engine.Scene.Name">
+        <member name="F:Clever2D.Engine.Scene.name">
             <summary>
             Name of the scene.
             </summary>
@@ -757,7 +782,7 @@
             Loads this scene.
             </summary>
         </member>
-        <member name="P:Clever2D.Engine.Scene.SceneGameObjects">
+        <member name="F:Clever2D.Engine.Scene.sceneGameObjects">
             <summary>
             List of the GameObjects in this Scene.
             </summary>
@@ -882,6 +907,21 @@
             Returns the path to the source of the image of this Sprite.
             </summary>
         </member>
+        <member name="F:Clever2D.Engine.Sprite.size">
+            <summary>
+            Size of this Sprite.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Sprite.offset">
+            <summary>
+            Offset of this Sprite.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Sprite.#ctor">
+            <summary>
+            Represents a Sprite object for use in 2D gameplay.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2)">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
@@ -900,6 +940,26 @@
         <member name="T:Clever2D.Engine.SpriteArray">
             <summary>
             2D array of Sprites.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.spritePath">
+            <summary>
+            Path to the source of the image of this Sprite.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.pivot">
+            <summary>
+            Sprite pivot (scales from 0 to 1 per dimension).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.rows">
+            <summary>
+            SpriteArrays row count.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.columns">
+            <summary>
+            SpriteArrays column count.
             </summary>
         </member>
         <member name="P:Clever2D.Engine.SpriteArray.Sprites">
@@ -981,17 +1041,17 @@
             Component that handles the GameObjects position, rotation and scale in the Scene.
             </summary>
         </member>
-        <member name="P:Clever2D.Engine.Transform.Position">
+        <member name="F:Clever2D.Engine.Transform.position">
             <summary>
             Position of the GameObject this Component is assigned to.
             </summary>
         </member>
-        <member name="P:Clever2D.Engine.Transform.Rotation">
+        <member name="F:Clever2D.Engine.Transform.rotation">
             <summary>
             Rotation of the GameObject this Component is assigned to.
             </summary>
         </member>
-        <member name="P:Clever2D.Engine.Transform.Scale">
+        <member name="F:Clever2D.Engine.Transform.scale">
             <summary>
             Scale of the GameObject this Component is assigned to.
             </summary>
@@ -2066,6 +2126,11 @@
         <member name="F:Clever2D.UI.Text.worldSpace">
             <summary>
             Is element placed on the Screen or in the Scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor">
+            <summary>
+            Text element for UI.
             </summary>
         </member>
         <member name="M:Clever2D.UI.Text.#ctor(System.Int32)">

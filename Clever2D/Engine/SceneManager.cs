@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Clever2D.Engine
 {
@@ -117,7 +115,7 @@ namespace Clever2D.Engine
         /// </summary>
         public static bool LoadScene(Scene scene)
         {
-            Player.Log($"Loading a Scene named \"{scene.Name}\"...");
+            Player.Log($"Loading a Scene named \"{scene.name}\"...");
 
             OnLoad?.Invoke(null, new(LoadedScene));
 
@@ -130,7 +128,7 @@ namespace Clever2D.Engine
 
                 LoadedScene = scene;
 
-                foreach (GameObject obj in LoadedScene.SceneGameObjects)
+                foreach (GameObject obj in LoadedScene.sceneGameObjects)
                 {
                     LoadedScene.SpawnGameObject(obj);
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Clever2D.Core;
+using Newtonsoft.Json;
 using SDL2;
 using SixLabors.ImageSharp;
 
@@ -18,21 +19,63 @@ namespace Clever2D.Engine
         /// <summary>
         /// Rect of the assigned image to this object which contains the size of the texture.
         /// </summary>
+        [JsonProperty]
         public SDL.SDL_Rect rect;
         /// <summary>
         /// Sprite pivot (scales from 0 to 1 per dimension).
         /// </summary>
+        [JsonProperty]
         public Vector2 pivot = Vector2.Zero;
 
         /// <summary>
         /// Path to the source of the image of this Sprite.
         /// </summary>
+        [JsonProperty]
         private readonly string path;
         /// <summary>
         /// Returns the path to the source of the image of this Sprite.
         /// </summary>
         public string Path => path;
+        
+        /// <summary>
+        /// Size of this Sprite.
+        /// </summary>
+        [JsonProperty]
+        public Vector2Int size;
 
+        /// <summary>
+        /// Offset of this Sprite.
+        /// </summary>
+        [JsonProperty]
+        public Vector2 offset;
+
+        /// <summary>
+        /// Represents a Sprite object for use in 2D gameplay.
+        /// </summary>
+        [JsonConstructor]
+        public Sprite()
+        {
+            path = $"{Application.ExecutableDirectory}/assets/{path}";
+
+            if (File.Exists(path))
+            {
+                this.path = path;
+                this.pivot = pivot;
+
+                Image spriteImage = Image.Load(path);
+                var width = spriteImage.Width;
+                var height = spriteImage.Height;
+
+                var w = size.x < 0 ? width : size.x;
+                var h = size.y < 0 ? height : size.y;
+                
+                LoadSprite(w, h, (int) Math.Round(offset.x), (int) Math.Round(offset.y));
+            }
+            else
+            {
+                Player.LogError($"File doesn't exist in {path} or the path is a directory.");
+            }
+        }
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
@@ -53,7 +96,7 @@ namespace Clever2D.Engine
             }
             else
             {
-                Player.LogError("File doesn't exist in " + path);
+                Player.LogError($"File doesn't exist in {path} or the path is a directory.");
             }
         }
         /// <summary>
@@ -79,7 +122,7 @@ namespace Clever2D.Engine
             }
             else
             {
-                Player.LogError("File doesn't exist in " + path);
+                Player.LogError($"File doesn't exist in {path} or the path is a directory.");
             }
         }
         /// <summary>
@@ -105,7 +148,7 @@ namespace Clever2D.Engine
             }
             else
             {
-                Player.LogError($"File doesn't exist in {path}");
+                Player.LogError($"File doesn't exist in {path} or the path is a directory.");
             }
         }
 
@@ -119,6 +162,8 @@ namespace Clever2D.Engine
             this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, this.path);
 
             Clever.Destroying += () => SDL.SDL_DestroyTexture(this.image);
+            
+            Player.Log($"Sprite {path.Substring($"{Application.ExecutableDirectory}/".Length)} ==> Loaded.");
         }
     }
 }

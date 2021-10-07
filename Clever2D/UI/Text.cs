@@ -2,6 +2,7 @@ using System;
 using Clever2D.Core;
 using Clever2D.Engine;
 using SDL2;
+using static SDL2.SDL_ttf;
 
 namespace Clever2D.UI
 {
@@ -40,7 +41,7 @@ namespace Clever2D.UI
 		{
 			if (Clever.Fonts.Length > 0)
 			{
-				sans = Clever.Fonts[0];
+				sans = Clever.Fonts[1];
 			}
 		}
 
@@ -49,41 +50,44 @@ namespace Clever2D.UI
 			switch (fontStyle)
 			{
 				case FontStyle.Normal:
-					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_NORMAL);
+					TTF_SetFontStyle(sans, TTF_STYLE_NORMAL);
 					break;
 				case FontStyle.Italic:
-					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_ITALIC);
+					TTF_SetFontStyle(sans, TTF_STYLE_ITALIC);
 					break;
 				case FontStyle.Bold:
-					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_BOLD);
+					TTF_SetFontStyle(sans, TTF_STYLE_BOLD);
 					break;
 				case FontStyle.Underline:
-					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_UNDERLINE);
+					TTF_SetFontStyle(sans, TTF_STYLE_UNDERLINE);
 					break;
 				case FontStyle.Strikethrough:
-					SDL_ttf.TTF_SetFontStyle(sans, SDL_ttf.TTF_STYLE_STRIKETHROUGH);
+					TTF_SetFontStyle(sans, TTF_STYLE_STRIKETHROUGH);
 					break;
 			}
 			
 			// Enable antialiasing
 			SDL.SDL_SetHint(SDL.SDL_HINT_RENDER_SCALE_QUALITY, "1");
-			
-			IntPtr surfaceMessage = SDL_ttf.TTF_RenderUTF8_Solid(sans, text, color);
+
+			IntPtr surfaceMessage = TTF_RenderUTF8_Solid(sans, text, color);
 			IntPtr fpsText = SDL.SDL_CreateTextureFromSurface(Clever.Renderer, surfaceMessage);
+			
+			SDL.SDL_QueryTexture(fpsText, out _, out _, out var tw, out var th);
+			
 			SDL.SDL_FreeSurface(surfaceMessage);
 			
 			surfaceMessage = IntPtr.Zero;
 
 			float x = 0;
 			float y = 0;
-			float w = 0;
-			float h = 0;
+			float w = tw;
+			float h = th;
 			
 			SDL.SDL_Rect fpsRect;
 			if (!worldSpace)
 			{
-				w = text.Length * (18f * (size / 28f));
-				h = size + 24;
+				//w = text.Length * (18f * (size / 28f));
+				//h = size + 24;
 
 				float width = Clever.Size.Width;
 				float height = Clever.Size.Height;
@@ -98,29 +102,26 @@ namespace Clever2D.UI
 
 					float scale = (Clever.Size.Height / 600f) * 2f;
                     
-					float cameraOffsetX = scale * cameraTransform.Position.x;
-					float cameraOffsetY = scale * -cameraTransform.Position.y;
+					float cameraOffsetX = scale * cameraTransform.position.x;
+					float cameraOffsetY = scale * -cameraTransform.position.y;
 
-					w = text.Length * (18f * (size / 28f)) * scale * transform.Scale.x;
-					h = size + 12 * scale * transform.Scale.y;
+					w *= scale * transform.scale.x * (size / 32f);
+					h *= scale * transform.scale.y * (size / 32f);
 
 					if (gameObject.parent != null)
 					{
-						x = transform.Position.x * scale * transform.Scale.x - cameraOffsetX;
-						y = -transform.Position.y * scale * transform.Scale.y - cameraOffsetY;
-						x += gameObject.parent.transform.Position.x * scale + Clever.Size.Width / 2f;
-						y -= gameObject.parent.transform.Position.y * scale - Clever.Size.Height / 2f;
+						x = transform.position.x * scale * transform.scale.x - cameraOffsetX;
+						y = -transform.position.y * scale * transform.scale.y - cameraOffsetY;
+						x += gameObject.parent.transform.position.x * scale + Clever.Size.Width / 2f;
+						y -= gameObject.parent.transform.position.y * scale - Clever.Size.Height / 2f;
 						
 						x -= w * pivot.x;
 						y -= h * pivot.y;
-						
-						w *= transform.Scale.x;
-						h *= transform.Scale.y;
 					}
 					else
 					{
-						x = transform.Position.x * scale * transform.Scale.x - cameraOffsetX;
-						y = -transform.Position.y * scale * transform.Scale.y - cameraOffsetY;
+						x = transform.position.x * scale * transform.scale.x - cameraOffsetX;
+						y = -transform.position.y * scale * transform.scale.y - cameraOffsetY;
 					}
 				}
 			}
@@ -135,6 +136,21 @@ namespace Clever2D.UI
 			SDL.SDL_DestroyTexture(fpsText);
 		}
 
+		/// <summary>
+		/// Text element for UI.
+		/// </summary>
+		public Text()
+		{
+			this.text = "New Text...";
+			this.size = 8;
+			this.color = new SDL.SDL_Color()
+			{
+				r = 255, 
+				g = 255, 
+				b = 255, 
+				a = 255
+			};
+		}
 		/// <summary>
 		/// Text element for UI.
 		/// </summary>

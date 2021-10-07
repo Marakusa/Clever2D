@@ -1,7 +1,6 @@
 ﻿using Clever2D.Engine;
 using Clever2D.Input;
 using System;
-using SDL2;
 
 namespace Example
 {
@@ -36,8 +35,8 @@ namespace Example
                 move += Vector2.Left;
             }
             
-            Vector2 startPosition = transform.Position;
-            Vector2 movedPosition = transform.Position + move.Normalized * speed * 50f * Time.DeltaTime;
+            Vector2 startPosition = transform.position;
+            Vector2 movedPosition = transform.position + move.Normalized * speed * 50f * Time.DeltaTime;
             
             Vector2 direction = (movedPosition - startPosition).Normalized;
             Vector2Int animDirection = new((int)Math.Round(direction.x), (int)Math.Round(direction.y));
@@ -53,9 +52,9 @@ namespace Example
             
             animator.SetInt("Direction", d);
 
-            transform.Position = movedPosition;
+            transform.position = movedPosition;
 
-            Camera.MainCamera.gameObject.transform.Position = gameObject.transform.Position;
+            Camera.MainCamera.gameObject.transform.position = gameObject.transform.position;
         }
     }
 }

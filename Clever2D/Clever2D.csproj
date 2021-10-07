@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
-    <StartupObject>Clever2D.Program</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup>

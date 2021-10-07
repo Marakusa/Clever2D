@@ -1,213 +1,211 @@
-[
+{
+"start": 0,
+"animations": [
     {
-        "start": 0,
-        "animations": [
+        "name": "idle",
+        "timeline": [
             {
-                "name": "idle",
-                "timeline": [
-                    {
-                        "time": 0,
-                        "spriteIndex": 0
-                    }
-                ],
-                "transitions": [
-                    {
-                        "conditions": [
-                            {
-                                "name": "Direction",
-                                "type": "is",
-                                "value": 1
-                            }
-                        ],
-                        "to": 1
-                    },
-                    {
-                        "conditions": [
-                            {
-                                "name": "Direction",
-                                "type": "is",
-                                "value": 2
-                            }
-                        ],
-                        "to": 2
-                    },
-                    {
-                        "conditions": [
-                            {
-                                "name": "Direction",
-                                "type": "is",
-                                "value": 3
-                            }
-                        ],
-                        "to": 3
-                    },
-                    {
-                        "conditions": [
-                            {
-                                "name": "Direction",
-                                "type": "is",
-                                "value": 4
-                            }
-                        ],
-                        "to": 4
-                    }
-                ]
-
-            },
-            {
-                "name": "walkU",
-                "timeline": [
-                    {
-                        "time": 0,
-                        "spriteIndex": 15
-                    },
-                    {
-                        "time": 100,
-                        "spriteIndex": 12
-                    },
-                    {
-                        "time": 200,
-                        "spriteIndex": 13
-                    },
-                    {
-                        "time": 300,
-                        "spriteIndex": 14
-                    },
-                    {
-                        "time": 399,
-                        "spriteIndex": 14
-                    }
-                ],
-                "transitions": [
-                    {
-                        "conditions": [
-                            {
-                                "name": "Direction",
-                                "type": "not",
-                                "value": 1
-                            }
-                        ],
-                        "to": 0
-                    }
-                ]
-            },
-            {
-                "name": "walkR",
-                "timeline": [
-                    {
-                        "time": 0,
-                        "spriteIndex": 11
-                    },
-                    {
-                        "time": 100,
-                        "spriteIndex": 8
-                    },
-                    {
-                        "time": 200,
-                        "spriteIndex": 9
-                    },
-                    {
-                        "time": 300,
-                        "spriteIndex": 10
-                    },
-                    {
-                        "time": 399,
-                        "spriteIndex": 10
-                    }
-                ],
-                "transitions": [
-                    {
-                        "conditions": [
-                            {
-                                "name": "Direction",
-                                "type": "not",
-                                "value": 2
-                            }
-                        ],
-                        "to": 0
-                    }
-                ]
-            },
-            {
-                "name": "walkD",
-                "timeline": [
-                    {
-                        "time": 0,
-                        "spriteIndex": 3
-                    },
-                    {
-                        "time": 100,
-                        "spriteIndex": 0
-                    },
-                    {
-                        "time": 200,
-                        "spriteIndex": 1
-                    },
-                    {
-                        "time": 300,
-                        "spriteIndex": 2
-                    },
-                    {
-                        "time": 399,
-                        "spriteIndex": 2
-                    }
-                ],
-                "transitions": [
-                    {
-                        "conditions": [
-                            {
-                                "name": "Direction",
-                                "type": "not",
-                                "value": 3
-                            }
-                        ],
-                        "to": 0
-                    }
-                ]
-            },
-            {
-                "name": "walkL",
-                "timeline": [
-                    {
-                        "time": 0,
-                        "spriteIndex": 7
-                    },
-                    {
-                        "time": 100,
-                        "spriteIndex": 4
-                    },
-                    {
-                        "time": 200,
-                        "spriteIndex": 5
-                    },
-                    {
-                        "time": 300,
-                        "spriteIndex": 6
-                    },
-                    {
-                        "time": 399,
-                        "spriteIndex": 6
-                    }
-                ],
-                "transitions": [
-                    {
-                        "conditions": [
-                            {
-                                "name": "Direction",
-                                "type": "not",
-                                "value": 4
-                            }
-                        ],
-                        "to": 0
-                    }
-                ]
+                "time": 0,
+                "spriteIndex": 0
             }
         ],
-        "conditions": [
+        "transitions": [
             {
-                "name": "Direction",
-                "value": 0
+                "conditions": [
+                    {
+                        "name": "Direction",
+                        "type": "is",
+                        "value": 1
+                    }
+                ],
+                "to": 1
+            },
+            {
+                "conditions": [
+                    {
+                        "name": "Direction",
+                        "type": "is",
+                        "value": 2
+                    }
+                ],
+                "to": 2
+            },
+            {
+                "conditions": [
+                    {
+                        "name": "Direction",
+                        "type": "is",
+                        "value": 3
+                    }
+                ],
+                "to": 3
+            },
+            {
+                "conditions": [
+                    {
+                        "name": "Direction",
+                        "type": "is",
+                        "value": 4
+                    }
+                ],
+                "to": 4
+            }
+        ]
+
+    },
+    {
+        "name": "walkU",
+        "timeline": [
+            {
+                "time": 0,
+                "spriteIndex": 15
+            },
+            {
+                "time": 100,
+                "spriteIndex": 12
+            },
+            {
+                "time": 200,
+                "spriteIndex": 13
+            },
+            {
+                "time": 300,
+                "spriteIndex": 14
+            },
+            {
+                "time": 399,
+                "spriteIndex": 14
+            }
+        ],
+        "transitions": [
+            {
+                "conditions": [
+                    {
+                        "name": "Direction",
+                        "type": "not",
+                        "value": 1
+                    }
+                ],
+                "to": 0
+            }
+        ]
+    },
+    {
+        "name": "walkR",
+        "timeline": [
+            {
+                "time": 0,
+                "spriteIndex": 11
+            },
+            {
+                "time": 100,
+                "spriteIndex": 8
+            },
+            {
+                "time": 200,
+                "spriteIndex": 9
+            },
+            {
+                "time": 300,
+                "spriteIndex": 10
+            },
+            {
+                "time": 399,
+                "spriteIndex": 10
+            }
+        ],
+        "transitions": [
+            {
+                "conditions": [
+                    {
+                        "name": "Direction",
+                        "type": "not",
+                        "value": 2
+                    }
+                ],
+                "to": 0
+            }
+        ]
+    },
+    {
+        "name": "walkD",
+        "timeline": [
+            {
+                "time": 0,
+                "spriteIndex": 3
+            },
+            {
+                "time": 100,
+                "spriteIndex": 0
+            },
+            {
+                "time": 200,
+                "spriteIndex": 1
+            },
+            {
+                "time": 300,
+                "spriteIndex": 2
+            },
+            {
+                "time": 399,
+                "spriteIndex": 2
+            }
+        ],
+        "transitions": [
+            {
+                "conditions": [
+                    {
+                        "name": "Direction",
+                        "type": "not",
+                        "value": 3
+                    }
+                ],
+                "to": 0
+            }
+        ]
+    },
+    {
+        "name": "walkL",
+        "timeline": [
+            {
+                "time": 0,
+                "spriteIndex": 7
+            },
+            {
+                "time": 100,
+                "spriteIndex": 4
+            },
+            {
+                "time": 200,
+                "spriteIndex": 5
+            },
+            {
+                "time": 300,
+                "spriteIndex": 6
+            },
+            {
+                "time": 399,
+                "spriteIndex": 6
+            }
+        ],
+        "transitions": [
+            {
+                "conditions": [
+                    {
+                        "name": "Direction",
+                        "type": "not",
+                        "value": 4
+                    }
+                ],
+                "to": 0
             }
         ]
     }
+],
+"conditions": [
+    {
+        "name": "Direction",
+        "value": 0
+    }
 ]
+}

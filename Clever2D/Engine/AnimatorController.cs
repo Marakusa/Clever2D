@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Newtonsoft.Json;
@@ -11,7 +10,11 @@ namespace Clever2D.Engine
 	/// </summary>
 	public class AnimatorController : Component
 	{
-		private string _animatorPath;
+		/// <summary>
+		/// Assigned animators file path.
+		/// </summary>
+		[JsonProperty]
+		private string animatorPath;
 		
 		/// <summary>
 		/// The animator assigned to this controller.
@@ -20,12 +23,14 @@ namespace Clever2D.Engine
 		
 		private SpriteRenderer spriteRenderer;
 		
+		private AnimatorController() { }
+		
 		/// <summary>
 		/// The controller of the animators animations.
 		/// </summary>
 		public AnimatorController(string path)
 		{
-			_animatorPath = Application.ExecutableDirectory + "/assets/" + path;
+			animatorPath = path;
 		}
 
 		internal override void Initialize()
@@ -36,23 +41,25 @@ namespace Clever2D.Engine
 			
 				animator = new();
 
-				List<Animator> items;
-				
-				using (StreamReader r = new StreamReader(_animatorPath))
-				{
-					string json = r.ReadToEnd();
-					items = JsonConvert.DeserializeObject<List<Animator>>(json);
-				}
-				
-				if (items.Count > 0)
-				{
-					animator = items[0];
+				string path = $"{Application.ExecutableDirectory}/assets/{animatorPath}";
 
-					Thread thread = new(() =>
+				if (File.Exists(path))
+				{
+					string json = File.ReadAllText(path);
+					animator = JsonConvert.DeserializeObject<Animator>(json);
+
+					if (animator != null)
 					{
-						animator.Start(spriteRenderer);
-					});
-					thread.Start();
+						Thread thread = new(() =>
+						{
+							animator.Start(spriteRenderer);
+						});
+						thread.Start();
+					}
+				}
+				else
+				{
+					Player.LogError($"File named {path} doesn't exist.");
 				}
 			}
 

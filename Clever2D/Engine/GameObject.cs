@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Clever2D.UI;
+using Newtonsoft.Json;
 
 namespace Clever2D.Engine
 {
@@ -25,10 +26,12 @@ namespace Clever2D.Engine
         /// <summary>
         /// The name of this GameObject.
         /// </summary>
-        public string name = "New GameObject";
+        [JsonProperty]
+        public readonly string name;
         /// <summary>
         /// The assigned tag to this GameObject.
         /// </summary>
+        [JsonProperty]
         public string tag = "Untagged";
         /// <summary>
         /// The transform component of this GameObject.
@@ -102,8 +105,8 @@ namespace Clever2D.Engine
         {
             try
             {
-                gameObject.transform.Position = position;
-                gameObject.transform.Position = rotation;
+                gameObject.transform.position = position;
+                gameObject.transform.position = rotation;
                 SceneManager.LoadedScene.SpawnGameObject(gameObject);
             }
             catch (Exception exception)

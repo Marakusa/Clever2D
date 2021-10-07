@@ -119,17 +119,17 @@ namespace Clever2D.Core
 
             if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) < 0)
             {
-                Player.LogError(string.Format("Unable to initialize SDL. Error: {0}", SDL.SDL_GetError()));
+                Player.LogError($"Unable to initialize SDL. Error: {SDL.SDL_GetError()}");
             }
             
             if (SDL_ttf.TTF_Init() < 0)
             {
-                Player.LogError("There was an error initializing SDL_ttf. " + SDL.SDL_GetError());
+                Player.LogError($"There was an error initializing SDL_ttf. {SDL.SDL_GetError()}");
             }
 
             List<IntPtr> fonts = new();
-            fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/Pixel-UniCode.ttf", 72));
-            fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/Poppins-Regular.ttf", 72));
+            fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/Pixel-UniCode.ttf", 32));
+            fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/Poppins-Regular.ttf", 24));
 
             Fonts = fonts.ToArray();
             
@@ -320,7 +320,7 @@ namespace Clever2D.Core
             {
                 if (SceneManager.IsInitialized)
                 {
-                    Player.Log($"\"{SceneManager.LoadedScene.Name}\" loaded.");
+                    Player.Log($"\"{SceneManager.LoadedScene.name}\" loaded.");
                 }
                 else
                 {

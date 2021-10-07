@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 using SixLabors.ImageSharp;
 
 namespace Clever2D.Engine
@@ -11,13 +12,42 @@ namespace Clever2D.Engine
 	public class SpriteArray
 	{
 		/// <summary>
+		/// Path to the source of the image of this Sprite.
+		/// </summary>
+		[JsonProperty]
+		public readonly string spritePath; 
+		/// <summary>
+		/// Sprite pivot (scales from 0 to 1 per dimension).
+		/// </summary>
+		[JsonProperty]
+		public readonly Vector2 pivot;
+		/// <summary>
+		/// SpriteArrays row count.
+		/// </summary>
+		[JsonProperty]
+		public readonly int rows;
+		/// <summary>
+		/// SpriteArrays column count.
+		/// </summary>
+		[JsonProperty]
+		public readonly int columns;
+		
+		/// <summary>
 		/// Returns this Sprite array.
 		/// </summary>
 		public Sprite[] Sprites
 		{
 			get;
+			private set;
 		} = Array.Empty<Sprite>();
 
+		[JsonConstructor]
+		private SpriteArray()
+		{
+			if (spritePath != null && pivot != null)
+				CreateArray();
+		}
+		
 		/// <summary>
 		/// 2D array of Sprites.
 		/// </summary>
@@ -27,8 +57,17 @@ namespace Clever2D.Engine
 		/// <param name="columns">Split Sprite columns count.</param>
 		public SpriteArray(string spritePath, Vector2 pivot, int rows, int columns)
 		{
+			this.spritePath = spritePath;
+			this.pivot = pivot;
+			this.rows = rows;
+			this.columns = columns;
+			CreateArray();
+		}
+
+		private void CreateArray()
+		{
 			var path = $"{Application.ExecutableDirectory}/assets/{spritePath}";
-			
+
 			if (File.Exists(path))
 			{
 				var spriteImage = Image.Load(path);
@@ -43,7 +82,7 @@ namespace Clever2D.Engine
 					{
 						var splitWidth = width / columns;
 						var splitHeight = height / rows;
-						
+
 						var sprite = new Sprite(
 							spritePath, 
 							pivot, 
@@ -60,7 +99,7 @@ namespace Clever2D.Engine
 					}
 				}
 				
-				this.Sprites = sprites.ToArray();
+				Sprites = sprites.ToArray();
 			}
 			else
 			{

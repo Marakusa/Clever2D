@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Clever2D.Engine
 {
@@ -10,11 +11,13 @@ namespace Clever2D.Engine
         /// <summary>
         /// The assigned Sprite to this SpriteRenderer.
         /// </summary>
-        private Sprite sprite;
+        [JsonProperty]
+        public Sprite sprite;
         /// <summary>
         /// The assigned SpriteArray to this SpriteRenderer.
         /// </summary>
-        internal SpriteArray spriteArray;
+        [JsonProperty]
+        public SpriteArray spriteArray;
         /// <summary>
         /// Returns the assigned image to this SpriteRenderer.
         /// </summary>
@@ -29,6 +32,20 @@ namespace Clever2D.Engine
                 sprite = value;
             }
         }
+
+        internal override void Initialize()
+        {
+            if (sprite != null)
+                Sprite = new(sprite.Path, sprite.pivot, sprite.size, sprite.offset);
+            else if (spriteArray != null)
+            {
+                this.spriteArray = new(spriteArray.spritePath, spriteArray.pivot, spriteArray.rows, spriteArray.columns);
+                Sprite = this.spriteArray.Sprites[0];
+            }
+        }
+
+        [JsonConstructor]
+        private SpriteRenderer() { }
 
         /// <summary>
         /// Component that manages the Sprite wanted to be rendered in a GameObject.
@@ -45,11 +62,6 @@ namespace Clever2D.Engine
         {
             this.spriteArray = spriteArray;
             Sprite = this.spriteArray.Sprites[0];
-        }
-
-        internal override void Initialize()
-        {
-
         }
 
         /// <summary>

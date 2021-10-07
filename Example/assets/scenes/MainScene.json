@@ -1,0 +1,164 @@
+{
+  "name": "MainScene",
+  "sceneGameObjects": [
+    {
+      "name": "Camera",
+      "tag": "MainCamera",
+      "components": {
+        "$type": "System.Collections.Generic.List`1[[Clever2D.Engine.Component, Clever2D]], mscorlib",
+        "$values": [
+          {
+            "$type": "Clever2D.Engine.Transform, Clever2D",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1
+            }
+          },
+          {
+            "$type": "Clever2D.Engine.Camera, Clever2D"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Background",
+      "tag": "Background",
+      "components": {
+        "$type": "System.Collections.Generic.List`1[[Clever2D.Engine.Component, Clever2D]], mscorlib",
+        "$values": [
+          {
+            "$type": "Clever2D.Engine.Transform, Clever2D",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1
+            }
+          },
+          {
+            "$type": "Clever2D.Engine.SpriteRenderer, Clever2D",
+            "sprite": {
+              "path": "resources/DungeonTile_1.png",
+              "pivot": {
+                "x": 0,
+                "y": 0
+              },
+              "size": {
+                "x": -1,
+                "y": -1
+              },
+              "offset": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Player",
+      "tag": "Player",
+      "components": {
+        "$type": "System.Collections.Generic.List`1[[Clever2D.Engine.Component, Clever2D]], mscorlib",
+        "$values": [
+          {
+            "$type": "Clever2D.Engine.Transform, Clever2D",
+            "position": {
+              "x": 50,
+              "y": -50
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1
+            }
+          },
+          {
+            "$type": "Example.PlayerController, Example",
+            "speed": 2
+          },
+          {
+            "$type": "Clever2D.Engine.SpriteRenderer, Clever2D",
+            "spriteArray": {
+              "spritePath": "resources/Skeleton.png",
+              "pivot": {
+                "x": 0.5,
+                "y": 0.5
+              },
+              "rows": 4,
+              "columns": 4
+            }
+          },
+          {
+            "$type": "Clever2D.Engine.AnimatorController, Clever2D",
+            "animatorPath": "animations/skeleton.anim"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FpsCounter",
+      "tag": "Untagged",
+      "components": {
+        "$type": "System.Collections.Generic.List`1[[Clever2D.Engine.Component, Clever2D]], mscorlib",
+        "$values": [
+          {
+            "$type": "Clever2D.Engine.Transform, Clever2D",
+            "position": {
+              "x": 0,
+              "y": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1
+            }
+          },
+          {
+            "$type": "Clever2D.UI.Text, Clever2D",
+            "text": "fps",
+            "size": 18,
+            "color": {
+              "r": 255,
+              "g": 255,
+              "b": 255,
+              "a": 255
+            },
+            "screenAlign": {
+              "x": 1,
+              "y": 0
+            },
+            "pivot": {
+              "x": 1,
+              "y": 0
+            }
+          },
+          {
+            "$type": "Example.FpsCounter, Example"
+          }
+        ]
+      }
+    }
+  ]
+}

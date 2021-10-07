@@ -10,27 +10,15 @@ namespace Clever2D.Engine
         /// <summary>
         /// Position of the GameObject this Component is assigned to.
         /// </summary>
-        public Vector2 Position
-        {
-            get;
-            set;
-        }
+        public Vector2 position;
         /// <summary>
         /// Rotation of the GameObject this Component is assigned to.
         /// </summary>
-        public Vector2 Rotation
-        {
-            get;
-            set;
-        }
+        public Vector2 rotation;
         /// <summary>
         /// Scale of the GameObject this Component is assigned to.
         /// </summary>
-        public Vector2 Scale
-        {
-            get;
-            set;
-        }
+        public Vector2 scale;
         
         // TODO: localPosition
         
@@ -39,9 +27,9 @@ namespace Clever2D.Engine
         /// </summary>
         public Transform()
         {
-            Position = Vector2.Zero;
-            Rotation = Vector2.Zero;
-            Scale = Vector2.One;
+            position = Vector2.Zero;
+            rotation = Vector2.Zero;
+            scale = Vector2.One;
         }
 
         internal override void Initialize() { }

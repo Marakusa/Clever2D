@@ -55,14 +55,30 @@ namespace Clever2D.Engine
         /// </summary>
         public static bool operator ==(Vector a, Vector b)
         {
-            return a.x == b.x && a.y == b.y && a.z == b.z;
+            try
+            {
+                return a.x == b.x && a.y == b.y && a.z == b.z;
+            }
+            catch (Exception e)
+            {
+                Player.LogError(e.Message, e);
+                return false;
+            }
         }
         /// <summary>
         /// Doesn't match.
         /// </summary>
         public static bool operator !=(Vector a, Vector b)
         {
-            return a.x != b.x || a.y != b.y || a.z != b.z;
+            try
+            {
+                return a.x != b.x || a.y != b.y || a.z != b.z;
+            }
+            catch (Exception e)
+            {
+                Player.LogError(e.Message, e);
+                return false;
+            }
         }
     
         /// <summary>
@@ -168,23 +184,39 @@ namespace Clever2D.Engine
         /// </summary>
         public override bool Equals(object obj)
         {
-            return obj != null &&
-                this.x == (obj as Vector).x &&
-                this.y == (obj as Vector).y &&
-                this.z == (obj as Vector).z;
+            try
+            {
+                return obj != null &&
+                    this.x == (obj as Vector).x &&
+                    this.y == (obj as Vector).y &&
+                    this.z == (obj as Vector).z;
+            }
+            catch (Exception e)
+            {
+                Player.LogError(e.Message, e);
+                return false;
+            }
         }
         /// <summary>
         /// Gets the hash code for the Vector value.
         /// </summary>
         public override int GetHashCode()
         {
-            return HashCode.Combine(
-                this.x.ToString().GetHashCode() + 
-                ",".GetHashCode() + 
-                this.y.ToString().GetHashCode() + 
-                ",".GetHashCode() + 
-                this.z.ToString().GetHashCode()
-            );
+            try
+            {
+                return HashCode.Combine(
+                    this.x.ToString().GetHashCode() +
+                    ",".GetHashCode() +
+                    this.y.ToString().GetHashCode() +
+                    ",".GetHashCode() +
+                    this.z.ToString().GetHashCode()
+                );
+            }
+            catch (Exception e)
+            {
+                Player.LogError(e.Message, e);
+                return -1;
+            }
         }
         
         /// <summary>

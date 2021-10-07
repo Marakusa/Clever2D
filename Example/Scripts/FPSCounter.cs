@@ -4,7 +4,7 @@ using Clever2D.UI;
 
 namespace Example
 {
-	public class FPSCounter : CleverScript
+	public class FpsCounter : CleverScript
 	{
 		private Text text;
 
