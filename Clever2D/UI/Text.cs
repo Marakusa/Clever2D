@@ -16,19 +16,19 @@ namespace Clever2D.UI
 		/// </summary>
 		public string text;
 		/// <summary>
-		/// Text element text style.
+		/// Text style.
 		/// </summary>
 		public FontStyle fontStyle = FontStyle.Normal;
 		/// <summary>
-		/// Text element text font size.
+		/// Text font size.
 		/// </summary>
 		public int size;
 		/// <summary>
-		/// Text element text color.
+		/// Text color.
 		/// </summary>
 		public SDL.SDL_Color color;
 		/// <summary>
-		/// Text element text font.
+		/// Text font.
 		/// </summary>
 		private IntPtr sans = IntPtr.Zero;
 
