@@ -1,9 +1,12 @@
+![splash_clever](https://user-images.githubusercontent.com/29477753/135967266-31c62993-e746-48b0-81e1-7eb5269522ae.png)
+
+
 # Clever2D
 
 ## Description
 .NET based cross-platform 2D game engine created with C#
 
-![image](https://user-images.githubusercontent.com/29477753/135308514-29f7bcb4-6daa-46ce-b4c8-4cd55ae8471e.png)
+![Skeleton](https://user-images.githubusercontent.com/29477753/136274147-a17d9c8f-4714-42fa-ac8d-5e3b9698aed0.png)
 
 ## Dependencies
 - .NET Runtime 5.0 or newer

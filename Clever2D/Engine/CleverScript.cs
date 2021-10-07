@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System;
+using Clever2D.Core;
 
 namespace Clever2D.Engine
 {
@@ -7,19 +8,35 @@ namespace Clever2D.Engine
     /// </summary>
     public abstract class CleverScript : Component
     {
-        /// <summary>
-        /// A timer for Update functions.
-        /// </summary>
-        internal Timer timer;
-
+        internal override void Initialize()
+        {
+            Start();
+            Clever.Update += Update;
+            Clever.FixedUpdate += FixedUpdate;
+        }
+        
         /// <summary>
         /// Start is called on the frame when a script is enabled just before any Update methods are called.
         /// </summary>
-        public virtual void Start() { }
+        protected virtual void Start() { }
+        /// <summary>
+        /// Update is called on every frame.
+        /// </summary>
+        protected virtual void Update() { }
         /// <summary>
         /// Frame-rate independ Update method.
         /// </summary>
-        public virtual void FixedUpdate() { }
-        // TODO: Normal Update method
+        protected virtual void FixedUpdate() { }
+
+        /// <summary>
+        /// Disposes and destroys this Component.
+        /// </summary>
+        public override void Dispose()
+        {
+            Dispose(true);
+            Clever.Update -= Update;
+            Clever.FixedUpdate -= FixedUpdate;
+            GC.SuppressFinalize(this);
+        }
     }
 }

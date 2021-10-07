@@ -148,8 +148,14 @@ namespace Clever2D.Core
         /// <returns>The inverted array. This is always a square array.</returns>
         public static T[][] Invert<T>(this T[][] array) => array.ToRectangular().Invert().ToJagged();
 
+        /// <summary>
+        /// Returns the given size as a resolution string.
+        /// </summary>
         public static string ToResolutionString(this Size size) => $"{size.Width}x{size.Height}";
 
+        /// <summary>
+        /// Gets given assembly loadable types.
+        /// </summary>
         public static Type[] GetLoadableTypes(this Assembly assembly)
         {
             if (assembly == null) throw new ArgumentNullException(nameof(assembly));
@@ -189,7 +195,7 @@ namespace Clever2D.Core
                     .GetCustomAttribute<DescriptionAttribute>()?.Description
                ?? value.ToString();
 
-        private static string toLowercaseHex(this byte[] bytes)
+        private static string ToLowercaseHex(this byte[] bytes)
         {
             // Convert.ToHexString is upper-case, so we are doing this ourselves
 
@@ -212,7 +218,7 @@ namespace Clever2D.Core
             stream.Seek(0, SeekOrigin.Begin);
 
             using (var alg = SHA256.Create())
-                hash = alg.ComputeHash(stream).toLowercaseHex();
+                hash = alg.ComputeHash(stream).ToLowercaseHex();
 
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -227,25 +233,31 @@ namespace Clever2D.Core
         public static string ComputeSHA2Hash(this string str)
         {
             using (var alg = SHA256.Create())
-                return alg.ComputeHash(Encoding.UTF8.GetBytes(str)).toLowercaseHex();
+                return alg.ComputeHash(Encoding.UTF8.GetBytes(str)).ToLowercaseHex();
         }
 
+        /// <summary>
+        /// Returns streams MD5 hash.
+        /// </summary>
         public static string ComputeMD5Hash(this Stream stream)
         {
             string hash;
 
             stream.Seek(0, SeekOrigin.Begin);
             using (var md5 = MD5.Create())
-                hash = md5.ComputeHash(stream).toLowercaseHex();
+                hash = md5.ComputeHash(stream).ToLowercaseHex();
             stream.Seek(0, SeekOrigin.Begin);
 
             return hash;
         }
 
+        /// <summary>
+        /// Returns strings MD5 hash.
+        /// </summary>
         public static string ComputeMD5Hash(this string input)
         {
             using (var md5 = MD5.Create())
-                return md5.ComputeHash(Encoding.UTF8.GetBytes(input)).toLowercaseHex();
+                return md5.ComputeHash(Encoding.UTF8.GetBytes(input)).ToLowercaseHex();
         }
 
         /// <summary>

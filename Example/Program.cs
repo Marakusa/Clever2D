@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using Clever2D.Core;
 using Clever2D.Engine;
-using SDL2;
+using Newtonsoft.Json;
 
 namespace Example
 {
-    class Program : Clever
+    public class Program : Clever
     {
         [STAThread]
         static void Main(string[] args)
@@ -21,16 +22,22 @@ namespace Example
 
             Application.Config = config;
 
-            OperatingSystem os = System.Environment.OSVersion;
-
-            Clever.OnInitialized += () =>
+            OnInitialized += () =>
             {
-                Clever.Start(new Scene[] {
-                    new MainScene()
+                string a = File.ReadAllText($"{Application.ExecutableDirectory}/assets/scenes/MainScene.json");
+                Scene scene = JsonConvert.DeserializeObject<Scene>(a, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
                 });
+                
+                Scene[] scenes = {
+                    scene
+                };
+
+                Start(scenes);
             };
 
-            Clever.Initialize(config);
+            Initialize(config);
         }
     }
 }

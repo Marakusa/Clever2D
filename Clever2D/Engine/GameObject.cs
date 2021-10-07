@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Clever2D.UI;
+using Newtonsoft.Json;
 
 namespace Clever2D.Engine
 {
     /// <summary>
     /// Base class for all entities in scenes.
     /// </summary>
-    public class GameObject
+    public class GameObject : IDisposable
     {
         internal int instanceId;
 
@@ -24,10 +26,12 @@ namespace Clever2D.Engine
         /// <summary>
         /// The name of this GameObject.
         /// </summary>
-        public string name = "New GameObject";
+        [JsonProperty]
+        public readonly string name;
         /// <summary>
         /// The assigned tag to this GameObject.
         /// </summary>
+        [JsonProperty]
         public string tag = "Untagged";
         /// <summary>
         /// The transform component of this GameObject.
@@ -37,6 +41,14 @@ namespace Clever2D.Engine
         /// Components of this GameObject.
         /// </summary>
         public List<Component> components = new();
+        /// <summary>
+        /// Children GameObjects of this GameObject.
+        /// </summary>
+        public List<GameObject> children = new();
+        /// <summary>
+        /// Parent of this GameObject.
+        /// </summary>
+        public GameObject parent = null;
 
         /// <summary>
         /// Retrieves and returns a Component of type T.
@@ -46,7 +58,8 @@ namespace Clever2D.Engine
         {
             foreach (object component in components)
             {
-                if (typeof(T) == component.GetType())
+                if (typeof(T) == component.GetType() 
+                    || (typeof(T) == typeof(UIElement) && component.GetType().ToString().StartsWith("Clever2D.UI")))
                 {
                     return (T)component;
                 }
@@ -69,14 +82,14 @@ namespace Clever2D.Engine
         /// </summary>
         public static void Spawn(GameObject gameObject)
         {
-            SpawnGameObject(gameObject, Vector2.zero, Vector2.zero);
+            SpawnGameObject(gameObject, Vector2.Zero, Vector2.Zero);
         }
         /// <summary>
         /// Spawns the GameObject into the loaded scene.
         /// </summary>
         public static void Spawn(GameObject gameObject, Vector2 position)
         {
-            SpawnGameObject(gameObject, position, Vector2.zero);
+            SpawnGameObject(gameObject, position, Vector2.Zero);
         }
         /// <summary>
         /// Spawns the GameObject into the loaded scene.
@@ -114,6 +127,45 @@ namespace Clever2D.Engine
             catch (Exception exception)
             {
                 Player.LogError(exception.Message, exception);
+            }
+        }
+
+        private bool disposed;
+
+        /// <summary>
+        /// Disposes and destroys this GameObject.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes this GameObject and its components and children.
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    foreach (Component component in components)
+                    {
+                        component.Dispose();
+                    }
+
+                    components.Clear();
+
+                    foreach (GameObject child in children)
+                    {
+                        child.Dispose();
+                    }
+
+                    children.Clear();
+                }
+
+                disposed = true;
             }
         }
     }

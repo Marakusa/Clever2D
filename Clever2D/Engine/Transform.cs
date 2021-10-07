@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clever2D.Engine
 {
@@ -14,24 +10,37 @@ namespace Clever2D.Engine
         /// <summary>
         /// Position of the GameObject this Component is assigned to.
         /// </summary>
-        public Vector2 position = Vector2.zero;
+        public Vector2 position;
         /// <summary>
         /// Rotation of the GameObject this Component is assigned to.
         /// </summary>
-        public Vector2 rotation = Vector2.zero;
+        public Vector2 rotation;
         /// <summary>
         /// Scale of the GameObject this Component is assigned to.
         /// </summary>
-        public Vector2 scale = Vector2.one;
-
+        public Vector2 scale;
+        
+        // TODO: localPosition
+        
         /// <summary>
         /// Component that handles the GameObjects position, rotation and scale in the Scene.
         /// </summary>
         public Transform()
         {
-            position = Vector2.zero;
-            rotation = Vector2.zero;
-            scale = Vector2.one;
+            position = Vector2.Zero;
+            rotation = Vector2.Zero;
+            scale = Vector2.One;
+        }
+
+        internal override void Initialize() { }
+
+        /// <summary>
+        /// Disposes and destroys this Component.
+        /// </summary>
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

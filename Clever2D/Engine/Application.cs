@@ -8,54 +8,34 @@ namespace Clever2D.Engine
     public static class Application
     {
         /// <summary>
-        /// Applications configuration.
+        /// Executable directory (path to .exe without the executable file).
         /// </summary>
-        private static ApplicationConfig config = new();
+        public static string ExecutableDirectory
+        {
+            get;
+        } = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
         /// <summary>
         /// Get the Applications configuration.
         /// </summary>
         public static ApplicationConfig Config
         {
-            get
-            {
-                return config;
-            }
-            set
-            {
-                config = value;
-            }
-        }
+            get;
+            set;
+        } = new();
 
         /// <summary>
         /// Returns application product name (Read Only).
         /// </summary>
-        public static string ProductName
-        {
-            get
-            {
-                return Config.ProductName;
-            }
-        }
+        public static string ProductName => Config.ProductName;
         /// <summary>
         /// Returns application company name (Read Only).
         /// </summary>
-        public static string CompanyName
-        {
-            get
-            {
-                return Config.CompanyName;
-            }
-        }
+        public static string CompanyName => Config.CompanyName;
         /// <summary>
         /// Returns application product version (Read Only).
         /// </summary>
-        public static string ProductVersion
-        {
-            get
-            {
-                return Config.Version;
-            }
-        }
+        public static string ProductVersion => Config.Version;
 
         /// <summary>
         /// Quits the application.
@@ -77,55 +57,28 @@ namespace Clever2D.Engine
         /// </summary>
         public string ProductName
         {
-            get
-            {
-                return projectName;
-            }
-            set
-            {
-                if (projectName == "")
-                {
-                    projectName = value;
-                }
-            }
+            get => projectName;
+            init { if (projectName == "") projectName = value; }
         }
         /// <summary>
         /// Returns application company name.
         /// </summary>
         public string CompanyName
         {
-            get
-            {
-                return authorName;
-            }
-            set
-            {
-                if (authorName == "")
-                {
-                    authorName = value;
-                }
-            }
+            get => authorName;
+            init { if (authorName == "") authorName = value; }
         }
         /// <summary>
         /// Returns application product version.
         /// </summary>
         public string Version
         {
-            get
-            {
-                return version;
-            }
-            set
-            {
-                if (version == "")
-                {
-                    version = value;
-                }
-            }
+            get => version;
+            init { if (version == "") version = value; }
         }
 
-        private string projectName = "";
-        private string authorName = "";
-        private string version = "";
+        private readonly string projectName = "";
+        private readonly string authorName = "";
+        private readonly string version = "";
     }
 }

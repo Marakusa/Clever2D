@@ -6,23 +6,17 @@ namespace Clever2D.Engine
     /// <summary>
     /// The base class which manages all the Scenes.
     /// </summary>
-    public class SceneManager
+    public static class SceneManager
     {
         /// <summary>
-        /// Is the SceneManager initialized.
-        /// </summary>
-        private static bool isInitialized = false;
-        /// <summary>
-        /// Returns is the SceneManager initialized.
+        /// Returns if the SceneManager is initialized.
         /// </summary>
         public static bool IsInitialized
         {
-            get
-            {
-                return isInitialized;
-            }
+            get;
+            private set;
         }
-
+        
         /// <summary>
         /// Start the game and load the first Scene.
         /// </summary>
@@ -86,18 +80,12 @@ namespace Clever2D.Engine
         }
 
         /// <summary>
-        /// The loaded Scene.
-        /// </summary>
-        private static Scene loadedScene;
-        /// <summary>
         /// Returns the loaded Scene.
         /// </summary>
         public static Scene LoadedScene
         {
-            get
-            {
-                return loadedScene;
-            }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -107,34 +95,47 @@ namespace Clever2D.Engine
         /// <param name="e">The arguments for this event.</param>
         public delegate void LoadedEventHandler(object sender, SceneEventArgs e);
         /// <summary>
-        /// This event gets called when the Scene is done loading.
+        /// This event gets called when a Scene is done loading.
         /// </summary>
         public static event LoadedEventHandler OnLoaded = delegate { };
+
+        /// <summary>
+        /// EventHandler for the event OnLoad.
+        /// </summary>
+        /// <param name="sender">The sender of this event.</param>
+        /// <param name="e">The arguments for this event.</param>
+        public delegate void LoadEventHandler(object sender, SceneEventArgs e);
+        /// <summary>
+        /// This event gets called when a Scene starts to load.
+        /// </summary>
+        public static event LoadEventHandler OnLoad = delegate { };
 
         /// <summary>
         /// Load a scene.
         /// </summary>
         public static bool LoadScene(Scene scene)
         {
-            Player.Log("Loading a Scene named \"" + scene.Name + "\"...");
+            Player.Log($"Loading a Scene named \"{scene.name}\"...");
+
+            OnLoad?.Invoke(null, new(LoadedScene));
 
             try
             {
-                if (loadedScene != null)
+                if (LoadedScene != null)
                 {
-                    loadedScene.SpawnedGameObjects.Clear();
+                    LoadedScene.SpawnedGameObjects.Clear();
                 }
 
-                loadedScene = scene;
+                LoadedScene = scene;
 
-                foreach (GameObject obj in loadedScene.SceneGameObjects)
+                foreach (GameObject obj in LoadedScene.sceneGameObjects)
                 {
-                    loadedScene.SpawnGameObject(obj);
+                    LoadedScene.SpawnGameObject(obj);
                 }
 
-                isInitialized = true;
+                IsInitialized = true;
 
-                OnLoaded(null, new SceneEventArgs(loadedScene));
+                OnLoaded?.Invoke(null, new(LoadedScene));
 
                 return true;
             }

@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace Clever2D.Engine
 {
@@ -16,7 +10,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// The time at the beginning of the first frame.
         /// </summary>
-        private static long startTime = 0;
+        private static long _startTime;
         /// <summary>
         /// Returns the time from the beginning of the first frame.
         /// </summary>
@@ -24,24 +18,18 @@ namespace Clever2D.Engine
         {
             get
             {
-                long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                return (float)((milliseconds - startTime) / 1000f);
+                var milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                return (milliseconds - _startTime) / 1000f;
             }
         }
 
-        /// <summary>
-        /// The interval in seconds from the last frame to the current one.
-        /// </summary>
-        private static float deltaTime = 0f;
         /// <summary>
         /// Returns the interval in seconds from the last frame to the current one.
         /// </summary>
         public static float DeltaTime
         {
-            get
-            {
-                return deltaTime;
-            }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -49,17 +37,17 @@ namespace Clever2D.Engine
         /// </summary>
         public static void Initialize()
         {
-            startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            _startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
-            long frameStart = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            var frameStart = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
             System.Timers.Timer tickTimer = new();
 
             tickTimer.Interval = 1f;
-            tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+            tickTimer.Elapsed += delegate
             {
                 long frameEnd = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                deltaTime = (frameEnd - frameStart) / 1000f;
+                DeltaTime = (frameEnd - frameStart) / 1000f;
                 frameStart = frameEnd;
             };
 

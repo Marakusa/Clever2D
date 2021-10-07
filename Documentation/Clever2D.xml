@@ -9,9 +9,24 @@
             The base core script of Clever2D game engine.
             </summary>
         </member>
-        <member name="F:Clever2D.Core.Clever.executableDirectory">
+        <member name="P:Clever2D.Core.Clever.Renderer">
             <summary>
-            Executable directory (path to .exe without the executable file).
+            Returns the current screen renderer.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Core.Clever.Focused">
+            <summary>
+            Returns the window focus status.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Core.Clever.Quit">
+            <summary>
+            Returns the applications quit status.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Core.Clever.CurrentState">
+            <summary>
+            Returns the current window state.
             </summary>
         </member>
         <member name="P:Clever2D.Core.Clever.Size">
@@ -22,6 +37,11 @@
         <member name="P:Clever2D.Core.Clever.Position">
             <summary>
             Returns or sets the window's position in screen space.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Core.Clever.Fonts">
+            <summary>
+            Returns the loaded fonts.
             </summary>
         </member>
         <member name="M:Clever2D.Core.Clever.ScheduleCommand(System.Action)">
@@ -56,9 +76,29 @@
             Invoked once every window event loop.
             </summary>
         </member>
+        <member name="E:Clever2D.Core.Clever.FixedUpdate">
+            <summary>
+            Frame-rate independent window event loop.
+            </summary>
+        </member>
         <member name="E:Clever2D.Core.Clever.Destroying">
             <summary>
             Invoked when the application has started to destroy.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.Destroyed">
+            <summary>
+            Invoked when the application has destroyed.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.MouseEntered">
+            <summary>
+            Invoked when mouse has entered the window.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Core.Clever.MouseLeft">
+            <summary>
+            Invoked when mouse has left the window.
             </summary>
         </member>
         <member name="T:Clever2D.Core.Clever.WindowMovedHandler">
@@ -107,11 +147,10 @@
             </summary>
             <param name="action">The Action to execute.</param>
         </member>
-        <member name="M:Clever2D.Core.Clever.GetFPS(System.String)">
+        <member name="P:Clever2D.Core.Clever.Fps">
             <summary>
-            Returns the main threads fps
+            Returns the renderer fps.
             </summary>
-            <param name="format">Format the fps output.</param>
         </member>
         <member name="T:Clever2D.Core.WindowState">
             <summary>
@@ -191,6 +230,16 @@
             <param name="array">The array to invert.</param>
             <returns>The inverted array. This is always a square array.</returns>
         </member>
+        <member name="M:Clever2D.Core.ExtensionMethods.ToResolutionString(System.Drawing.Size)">
+            <summary>
+            Returns the given size as a resolution string.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Core.ExtensionMethods.GetLoadableTypes(System.Reflection.Assembly)">
+            <summary>
+            Gets given assembly loadable types.
+            </summary>
+        </member>
         <member name="M:Clever2D.Core.ExtensionMethods.GetDescription(System.Object)">
             <summary>
             Returns the description of a given object, via (in order):
@@ -218,6 +267,16 @@
             <param name="str">The string to create a hash from.</param>
             <returns>A lower-case hex string representation of the hash (64 characters).</returns>
         </member>
+        <member name="M:Clever2D.Core.ExtensionMethods.ComputeMD5Hash(System.IO.Stream)">
+            <summary>
+            Returns streams MD5 hash.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Core.ExtensionMethods.ComputeMD5Hash(System.String)">
+            <summary>
+            Returns strings MD5 hash.
+            </summary>
+        </member>
         <member name="M:Clever2D.Core.ExtensionMethods.ToStandardisedPath(System.String)">
             <summary>
             Standardise the path string using '/' as directory separator.
@@ -226,14 +285,158 @@
             <param name="path">The path string to standardise.</param>
             <returns>The standardised path string.</returns>
         </member>
+        <member name="T:Clever2D.Engine.Animation">
+            <summary>
+            The animation is used to play back animations.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animation.name">
+            <summary>
+            Name of this animation.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animation.timeline">
+            <summary>
+            Timeline of all frames of this animation.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animation.transitions">
+            <summary>
+            All transitions connected from this animation.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.AnimationCondition">
+            <summary>
+            Conditions for animation transitions.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationCondition.name">
+            <summary>
+            Condition name.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationCondition.value">
+            <summary>
+            Condition name (unset type).
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.AnimationPoint">
+            <summary>
+            The point of an animations timeline.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationPoint.time">
+            <summary>
+            The point of time in the animations timeline in milliseconds.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationPoint.spriteIndex">
+            <summary>
+            The index of a sprite in a sprite array.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.AnimationPoint.#ctor(System.Int32,System.Int32)">
+            <summary>
+            The point of an animations timeline.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.AnimationTransition">
+            <summary>
+            Animation transition from animation to animation.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationTransition.conditions">
+            <summary>
+            Transition conditions.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationTransition.to">
+            <summary>
+            ID of the animation to transition.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.AnimationTransitionCondition">
+            <summary>
+            Animation transitions set conditions.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationTransitionCondition.name">
+            <summary>
+            Condition name.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimationTransitionCondition.value">
+            <summary>
+            Conditions set value.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Animator">
+            <summary>
+            Animator is the base of an GameObjects sprite animations.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animator.animations">
+            <summary>
+            Animators animations.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animator.conditions">
+            <summary>
+            Animators conditions.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Animator.activeAnimation">
+            <summary>
+            Currently active animation.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.AnimatorController">
+            <summary>
+            The controller of the animators animations.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimatorController.animatorPath">
+            <summary>
+            Assigned animators file path.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.AnimatorController.animator">
+            <summary>
+            The animator assigned to this controller.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.AnimatorController.#ctor(System.String)">
+            <summary>
+            The controller of the animators animations.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.AnimatorController.SetBool(System.String,System.Boolean)">
+            <summary>
+            Set an animators bool conditions value.
+            </summary>
+            <param name="name">Animator condition name.</param>
+            <param name="value">Condition value.</param>
+        </member>
+        <member name="M:Clever2D.Engine.AnimatorController.SetInt(System.String,System.Int32)">
+            <summary>
+            Set an animators int conditions value.
+            </summary>
+            <param name="name">Animator condition name.</param>
+            <param name="value">Condition value.</param>
+        </member>
+        <member name="M:Clever2D.Engine.AnimatorController.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.Application">
             <summary>
             Access to application data.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Application.config">
+        <member name="P:Clever2D.Engine.Application.ExecutableDirectory">
             <summary>
-            Applications configuration.
+            Executable directory (path to .exe without the executable file).
             </summary>
         </member>
         <member name="P:Clever2D.Engine.Application.Config">
@@ -281,14 +484,34 @@
             Returns application product version.
             </summary>
         </member>
+        <member name="T:Clever2D.Engine.Camera">
+            <summary>
+            Camera renders the loaded Scene.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.Camera.MainCamera">
+            <summary>
+            Returns the global main camera.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Camera.#ctor">
+            <summary>
+            Camera renders the loaded Scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Camera.Update">
+            <summary>
+            Update is called on every frame.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Camera.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.CleverScript">
             <summary>
             CleverScript is the base class from which every Clever script delivers.
-            </summary>
-        </member>
-        <member name="F:Clever2D.Engine.CleverScript.timer">
-            <summary>
-            A timer for Update functions.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.CleverScript.Start">
@@ -296,9 +519,29 @@
             Start is called on the frame when a script is enabled just before any Update methods are called.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.CleverScript.Update">
+            <summary>
+            Update is called on every frame.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.CleverScript.FixedUpdate">
             <summary>
             Frame-rate independ Update method.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.CleverScript.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.CMath">
+            <summary>
+            CMath contains additional math calculations.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.CMath.Gcd(System.UInt64,System.UInt64)">
+            <summary>
+            Greatest common divisor.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Component">
@@ -319,6 +562,16 @@
         <member name="M:Clever2D.Engine.Component.Destroy(Clever2D.Engine.Component)">
             <summary>
             Removes a GameObject, component or asset.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Component.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Component.Dispose(System.Boolean)">
+            <summary>
+            Disposes this Component.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.GameObject">
@@ -349,6 +602,16 @@
         <member name="F:Clever2D.Engine.GameObject.components">
             <summary>
             Components of this GameObject.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.GameObject.children">
+            <summary>
+            Children GameObjects of this GameObject.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.GameObject.parent">
+            <summary>
+            Parent of this GameObject.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.GameObject.GetComponent``1">
@@ -387,17 +650,27 @@
             Removes a GameObject, component or asset.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.GameObject.Dispose">
+            <summary>
+            Disposes and destroys this GameObject.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.GameObject.Dispose(System.Boolean)">
+            <summary>
+            Disposes this GameObject and its components and children.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.Player">
             <summary>
             The base class for the Clever Player which controls the logging.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Player.logFile">
+        <member name="F:Clever2D.Engine.Player._logFile">
             <summary>
             Path to the currently active log file.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Player.logDirectory">
+        <member name="F:Clever2D.Engine.Player._logDirectory">
             <summary>
             Path to the currently active log files directory.
             </summary>
@@ -444,7 +717,7 @@
             Collection of entities and components.
             </summary>
         </member>
-        <member name="P:Clever2D.Engine.Scene.Name">
+        <member name="F:Clever2D.Engine.Scene.name">
             <summary>
             Name of the scene.
             </summary>
@@ -474,6 +747,11 @@
             Returns the list of all spawned GameObjects.
             </summary>
         </member>
+        <member name="P:Clever2D.Engine.Scene.IsInitialized">
+            <summary>
+            Returns if the Scene is initialized.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.Scene.SpawnGameObject(Clever2D.Engine.GameObject)">
             <summary>
             Spawn a GameObejct to this Scene if loaded.
@@ -482,7 +760,7 @@
         </member>
         <member name="M:Clever2D.Engine.Scene.DestroyGameObject(Clever2D.Engine.GameObject)">
             <summary>
-            Destroy a GameObejct in this Scene if loaded.
+            Destroy a GameObject in this Scene if loaded.
             </summary>
             <param name="gameObject">The GameObject to destroy.</param>
         </member>
@@ -504,7 +782,7 @@
             Loads this scene.
             </summary>
         </member>
-        <member name="P:Clever2D.Engine.Scene.SceneGameObjects">
+        <member name="F:Clever2D.Engine.Scene.sceneGameObjects">
             <summary>
             List of the GameObjects in this Scene.
             </summary>
@@ -514,14 +792,9 @@
             The base class which manages all the Scenes.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.SceneManager.isInitialized">
-            <summary>
-            Is the SceneManager initialized.
-            </summary>
-        </member>
         <member name="P:Clever2D.Engine.SceneManager.IsInitialized">
             <summary>
-            Returns is the SceneManager initialized.
+            Returns if the SceneManager is initialized.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.SceneManager.Initialize">
@@ -554,11 +827,6 @@
             Add multiple Scenes to the SceneManagers Scene list.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.SceneManager.loadedScene">
-            <summary>
-            The loaded Scene.
-            </summary>
-        </member>
         <member name="P:Clever2D.Engine.SceneManager.LoadedScene">
             <summary>
             Returns the loaded Scene.
@@ -573,7 +841,19 @@
         </member>
         <member name="E:Clever2D.Engine.SceneManager.OnLoaded">
             <summary>
-            This event gets called when the Scene is done loading.
+            This event gets called when a Scene is done loading.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.SceneManager.LoadEventHandler">
+            <summary>
+            EventHandler for the event OnLoad.
+            </summary>
+            <param name="sender">The sender of this event.</param>
+            <param name="e">The arguments for this event.</param>
+        </member>
+        <member name="E:Clever2D.Engine.SceneManager.OnLoad">
+            <summary>
+            This event gets called when a Scene starts to load.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.SceneManager.LoadScene(Clever2D.Engine.Scene)">
@@ -612,6 +892,11 @@
             Rect of the assigned image to this object which contains the size of the texture.
             </summary>
         </member>
+        <member name="F:Clever2D.Engine.Sprite.pivot">
+            <summary>
+            Sprite pivot (scales from 0 to 1 per dimension).
+            </summary>
+        </member>
         <member name="F:Clever2D.Engine.Sprite.path">
             <summary>
             Path to the source of the image of this Sprite.
@@ -622,21 +907,74 @@
             Returns the path to the source of the image of this Sprite.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String)">
+        <member name="F:Clever2D.Engine.Sprite.size">
+            <summary>
+            Size of this Sprite.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Sprite.offset">
+            <summary>
+            Offset of this Sprite.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Sprite.#ctor">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2Int)">
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2)">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2)">
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2,Clever2D.Engine.Vector2Int)">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
             </summary>
-            <param name="offset">Offset of the rendering area of the texture (scales from 0 to 1).</param>
+        </member>
+        <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2,Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2)">
+            <summary>
+            Represents a Sprite object for use in 2D gameplay.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.SpriteArray">
+            <summary>
+            2D array of Sprites.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.spritePath">
+            <summary>
+            Path to the source of the image of this Sprite.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.pivot">
+            <summary>
+            Sprite pivot (scales from 0 to 1 per dimension).
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.rows">
+            <summary>
+            SpriteArrays row count.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteArray.columns">
+            <summary>
+            SpriteArrays column count.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.SpriteArray.Sprites">
+            <summary>
+            Returns this Sprite array.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SpriteArray.#ctor(System.String,Clever2D.Engine.Vector2,System.Int32,System.Int32)">
+            <summary>
+            2D array of Sprites.
+            </summary>
+            <param name="spritePath">Target Sprite asset path.</param>
+            <param name="pivot">Split sprites pivot point.</param>
+            <param name="rows">Split Sprite rows count.</param>
+            <param name="columns">Split Sprite columns count.</param>
         </member>
         <member name="T:Clever2D.Engine.SpriteRenderer">
             <summary>
@@ -646,6 +984,11 @@
         <member name="F:Clever2D.Engine.SpriteRenderer.sprite">
             <summary>
             The assigned Sprite to this SpriteRenderer.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteRenderer.spriteArray">
+            <summary>
+            The assigned SpriteArray to this SpriteRenderer.
             </summary>
         </member>
         <member name="P:Clever2D.Engine.SpriteRenderer.Sprite">
@@ -658,12 +1001,22 @@
             Component that manages the Sprite wanted to be rendered in a GameObject.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.SpriteRenderer.#ctor(Clever2D.Engine.SpriteArray)">
+            <summary>
+            Component that manages the Sprite wanted to be rendered in a GameObject.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.SpriteRenderer.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.Time">
             <summary>
             The base class that manages the time of this Clever game.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Time.startTime">
+        <member name="F:Clever2D.Engine.Time._startTime">
             <summary>
             The time at the beginning of the first frame.
             </summary>
@@ -671,11 +1024,6 @@
         <member name="P:Clever2D.Engine.Time.TotalTime">
             <summary>
             Returns the time from the beginning of the first frame.
-            </summary>
-        </member>
-        <member name="F:Clever2D.Engine.Time.deltaTime">
-            <summary>
-            The interval in seconds from the last frame to the current one.
             </summary>
         </member>
         <member name="P:Clever2D.Engine.Time.DeltaTime">
@@ -711,6 +1059,11 @@
         <member name="M:Clever2D.Engine.Transform.#ctor">
             <summary>
             Component that handles the GameObjects position, rotation and scale in the Scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Transform.Dispose">
+            <summary>
+            Disposes and destroys this Component.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Vector">
@@ -758,6 +1111,16 @@
             Gets the magnitude of this vector.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.Vector.op_Equality(Clever2D.Engine.Vector,Clever2D.Engine.Vector)">
+            <summary>
+            Equals.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.op_Inequality(Clever2D.Engine.Vector,Clever2D.Engine.Vector)">
+            <summary>
+            Doesn't match.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.Vector.ToVector2">
             <summary>
             Converts any Vector value to Vector2.
@@ -788,42 +1151,42 @@
             Representation of 2D vectors and points.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2.right">
+        <member name="P:Clever2D.Engine.Vector2.Right">
             <summary>
             Shorthand for writing Vector2(1, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2.left">
+        <member name="P:Clever2D.Engine.Vector2.Left">
             <summary>
             Shorthand for writing Vector2(-1, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2.up">
+        <member name="P:Clever2D.Engine.Vector2.Up">
             <summary>
             Shorthand for writing Vector2(0, 1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2.down">
+        <member name="P:Clever2D.Engine.Vector2.Down">
             <summary>
             Shorthand for writing Vector2(0, -1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2.one">
+        <member name="P:Clever2D.Engine.Vector2.One">
             <summary>
             Shorthand for writing Vector2(1, 1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2.zero">
+        <member name="P:Clever2D.Engine.Vector2.Zero">
             <summary>
             Shorthand for writing Vector2(0, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2.positiveInfinity">
+        <member name="P:Clever2D.Engine.Vector2.PositiveInfinity">
             <summary>
             Shorthand for writing Vector2(float.PositiveInfinity, float.PositiveInfinity).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2.negativeInfinity">
+        <member name="P:Clever2D.Engine.Vector2.NegativeInfinity">
             <summary>
             Shorthand for writing Vector2(float.NegativeInfinity, float.NegativeInfinity).
             </summary>
@@ -833,9 +1196,104 @@
             Set x and y components of an existing Vector2.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.Vector2.ToString">
+            <summary>
+            Returns a formatted string for this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.Equals(System.Object)">
+            <summary>
+            Returns true if the given vector is exactly equal to this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.GetHashCode">
+            <summary>
+            Gets the hash code for the Vector value.
+            </summary>
+        </member>
         <member name="P:Clever2D.Engine.Vector2.Normalized">
             <summary>
             Gets this vector with a magnitude of 1.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Addition(Clever2D.Engine.Vector2,Clever2D.Engine.Vector2)">
+            <summary>
+            Add.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Addition(Clever2D.Engine.Vector2,Clever2D.Engine.Vector3)">
+            <summary>
+            Add.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Subtraction(Clever2D.Engine.Vector2,Clever2D.Engine.Vector2)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Subtraction(Clever2D.Engine.Vector2,Clever2D.Engine.Vector3)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Subtraction(Clever2D.Engine.Vector3,Clever2D.Engine.Vector2)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Multiply(Clever2D.Engine.Vector2,Clever2D.Engine.Vector2)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Multiply(Clever2D.Engine.Vector2,Clever2D.Engine.Vector3)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Multiply(Clever2D.Engine.Vector3,Clever2D.Engine.Vector2)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Multiply(Clever2D.Engine.Vector2,System.Single)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Multiply(Clever2D.Engine.Vector2,System.Int32)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Multiply(Clever2D.Engine.Vector2,System.Double)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Multiply(Clever2D.Engine.Vector2,System.Decimal)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Division(Clever2D.Engine.Vector2,Clever2D.Engine.Vector2)">
+            <summary>
+            Divide.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Division(Clever2D.Engine.Vector2,Clever2D.Engine.Vector3)">
+            <summary>
+            Divide.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Division(Clever2D.Engine.Vector3,Clever2D.Engine.Vector2)">
+            <summary>
+            Divide.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2.op_Division(Clever2D.Engine.Vector2,System.Single)">
+            <summary>
+            Divide.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Vector3">
@@ -863,52 +1321,52 @@
             Representation of 3D vectors and points.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.right">
+        <member name="P:Clever2D.Engine.Vector3.Right">
             <summary>
             Shorthand for writing Vector3(1, 0, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.left">
+        <member name="P:Clever2D.Engine.Vector3.Left">
             <summary>
             Shorthand for writing Vector3(-1, 0, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.up">
+        <member name="P:Clever2D.Engine.Vector3.Up">
             <summary>
             Shorthand for writing Vector3(0, 1, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.down">
+        <member name="P:Clever2D.Engine.Vector3.Down">
             <summary>
             Shorthand for writing Vector3(0, -1, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.forward">
+        <member name="P:Clever2D.Engine.Vector3.Forward">
             <summary>
             Shorthand for writing Vector3(0, 0, 1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.back">
+        <member name="P:Clever2D.Engine.Vector3.Back">
             <summary>
             Shorthand for writing Vector3(0, 0, -1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.one">
+        <member name="P:Clever2D.Engine.Vector3.One">
             <summary>
             Shorthand for writing Vector3(1, 1, 1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.zero">
+        <member name="P:Clever2D.Engine.Vector3.Zero">
             <summary>
             Shorthand for writing Vector3(0, 0, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.positiveInfinity">
+        <member name="P:Clever2D.Engine.Vector3.PositiveInfinity">
             <summary>
             Shorthand for writing Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3.negativeInfinity">
+        <member name="P:Clever2D.Engine.Vector3.NegativeInfinity">
             <summary>
             Shorthand for writing Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity).
             </summary>
@@ -918,9 +1376,89 @@
             Set x and y components of an existing Vector3.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.Vector3.ToString">
+            <summary>
+            Returns a formatted string for this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.Equals(System.Object)">
+            <summary>
+            Returns true if the given vector is exactly equal to this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.GetHashCode">
+            <summary>
+            Gets the hash code for the Vector value.
+            </summary>
+        </member>
         <member name="P:Clever2D.Engine.Vector3.Normalized">
             <summary>
             Gets this vector with a magnitude of 1.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Addition(Clever2D.Engine.Vector3,Clever2D.Engine.Vector2)">
+            <summary>
+            Add.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Addition(Clever2D.Engine.Vector3,Clever2D.Engine.Vector3)">
+            <summary>
+            Add.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Subtraction(Clever2D.Engine.Vector3,Clever2D.Engine.Vector2)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Subtraction(Clever2D.Engine.Vector3,Clever2D.Engine.Vector3)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Multiply(Clever2D.Engine.Vector3,Clever2D.Engine.Vector3)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Multiply(Clever2D.Engine.Vector3,Clever2D.Engine.Vector2)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Multiply(Clever2D.Engine.Vector3,System.Single)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Multiply(Clever2D.Engine.Vector3,System.Int32)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Multiply(Clever2D.Engine.Vector3,System.Double)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Multiply(Clever2D.Engine.Vector3,System.Decimal)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Division(Clever2D.Engine.Vector3,Clever2D.Engine.Vector3)">
+            <summary>
+            Divide.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Division(Clever2D.Engine.Vector3,Clever2D.Engine.Vector2)">
+            <summary>
+            Divide.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3.op_Division(Clever2D.Engine.Vector3,System.Single)">
+            <summary>
+            Divide.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.VectorInt">
@@ -958,6 +1496,16 @@
             Gets the hash code for the Vector value.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.VectorInt.op_Equality(Clever2D.Engine.VectorInt,Clever2D.Engine.VectorInt)">
+            <summary>
+            Compare Vectors.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.VectorInt.op_Inequality(Clever2D.Engine.VectorInt,Clever2D.Engine.VectorInt)">
+            <summary>
+            Compare Vectors (doesn't match).
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.VectorInt.ToVector2Int">
             <summary>
             Converts any Vector value to Vector2Int.
@@ -988,32 +1536,32 @@
             Representation of 2D vectors and points.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2Int.right">
+        <member name="P:Clever2D.Engine.Vector2Int.Right">
             <summary>
             Shorthand for writing Vector2Int(1, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2Int.left">
+        <member name="P:Clever2D.Engine.Vector2Int.Left">
             <summary>
             Shorthand for writing Vector2Int(-1, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2Int.up">
+        <member name="P:Clever2D.Engine.Vector2Int.Up">
             <summary>
             Shorthand for writing Vector2Int(0, 1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2Int.down">
+        <member name="P:Clever2D.Engine.Vector2Int.Down">
             <summary>
             Shorthand for writing Vector2Int(0, -1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2Int.one">
+        <member name="P:Clever2D.Engine.Vector2Int.One">
             <summary>
             Shorthand for writing Vector2Int(1, 1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector2Int.zero">
+        <member name="P:Clever2D.Engine.Vector2Int.Zero">
             <summary>
             Shorthand for writing Vector2Int(0, 0).
             </summary>
@@ -1021,6 +1569,81 @@
         <member name="M:Clever2D.Engine.Vector2Int.Set(System.Int32,System.Int32)">
             <summary>
             Set x and y components of an existing Vector2.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.ToString">
+            <summary>
+            Returns a formatted string for this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.Equals(System.Object)">
+            <summary>
+            Returns true if the given vector is exactly equal to this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.GetHashCode">
+            <summary>
+            Gets the hash code for the Vector value.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Addition(Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Add.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Addition(Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector3Int)">
+            <summary>
+            Add.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Subtraction(Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Subtraction(Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector3Int)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Subtraction(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Multiply(Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Multiply(Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector3Int)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Multiply(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Multiply(Clever2D.Engine.Vector2Int,System.Int32)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Division(Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Divide.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Division(Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector3Int)">
+            <summary>
+            Divide.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector2Int.op_Division(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Divide.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Vector3Int">
@@ -1048,42 +1671,42 @@
             Representation of 3D vectors and points.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3Int.right">
+        <member name="P:Clever2D.Engine.Vector3Int.Right">
             <summary>
             Shorthand for writing Vector3Int(1, 0, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3Int.left">
+        <member name="P:Clever2D.Engine.Vector3Int.Left">
             <summary>
             Shorthand for writing Vector3Int(-1, 0, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3Int.up">
+        <member name="P:Clever2D.Engine.Vector3Int.Up">
             <summary>
             Shorthand for writing Vector3Int(0, 1, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3Int.down">
+        <member name="P:Clever2D.Engine.Vector3Int.Down">
             <summary>
             Shorthand for writing Vector3Int(0, -1, 0).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3Int.forward">
+        <member name="P:Clever2D.Engine.Vector3Int.Forward">
             <summary>
             Shorthand for writing Vector3Int(0, 0, 1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3Int.back">
+        <member name="P:Clever2D.Engine.Vector3Int.Back">
             <summary>
             Shorthand for writing Vector3Int(0, 0, -1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3Int.one">
+        <member name="P:Clever2D.Engine.Vector3Int.One">
             <summary>
             Shorthand for writing Vector3Int(1, 1, 1).
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.Vector3Int.zero">
+        <member name="P:Clever2D.Engine.Vector3Int.Zero">
             <summary>
             Shorthand for writing Vector3Int(0, 0, 0).
             </summary>
@@ -1091,6 +1714,66 @@
         <member name="M:Clever2D.Engine.Vector3Int.Set(System.Int32,System.Int32,System.Int32)">
             <summary>
             Set x and y components of an existing Vector3Int.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.ToString">
+            <summary>
+            Returns a formatted string for this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.Equals(System.Object)">
+            <summary>
+            Returns true if the given vector is exactly equal to this vector.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.GetHashCode">
+            <summary>
+            Gets the hash code for the Vector value.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Addition(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Add.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Addition(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector3Int)">
+            <summary>
+            Add.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Subtraction(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Subtraction(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector3Int)">
+            <summary>
+            Subtract.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Multiply(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector3Int)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Multiply(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Multiply(Clever2D.Engine.Vector3Int,System.Int32)">
+            <summary>
+            Multiply.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Division(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector3Int)">
+            <summary>
+            Divide.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector3Int.op_Division(Clever2D.Engine.Vector3Int,Clever2D.Engine.Vector2Int)">
+            <summary>
+            Divide.
             </summary>
         </member>
         <member name="T:Clever2D.Input.Input">
@@ -1104,12 +1787,18 @@
             </summary>
             <param name="key">Key to be checked for input.</param>
         </member>
+        <member name="M:Clever2D.Input.Input.GetButton(System.String)">
+            <summary>
+            Returns a bool value if the given key is pressed at the moment.
+            </summary>
+            <param name="button">Button name to be checked for input.</param>
+        </member>
         <member name="T:Clever2D.Input.InputManager">
             <summary>
             Manages all the input.
             </summary>
         </member>
-        <member name="F:Clever2D.Input.InputManager.keysPressed">
+        <member name="F:Clever2D.Input.InputManager.KeysPressed">
             <summary>
             List of all keys pressed at the moment.
             </summary>
@@ -1127,6 +1816,36 @@
         <member name="M:Clever2D.Input.InputManager.KeyUp(SDL2.SDL.SDL_KeyboardEvent)">
             <summary>
             Player releases a key.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Input.KeyboardEvent">
+            <summary>
+            Keyboard event for InputManager.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Input.KeyboardEvent.key">
+            <summary>
+            Event key.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Input.KeyboardEvent.keyEvent">
+            <summary>
+            Event key event.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Input.KeyboardEvent.time">
+            <summary>
+            Event time.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Input.KeyboardEvent.#ctor(SDL2.SDL.SDL_KeyboardEvent,System.Single)">
+            <summary>
+            Keyboard event for InputManager.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Threading.ScheduledDelegate">
+            <summary>
+            Scheduled delegate for scheduling delegates.
             </summary>
         </member>
         <member name="P:Clever2D.Threading.ScheduledDelegate.ExecutionTime">
@@ -1156,9 +1875,19 @@
             Whether this task has been cancelled.
             </summary>
         </member>
+        <member name="F:Clever2D.Threading.ScheduledDelegate.State">
+            <summary>
+            Scheduled delegate run state.
+            </summary>
+        </member>
         <member name="F:Clever2D.Threading.ScheduledDelegate.Task">
             <summary>
             The work task.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Threading.ScheduledDelegate.#ctor(System.Action,System.Double,System.Double)">
+            <summary>
+            Scheduled delegate for scheduling delegates.
             </summary>
         </member>
         <member name="M:Clever2D.Threading.ScheduledDelegate.RunTask">
@@ -1182,6 +1911,11 @@
             <remarks>
             This call may block if the task is currently being run on another thread.
             </remarks>
+        </member>
+        <member name="M:Clever2D.Threading.ScheduledDelegate.CompareTo(Clever2D.Threading.ScheduledDelegate)">
+            <summary>
+            Compare scheduled delegate execution times.
+            </summary>
         </member>
         <member name="T:Clever2D.Threading.ScheduledDelegate.RunState">
             <summary>
@@ -1231,6 +1965,11 @@
         <member name="M:Clever2D.Threading.Scheduler.#ctor(System.Func{System.Boolean},Clever2D.Timing.IClock)">
             <summary>
             The base thread is assumed to be the thread on which the constructor is run.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Threading.Scheduler.UpdateClock(Clever2D.Timing.IClock)">
+            <summary>
+            Scheduler update loop.
             </summary>
         </member>
         <member name="P:Clever2D.Threading.Scheduler.IsMainThread">
@@ -1354,9 +2093,124 @@
             The current time, represented solely by the accumulated <see cref="T:System.Diagnostics.Stopwatch"/> time.
             </summary>
         </member>
+        <member name="T:Clever2D.UI.Text">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.text">
+            <summary>
+            Text element text.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.fontStyle">
+            <summary>
+            Text style.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.size">
+            <summary>
+            Text font size.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.color">
+            <summary>
+            Text color.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.sans">
+            <summary>
+            Text font.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.Text.worldSpace">
+            <summary>
+            Is element placed on the Screen or in the Scene.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor(System.Int32)">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor(System.String,System.Int32)">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor(System.String,System.Int32,SDL2.SDL.SDL_Color)">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.#ctor(SDL2.SDL.SDL_Color)">
+            <summary>
+            Text element for UI.
+            </summary>
+        </member>
+        <member name="M:Clever2D.UI.Text.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
+        <member name="T:Clever2D.UI.FontStyle">
+            <summary>
+            Font styles for UI elements.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.FontStyle.Normal">
+            <summary>
+            Normal font style.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.FontStyle.Italic">
+            <summary>
+            Italic font style.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.FontStyle.Bold">
+            <summary>
+            Bold font style.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.FontStyle.Underline">
+            <summary>
+            Underline font style.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.FontStyle.Strikethrough">
+            <summary>
+            Strikethrough font style.
+            </summary>
+        </member>
+        <member name="T:Clever2D.UI.UIElement">
+            <summary>
+            Base class for all UI elements.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.UIElement.screenAlign">
+            <summary>
+            Alignment of this UI element on screen. (0,0) is top-left and (1,1) is bottom-right.
+            </summary>
+        </member>
+        <member name="F:Clever2D.UI.UIElement.pivot">
+            <summary>
+            Pivot of this UI element. (0,0) is top-left and (1,1) is bottom-right.
+            </summary>
+        </member>
         <member name="T:Clever2D.Version">
             <summary>
             The class that handles the Version of Clever.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Version.Release">
+            <summary>
+            Clever2D release state (Alpha, Beta, Release).
             </summary>
         </member>
         <member name="P:Clever2D.Version.CurrentVersion">

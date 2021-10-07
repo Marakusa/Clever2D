@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Timers;
 
 namespace Clever2D.Engine
 {
     /// <summary>
     /// Collection of entities and components.
     /// </summary>
-    public abstract class Scene
+    public class Scene
     {
         /// <summary>
         /// Name of the scene.
         /// </summary>
-        public abstract string Name
-        {
-            get;
-        }
+        public string name;
 
         /// <summary>
         /// Get the ID of the scene.
@@ -27,8 +22,8 @@ namespace Clever2D.Engine
             {
                 if (SceneManager.includedScenes.Contains(this))
                     return SceneManager.includedScenes.IndexOf(this);
-                else
-                    return -1;
+                
+                return -1;
             }
         }
 
@@ -48,13 +43,13 @@ namespace Clever2D.Engine
         /// <summary>
         /// Returns the list of all spawned GameObjects.
         /// </summary>
-        public Dictionary<int, GameObject> SpawnedGameObjects
-        {
-            get
-            {
-                return spawnedGameObjects;
-            }
-        }
+        public Dictionary<int, GameObject> SpawnedGameObjects => spawnedGameObjects;
+
+        private bool isInitialized;
+        /// <summary>
+        /// Returns if the Scene is initialized.
+        /// </summary>
+        public bool IsInitialized => isInitialized;
 
         /// <summary>
         /// Spawn a GameObejct to this Scene if loaded.
@@ -68,40 +63,21 @@ namespace Clever2D.Engine
                 {
                     gameObject.transform = gameObject.GetComponent<Transform>();
 
-                    if (nextId <= 2147483647 && nextId >= -2147483648)
+                    if (availableIds.Count > 0)
                     {
-                        if (gameObject != null)
-                        {
-                            if (availableIds.Count > 0)
-                            {
-                                int id = availableIds[0];
+                        int id = availableIds[0];
 
-                                availableIds.Remove(id);
+                        availableIds.Remove(id);
 
-                                gameObject.instanceId = id;
-                                AddGameObject(id, gameObject);
-                            }
-                            else
-                            {
-                                gameObject.instanceId = nextId;
-                                AddGameObject(nextId, gameObject);
-
-                                nextId++;
-                            }
-                        }
-                        else
-                        {
-                            Player.LogError("GameObject could not be instantiated. Given GameObject was null.", new NullReferenceException());
-                        }
+                        gameObject.instanceId = id;
+                        AddGameObject(id, gameObject);
                     }
                     else
                     {
-                        if (nextId > 2147483647)
-                            Player.LogError("GameObject could not be instantiated. The next instance ID available was larger than the 32-bit limit (2147483647).");
-                        else if (nextId < -2147483648)
-                            Player.LogError("GameObject could not be instantiated. The next instance ID available was smaller than the 32-bit limit (-2147483648).");
-                        else
-                            Player.LogError("GameObject could not be instantiated.");
+                        gameObject.instanceId = nextId;
+                        AddGameObject(nextId, gameObject);
+
+                        nextId++;
                     }
                 }
                 catch (Exception exception)
@@ -115,7 +91,7 @@ namespace Clever2D.Engine
             }
         }
         /// <summary>
-        /// Destroy a GameObejct in this Scene if loaded.
+        /// Destroy a GameObject in this Scene if loaded.
         /// </summary>
         /// <param name="gameObject">The GameObject to destroy.</param>
         internal void DestroyGameObject(GameObject gameObject)
@@ -154,41 +130,38 @@ namespace Clever2D.Engine
         {
             if (SceneManager.LoadedScene == this)
             {
-                spawnedGameObjects.Add(id, gameObject);
+                isInitialized = false;
+
+                bool added = false;
+                
+                while (!added)
+                {
+                    if (spawnedGameObjects.ContainsKey(id))
+                    {
+                        id++;
+                        nextId = id + 1;
+                    }
+                    else
+                    {
+                        spawnedGameObjects.Add(id, gameObject);
+                        added = true;
+                    }
+                }
+
+                foreach (GameObject child in gameObject.children)
+                {
+                    child.parent = gameObject;
+                    SpawnGameObject(child);
+                }
 
                 foreach (Component component in gameObject.components)
                 {
                     component.gameObject = gameObject;
                     component.transform = gameObject.transform;
-
-                    if ((component as CleverScript) != null)
-                    {
-                        ((CleverScript)component).Start();
-
-                        Thread thread = new(() =>
-                        {
-                            System.Timers.Timer tickTimer = new();
-
-                            DateTime frameStart = DateTime.Now;
-                            DateTime frameEnd = DateTime.Now;
-
-                            tickTimer.Interval = 1f / 60f;
-                            tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
-                            {
-                                ((CleverScript)component).FixedUpdate();
-                                //frameEnd = DateTime.Now;
-                                //double fps = (60000f / (frameEnd - frameStart).TotalMilliseconds);
-                                //frameStart = DateTime.Now;
-                            };
-
-                            tickTimer.Start();
-
-                            ((CleverScript)component).timer = tickTimer;
-                        });
-
-                        thread.Start();
-                    }
+                    component.Initialize();
                 }
+
+                isInitialized = true;
             }
             else
             {
@@ -203,16 +176,8 @@ namespace Clever2D.Engine
         {
             if (SceneManager.LoadedScene == this)
             {
-                foreach (Component component in gameObject.components)
-                {
-                    if ((component as CleverScript) != null)
-                    {
-                        ((CleverScript)component).timer.Stop();
-                        ((CleverScript)component).timer = null;
-                    }
-                }
-
                 spawnedGameObjects.Remove(gameObject.InstanceId);
+                gameObject.Dispose();
             }
             else
             {
@@ -227,16 +192,13 @@ namespace Clever2D.Engine
         {
             if (!SceneManager.LoadScene(this))
             {
-                Player.LogError("Loading \"" + Name + "\" failed.");
+                Player.LogError($"Loading \"{name}\" failed.");
             }
         }
 
         /// <summary>
         /// List of the GameObjects in this Scene.
         /// </summary>
-        public abstract List<GameObject> SceneGameObjects
-        {
-            get;
-        }
+        public List<GameObject> sceneGameObjects = new();
     }
 }
