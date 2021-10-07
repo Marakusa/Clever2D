@@ -7,7 +7,7 @@ namespace Example
 {
     public class MainScene : Scene
     {
-        private readonly string name = "MainScene";
+        private string name = "MainScene";
         public override string Name
         {
             get

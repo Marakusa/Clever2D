@@ -1,0 +1,45 @@
+{
+    "name": "MainScene",
+    "sceneGameObjects": [
+        {
+            "name": "Background",
+            "tag": "Background",
+            "components": [
+                {
+                    "$type": "Clever2D.Transform, Clever2D",
+                    "Position": {
+                        "x": 0, "y": 0
+                    },
+                    "Rotation": {
+                        "x": 0, "y": 0
+                    },
+                    "Scale": {
+                        "x": 1, "y": 1
+                    }
+                },
+                {
+                    "$type": "Clever2D.SpriteRenderer, Clever2D",
+                    "sprite": {
+                        "path": "resources/BackgroundTile_1.png",
+                        "loadSprite": {
+                            "pivot": {
+                                "$type": "Clever2D.Vector2, Clever2D",
+                                
+                            }
+                        }
+                    }
+                    new SpriteRenderer(new Sprite("resources/DungeonTile_1.png", Vector2.Zero))
+                    "Position": {
+                        "x": 0, "y": 0
+                    },
+                    "Rotation": {
+                        "x": 0, "y": 0
+                    },
+                    "Scale": {
+                        "x": 1, "y": 1
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -37,7 +37,7 @@ namespace Clever2D.Engine
 				animator = new();
 
 				List<Animator> items;
-					
+				
 				using (StreamReader r = new StreamReader(_animatorPath))
 				{
 					string json = r.ReadToEnd();
