@@ -2105,22 +2105,22 @@
         </member>
         <member name="F:Clever2D.UI.Text.fontStyle">
             <summary>
-            Text element text style.
+            Text style.
             </summary>
         </member>
         <member name="F:Clever2D.UI.Text.size">
             <summary>
-            Text element text font size.
+            Text font size.
             </summary>
         </member>
         <member name="F:Clever2D.UI.Text.color">
             <summary>
-            Text element text color.
+            Text color.
             </summary>
         </member>
         <member name="F:Clever2D.UI.Text.sans">
             <summary>
-            Text element text font.
+            Text font.
             </summary>
         </member>
         <member name="F:Clever2D.UI.Text.worldSpace">

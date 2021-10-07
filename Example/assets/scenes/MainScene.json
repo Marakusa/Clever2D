@@ -112,7 +112,53 @@
             "animatorPath": "animations/skeleton.anim"
           }
         ]
-      }
+      },
+      "children": [
+        {
+          "name": "FpsCounter",
+          "tag": "Untagged",
+          "components": {
+            "$type": "System.Collections.Generic.List`1[[Clever2D.Engine.Component, Clever2D]], mscorlib",
+            "$values": [
+              {
+                "$type": "Clever2D.Engine.Transform, Clever2D",
+                "position": {
+                  "x": 0,
+                  "y": 35
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1
+                }
+              },
+              {
+                "$type": "Clever2D.UI.Text, Clever2D",
+                "text": "Skeleton",
+                "size": 12,
+                "color": {
+                  "r": 255,
+                  "g": 100,
+                  "b": 100,
+                  "a": 120
+                },
+                "screenAlign": {
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                "pivot": {
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                "worldSpace": true
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "FpsCounter",

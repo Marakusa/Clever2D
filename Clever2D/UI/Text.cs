@@ -1,6 +1,7 @@
 using System;
 using Clever2D.Core;
 using Clever2D.Engine;
+using Newtonsoft.Json;
 using SDL2;
 using static SDL2.SDL_ttf;
 
@@ -35,7 +36,8 @@ namespace Clever2D.UI
 		/// <summary>
 		/// Is element placed on the Screen or in the Scene.
 		/// </summary>
-		public bool worldSpace = false;
+		[JsonProperty]
+		private bool worldSpace;
 
 		internal override void Initialize()
 		{
