@@ -101,22 +101,31 @@ namespace Clever2D.Engine
         /// Returns the nearest area to a point.
         /// </summary>
         /// <param name="position">Checking origin point.</param>
-        public static OcclusionArea GetNearestArea(Vector position)
+        public static OcclusionArea[] GetNearestAreas(Vector position)
         {
-            int x = (int)Math.Round(position.x / areaSize / 2f);
-            int y = (int)Math.Round(position.y / areaSize / 2f);
-            int z = (int)Math.Round(position.z / areaSize / 2f);
+            List<OcclusionArea> list = new();
 
-            Vector3Int areaPoint = new Vector3Int(x, y, z);
+            for (int offsetZ = -1; offsetZ < 2; offsetZ++)
+            {
+                for (int offsetY = -1; offsetY < 2; offsetY++)
+                {
+                    for (int offsetX = -1; offsetX < 2; offsetX++)
+                    {
+                        int x = (int)Math.Round(position.x / areaSize / 2f) + offsetX;
+                        int y = (int)Math.Round(position.y / areaSize / 2f) + offsetY;
+                        int z = (int)Math.Round(position.z / areaSize / 2f) + offsetZ;
 
-            if (areas.ContainsKey(areaPoint))
-            {
-                return areas[areaPoint];
+                        Vector3Int areaPoint = new Vector3Int(x, y, z);
+
+                        if (areas.ContainsKey(areaPoint))
+                        {
+                            list.Add(areas[areaPoint]);
+                        }
+                    }
+                }
             }
-            else
-            {
-                return null;
-            }
+            
+            return list.ToArray();
         }
 
         /// <summary>

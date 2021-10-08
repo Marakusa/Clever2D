@@ -561,6 +561,26 @@
             Greatest common divisor.
             </summary>
         </member>
+        <member name="T:Clever2D.Engine.Collider">
+            <summary>
+            Collider manages colliding with other Colliders.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Collider.size">
+            <summary>
+            Size of this collider.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Collider.offset">
+            <summary>
+            Offset of this collider.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Collider.Dispose">
+            <summary>
+            Disposes and destroys this Component.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.Component">
             <summary>
             Base class for everything attached to GameObjects.
@@ -727,7 +747,7 @@
             Adds renderer to occlusion manager.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.OcclusionManager.GetNearestArea(Clever2D.Engine.Vector)">
+        <member name="M:Clever2D.Engine.OcclusionManager.GetNearestAreas(Clever2D.Engine.Vector)">
             <summary>
             Returns the nearest area to a point.
             </summary>

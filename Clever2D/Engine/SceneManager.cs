@@ -128,9 +128,14 @@ namespace Clever2D.Engine
 
                 LoadedScene = scene;
 
+                int count = LoadedScene.sceneGameObjects.Count;
+                int i = 0;
+                
                 foreach (GameObject obj in LoadedScene.sceneGameObjects)
                 {
                     LoadedScene.SpawnGameObject(obj);
+                    i++;
+                    Player.Log(i.ToString() + "/" + count.ToString());
                 }
 
                 IsInitialized = true;
