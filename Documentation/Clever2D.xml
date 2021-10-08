@@ -484,6 +484,23 @@
             Returns application product version.
             </summary>
         </member>
+        <member name="T:Clever2D.Engine.AssetLoader">
+            <summary>
+            Manages all the loaded assets and preloads them.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.AssetLoader.GetAsset(System.String)">
+            <summary>
+            Returns a loaded asset. If asset is not loaded, returns a null.
+            </summary>
+            <param name="resourceName">Assets resource name.</param>
+        </member>
+        <member name="M:Clever2D.Engine.AssetLoader.AddAsset(System.String,System.Object)">
+            <summary>
+            Adds an asset to resources list for optimization. If asset is already loaded, returns false.
+            </summary>
+            <param name="resourceName">Assets resource name.</param>
+        </member>
         <member name="T:Clever2D.Engine.Camera">
             <summary>
             Camera renders the loaded Scene.
@@ -935,6 +952,11 @@
         <member name="M:Clever2D.Engine.Sprite.#ctor(System.String,Clever2D.Engine.Vector2,Clever2D.Engine.Vector2Int,Clever2D.Engine.Vector2)">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Sprite.Copy">
+            <summary>
+            Returns a copy of this Sprite.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.SpriteArray">
