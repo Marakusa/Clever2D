@@ -34,7 +34,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Area chunk sizes.
         /// </summary>
-        public static int areaSize = 500;
+        public static int areaSize = 100;
 
         /// <summary>
         /// Adds renderer to occlusion manager.
