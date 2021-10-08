@@ -145,7 +145,7 @@ namespace Clever2D.Core
             Renderer = SDL.SDL_CreateRenderer(WindowHandle, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
             // VSync
-            SDL.SDL_GL_SetSwapInterval(1);
+            SDL.SDL_GL_SetSwapInterval(0);
             
             // TODO: Fix fullscreen
             /*SetScreenState += (WindowState state) =>
