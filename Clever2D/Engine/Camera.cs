@@ -148,7 +148,8 @@ namespace Clever2D.Engine
                             SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
                         }
                     }
-                    /*foreach (var instance in instances)
+                    
+                    foreach (var instance in instances)
                     {
                         UIElement uiElement = instance.Value.GetComponent<UIElement>();
 
@@ -156,7 +157,7 @@ namespace Clever2D.Engine
                         {
                             uiElement.Render();
                         }
-                    }*/
+                    }
                 }
             }
             
