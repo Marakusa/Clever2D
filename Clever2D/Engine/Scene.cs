@@ -159,6 +159,10 @@ namespace Clever2D.Engine
                     component.gameObject = gameObject;
                     component.transform = gameObject.transform;
                     component.Initialize();
+                    if (component.GetType() == typeof(SpriteRenderer))
+                    {
+                        OcclusionManager.AddRenderer((SpriteRenderer)component);
+                    }
                 }
 
                 isInitialized = true;
@@ -176,6 +180,14 @@ namespace Clever2D.Engine
         {
             if (SceneManager.LoadedScene == this)
             {
+                foreach (Component component in gameObject.components)
+                {
+                    if (component.GetType() == typeof(SpriteRenderer))
+                    {
+                        OcclusionManager.RemoveRenderer((SpriteRenderer)component);
+                    }
+                }
+
                 spawnedGameObjects.Remove(gameObject.InstanceId);
                 gameObject.Dispose();
             }
@@ -190,6 +202,7 @@ namespace Clever2D.Engine
         /// </summary>
         public void LoadScene()
         {
+            OcclusionManager.Clear();
             if (!SceneManager.LoadScene(this))
             {
                 Player.LogError($"Loading \"{name}\" failed.");

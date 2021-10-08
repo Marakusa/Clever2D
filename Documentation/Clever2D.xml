@@ -606,6 +606,11 @@
             The name of this GameObject.
             </summary>
         </member>
+        <member name="F:Clever2D.Engine.GameObject.isStatic">
+            <summary>
+            Is object static (In example occlusion can be applied).
+            </summary>
+        </member>
         <member name="F:Clever2D.Engine.GameObject.tag">
             <summary>
             The assigned tag to this GameObject.
@@ -675,6 +680,62 @@
         <member name="M:Clever2D.Engine.GameObject.Dispose(System.Boolean)">
             <summary>
             Disposes this GameObject and its components and children.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.OcclusionArea">
+            <summary>
+            Area used by OcclusionManager.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.OcclusionArea.renderers">
+            <summary>
+            SpriteRenderers contained in this area.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.OcclusionManager">
+            <summary>
+            Manages all the occlusion data.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.OcclusionManager.areas">
+            <summary>
+            Split chunk for rendering.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.OcclusionManager.nonStaticRenderers">
+            <summary>
+            List of static members tried to occlude.
+            </summary>
+        </member>
+        <member name="P:Clever2D.Engine.OcclusionManager.NonStaticRenderers">
+            <summary>
+            Returns an array of static members tried to occlude.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.OcclusionManager.areaSize">
+            <summary>
+            Area chunk sizes.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.OcclusionManager.AddRenderer(Clever2D.Engine.SpriteRenderer)">
+            <summary>
+            Adds renderer to occlusion manager.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.OcclusionManager.RemoveRenderer(Clever2D.Engine.SpriteRenderer)">
+            <summary>
+            Adds renderer to occlusion manager.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.OcclusionManager.GetNearestArea(Clever2D.Engine.Vector)">
+            <summary>
+            Returns the nearest area to a point.
+            </summary>
+            <param name="position">Checking origin point.</param>
+        </member>
+        <member name="M:Clever2D.Engine.OcclusionManager.Clear">
+            <summary>
+            Clears the occlusion data created.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Player">
@@ -1151,6 +1212,11 @@
         <member name="M:Clever2D.Engine.Vector.ToVector3">
             <summary>
             Converts any Vector value to Vector3.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.Distance(Clever2D.Engine.Vector,Clever2D.Engine.Vector)">
+            <summary>
+            Returns the distance between two Vector points.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Vector2">

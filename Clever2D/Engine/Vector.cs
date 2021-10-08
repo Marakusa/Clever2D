@@ -95,6 +95,14 @@ namespace Clever2D.Engine
         {
             return new(this.x, this.y, this.z);
         }
+
+        /// <summary>
+        /// Returns the distance between two Vector points.
+        /// </summary>
+        public static float Distance(Vector a, Vector b)
+        {
+            return (float)Math.Sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z));
+        }
     }
 
     /// <summary>
@@ -218,7 +226,7 @@ namespace Clever2D.Engine
                 return -1;
             }
         }
-        
+
         /// <summary>
         /// Gets this vector with a magnitude of 1.
         /// </summary>
