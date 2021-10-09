@@ -581,6 +581,55 @@
             Disposes and destroys this Component.
             </summary>
         </member>
+        <member name="T:Clever2D.Engine.Color">
+            <summary>
+            Color class makes SDL color usage easier.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Color.r">
+            <summary>
+            Red value of this color.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Color.g">
+            <summary>
+            Green value of this color.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Color.b">
+            <summary>
+            Blue value of this color.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.Color.a">
+            <summary>
+            Alpha value of this color.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Color.#ctor">
+            <summary>
+            Color class makes SDL color usage easier.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Color.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Color class makes SDL color usage easier.
+            </summary>
+            <param name="r">Red value of this color.</param>
+            <param name="g">Green value of this color.</param>
+            <param name="b">Blue value of this color.</param>
+            <param name="a">Alpha value of this color.</param>
+        </member>
+        <member name="P:Clever2D.Engine.Color.SdlColor">
+            <summary>
+            Returns this Color as SDL_Color.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Color.GetHashCode">
+            <summary>
+            Returns this Color as a hash code.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.Component">
             <summary>
             Base class for everything attached to GameObjects.
@@ -610,6 +659,17 @@
             <summary>
             Disposes this Component.
             </summary>
+        </member>
+        <member name="T:Clever2D.Engine.Cryptography">
+            <summary>
+            Cryptography has hashing methods.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Cryptography.HashSHA1(System.String)">
+            <summary>
+            Returns a SHA1 hash of a string.
+            </summary>
+            <param name="input">String to hash.</param>
         </member>
         <member name="T:Clever2D.Engine.GameObject">
             <summary>
