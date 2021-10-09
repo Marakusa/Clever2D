@@ -4,6 +4,7 @@ using Clever2D.Core;
 using Newtonsoft.Json;
 using SDL2;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Clever2D.Engine
 {
@@ -48,6 +49,12 @@ namespace Clever2D.Engine
         /// </summary>
         [JsonProperty]
         public Vector2 offset;
+
+        public float Opacity
+        {
+            get;
+            set;
+        } = 1f;
 
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
@@ -222,35 +229,54 @@ namespace Clever2D.Engine
 
         private void LoadSprite(int sizeX, int sizeY, int offsetX, int offsetY)
         {
-            rect.x = offsetX;
-            rect.y = offsetY;
-            rect.w = sizeX;
-            rect.h = sizeY;
-
-            object asset = AssetLoader.GetAsset(path);
-
-            if (asset == null || asset.GetType() != typeof(IntPtr))
+            if (path != null)
             {
-                this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, this.path);
+                rect.x = offsetX;
+                rect.y = offsetY;
+                rect.w = sizeX;
+                rect.h = sizeY;
 
-                Clever.Destroying += () => SDL.SDL_DestroyTexture(this.image);
+                object asset = AssetLoader.GetAsset(path + "?color:" + Opacity.GetHashCode().ToString());
 
-                Player.Log($"Sprite {path.Substring($"{Application.ExecutableDirectory}/".Length)} ==> Loaded.");
+                if (asset == null || asset.GetType() != typeof(IntPtr))
+                {
+                    string tempFolder = $"{Application.TempDirectory}/image/";
 
-                AssetLoader.AddAsset(path, this.image);
+                    if (!Directory.Exists(tempFolder))
+                        Directory.CreateDirectory(tempFolder);
+
+                    string cachePath = $"{tempFolder}{Cryptography.HashSHA1(System.IO.Path.GetFileNameWithoutExtension(path) + Opacity.GetHashCode().ToString())}{System.IO.Path.GetExtension(path)}";
+                    Sprite.OpacityFilter(AssetLoader.GetAsset($"{path}:Image") as Image, Opacity)
+                        .Save(cachePath);
+
+                    this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, cachePath);
+
+                    Clever.Destroying += () => SDL.SDL_DestroyTexture(this.image);
+
+                    Player.Log($"Sprite {path.Substring($"{Application.ExecutableDirectory}/".Length)} ==> Loaded.");
+
+                    AssetLoader.AddAsset($"{path}?color:{Opacity.GetHashCode().ToString()}", this.image);
+                }
+                else
+                {
+                    this.image = ((IntPtr)asset);
+                }
             }
             else
             {
-                this.image = ((IntPtr)asset);
+                Player.LogError("Sprites given path was not set.", new NullReferenceException());
             }
         }
 
         /// <summary>
-        /// Returns a copy of this Sprite.
+        /// Adds a color filter into a image.
         /// </summary>
-        public Sprite Copy()
+        /// <param name="image">Image to add a filter into.</param>
+        /// <param name="color">Color filter color.</param>
+        private static Image OpacityFilter(Image image, float opacity)
         {
-            return new Sprite(path, pivot, size, offset);
+            image.Mutate(x => x.Opacity(opacity));
+            return image;
         }
     }
 }
