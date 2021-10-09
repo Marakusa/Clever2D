@@ -135,7 +135,8 @@ namespace Clever2D.Engine
                 {
                     LoadedScene.SpawnGameObject(obj);
                     i++;
-                    Player.Log(i.ToString() + "/" + count.ToString());
+                    // TODO: Loading screen?
+                    // Player.Log(i.ToString() + "/" + count.ToString());
                 }
 
                 IsInitialized = true;
