@@ -134,8 +134,6 @@ namespace Clever2D.Engine
 				                y = posY - spriteRenderer.gameObject.parent.transform.position.y * scale * spriteRenderer.gameObject.parent.transform.scale.y;
 				                w *= spriteRenderer.gameObject.parent.transform.scale.x * spriteRenderer.transform.scale.x;
 				                h *= spriteRenderer.gameObject.parent.transform.scale.y * spriteRenderer.transform.scale.y;
-				                Player.Log(x);
-				                Player.Log(y);
 			                }
 			                else
 			                {
