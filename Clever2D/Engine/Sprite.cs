@@ -268,16 +268,16 @@ namespace Clever2D.Engine
             }
         }
 
-        /*/// <summary>
+        /// <summary>
         /// Sets opacity of the image.
         /// </summary>
-        /// <param name="image">Image to add a filter into.</param>
         /// <param name="opacity">Opacity filter opacity.</param>
-        public Image SetOpacityFilter(Image image, float opacity)
+        public void SetOpacityFilter(float opacity)
         {
-            image.Mutate(x => x.Opacity(opacity));
-            return image;
-        }*/
+            opacity = CMath.Clamp(opacity, 0f, 1f);
+            Opacity = opacity;
+            LoadSprite(rect.w, rect.h, rect.x, rect.y);
+        }
 
         /// <summary>
         /// Sets opacity of the image.
@@ -286,6 +286,7 @@ namespace Clever2D.Engine
         /// <param name="opacity">Opacity filter opacity.</param>
         private Image OpacityFilter(Image image, float opacity)
         {
+            opacity = CMath.Clamp(opacity, 0f, 1f);
             image.Mutate(x => x.Opacity(opacity));
             return image;
         }

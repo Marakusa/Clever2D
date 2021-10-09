@@ -20,5 +20,21 @@
 
             return a | b;
         }
+
+        /// <summary>
+        /// Returns the clamped value to the given minimum and maximum values.
+        /// </summary>
+        /// <param name="original">Value to clamp.</param>
+        /// <param name="min">Minimum value.</param>
+        /// <param name="max">Maximum value.</param>
+        public static float Clamp(float original, float min, float max)
+        {
+            if (original > max)
+                return max;
+            else if (original < min)
+                return min;
+            else
+                return original;
+        }
     }
 }

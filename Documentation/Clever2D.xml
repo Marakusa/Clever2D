@@ -561,6 +561,14 @@
             Greatest common divisor.
             </summary>
         </member>
+        <member name="M:Clever2D.Engine.CMath.Clamp(System.Single,System.Single,System.Single)">
+            <summary>
+            Returns the clamped value to the given minimum and maximum values.
+            </summary>
+            <param name="original">Value to clamp.</param>
+            <param name="min">Minimum value.</param>
+            <param name="max">Maximum value.</param>
+        </member>
         <member name="T:Clever2D.Engine.Collider">
             <summary>
             Collider manages colliding with other Colliders.
@@ -1095,10 +1103,18 @@
             Represents a Sprite object for use in 2D gameplay.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.Sprite.Copy">
+        <member name="M:Clever2D.Engine.Sprite.SetOpacityFilter(System.Single)">
             <summary>
-            Returns a copy of this Sprite.
+            Sets opacity of the image.
             </summary>
+            <param name="opacity">Opacity filter opacity.</param>
+        </member>
+        <member name="M:Clever2D.Engine.Sprite.OpacityFilter(SixLabors.ImageSharp.Image,System.Single)">
+            <summary>
+            Sets opacity of the image.
+            </summary>
+            <param name="image">Image to add a filter into.</param>
+            <param name="opacity">Opacity filter opacity.</param>
         </member>
         <member name="T:Clever2D.Engine.SpriteArray">
             <summary>
