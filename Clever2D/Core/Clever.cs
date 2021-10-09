@@ -299,15 +299,32 @@ namespace Clever2D.Core
             Destroying?.Invoke();
 
             Player.Log("Destroying SDL objects...");
-            SDL.SDL_DestroyRenderer(Renderer);
-            SDL.SDL_DestroyWindow(WindowHandle);
+            
+            try { SDL.SDL_DestroyRenderer(Renderer); }
+            catch (Exception e) { Player.LogError($"Failed to destroy the renderer: {e.Message}", e); }
+            
+            try { SDL.SDL_DestroyWindow(WindowHandle); }
+            catch (Exception e) { Player.LogError($"Failed to destroy the window: {e.Message}", e); }
 
             Player.Log("Quit SDL TTF...");
-            SDL_ttf.TTF_Quit();
+            try { SDL_ttf.TTF_Quit(); }
+            catch (Exception e) { Player.LogError($"Failed to quit SDL TTF: {e.Message}", e); }
+
             Player.Log("Quit SDL Image...");
-            SDL_image.IMG_Quit();
+            try { SDL_image.IMG_Quit(); }
+            catch (Exception e) { Player.LogError($"Failed to quit SDL Image: {e.Message}", e); }
+
             Player.Log("Quit SDL...");
-            SDL.SDL_Quit();
+            try { SDL.SDL_Quit(); }
+            catch (Exception e) { Player.LogError($"Failed to quit SDL: {e.Message}", e); }
+
+            Player.Log("Removing temp files...");
+            try
+            {
+                if (Directory.Exists(Application.TempDirectory))
+                    DeleteDirectory(Application.TempDirectory);
+            }
+            catch (Exception e) { Player.LogError($"Failed to remove temp files: {e.Message}", e); }
 
             Destroyed?.Invoke();
         }
@@ -345,6 +362,19 @@ namespace Clever2D.Core
             SceneManager.Initialize();
         }
 
+        private static void DeleteDirectory(string path)
+        {
+            foreach (var file in Directory.GetFiles(path))
+            {
+                File.Delete(file);
+            }
+            foreach (var directory in Directory.GetDirectories(path))
+            {
+                DeleteDirectory(directory);
+            }
+            Directory.Delete(path);
+        }
+        
         private static SDL.SDL_DisplayMode GetClosestDisplayMode(Size size, int refreshRate, int displayIndex)
         {
             var targetMode = new SDL.SDL_DisplayMode { w = size.Width, h = size.Height, refresh_rate = refreshRate };

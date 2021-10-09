@@ -1103,7 +1103,7 @@
             Represents a Sprite object for use in 2D gameplay.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.Sprite.SetOpacityFilter(System.Single)">
+        <member name="M:Clever2D.Engine.Sprite.SetOpacity(System.Single)">
             <summary>
             Sets opacity of the image.
             </summary>
