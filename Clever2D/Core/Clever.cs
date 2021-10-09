@@ -4,6 +4,7 @@ using Clever2D.Threading;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using SDL2;
 using System.Timers;
@@ -116,6 +117,18 @@ namespace Clever2D.Core
         protected static void Initialize(ApplicationConfig config)
         {
             Application.Config = config;
+            
+            string tempFolder = Application.TempDirectory;
+
+            Player.Log($"Temp files located: {tempFolder}");
+
+            if (Directory.Exists(tempFolder))
+            {
+                Directory.Delete(tempFolder);
+                Directory.CreateDirectory(tempFolder);
+            }
+            else
+                Directory.CreateDirectory(tempFolder);
 
             if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) < 0)
             {
