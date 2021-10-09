@@ -246,7 +246,7 @@ namespace Clever2D.Engine
                         Directory.CreateDirectory(tempFolder);
 
                     string cachePath = $"{tempFolder}{Cryptography.HashSHA1(System.IO.Path.GetFileNameWithoutExtension(path) + Opacity.GetHashCode().ToString())}{System.IO.Path.GetExtension(path)}";
-                    Sprite.OpacityFilter(AssetLoader.GetAsset($"{path}:Image") as Image, Opacity)
+                    OpacityFilter(AssetLoader.GetAsset($"{path}:Image") as Image, Opacity)
                         .Save(cachePath);
 
                     this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, cachePath);
@@ -268,12 +268,23 @@ namespace Clever2D.Engine
             }
         }
 
-        /// <summary>
-        /// Adds a color filter into a image.
+        /*/// <summary>
+        /// Sets opacity of the image.
         /// </summary>
         /// <param name="image">Image to add a filter into.</param>
-        /// <param name="color">Color filter color.</param>
-        private static Image OpacityFilter(Image image, float opacity)
+        /// <param name="opacity">Opacity filter opacity.</param>
+        public Image SetOpacityFilter(Image image, float opacity)
+        {
+            image.Mutate(x => x.Opacity(opacity));
+            return image;
+        }*/
+
+        /// <summary>
+        /// Sets opacity of the image.
+        /// </summary>
+        /// <param name="image">Image to add a filter into.</param>
+        /// <param name="opacity">Opacity filter opacity.</param>
+        private Image OpacityFilter(Image image, float opacity)
         {
             image.Mutate(x => x.Opacity(opacity));
             return image;
