@@ -102,8 +102,6 @@ namespace Clever2D.Engine
 					                tRect.w = (int)Math.Round(w);
 					                tRect.h = (int)Math.Round(h);
 
-					                spriteRenderer.Sprite.SetOpacityFilter(1.5f);
-					                
 					                SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
 				                }
 			                }

@@ -272,7 +272,7 @@ namespace Clever2D.Engine
         /// Sets opacity of the image.
         /// </summary>
         /// <param name="opacity">Opacity filter opacity.</param>
-        public void SetOpacityFilter(float opacity)
+        public void SetOpacity(float opacity)
         {
             opacity = CMath.Clamp(opacity, 0f, 1f);
             Opacity = opacity;
