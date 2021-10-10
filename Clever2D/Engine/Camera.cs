@@ -49,7 +49,11 @@ namespace Clever2D.Engine
                 {
 	                // TODO: Rendering order
 
-	                var zones = OcclusionManager.GetNearestAreas(transform.position);
+	                float scale = Clever.Size.Height / 600f * 2f;
+
+	                float renderRadius = (Clever.Size.Width >= Clever.Size.Height ? Clever.Size.Width : Clever.Size.Height) / scale;
+	                
+	                var zones = OcclusionManager.GetNearestAreas(transform.position, renderRadius);
 
 	                foreach (var zone in zones)
 	                {
@@ -58,10 +62,8 @@ namespace Clever2D.Engine
 			                if (spriteRenderer != null && spriteRenderer.Sprite != null)
 			                {
 				                float distance = Vector.Distance(spriteRenderer.transform.position, transform.position);
-				                if (distance < OcclusionManager.areaSize)
+				                if (distance < renderRadius)
 				                {
-					                float scale = (Clever.Size.Height / 600f) * 2f;
-
 					                float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
 					                float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
 
@@ -112,8 +114,6 @@ namespace Clever2D.Engine
 	                {
 		                if (spriteRenderer != null && spriteRenderer.Sprite != null)
 		                {
-			                float scale = (Clever.Size.Height / 600f) * 2f;
-
 			                float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
 			                float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
 

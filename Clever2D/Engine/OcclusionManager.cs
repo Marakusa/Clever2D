@@ -34,7 +34,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Area chunk sizes.
         /// </summary>
-        public static int areaSize = 100;
+        public const float AreaSize = 100f;
 
         /// <summary>
         /// Adds renderer to occlusion manager.
@@ -46,9 +46,9 @@ namespace Clever2D.Engine
             {
                 Vector position = renderer.transform.position;
 
-                int x = (int)Math.Round(position.x / areaSize / 2f);
-                int y = (int)Math.Round(position.y / areaSize / 2f);
-                int z = (int)Math.Round(position.z / areaSize / 2f);
+                int x = (int)Math.Round(position.x / AreaSize);
+                int y = (int)Math.Round(position.y / AreaSize);
+                int z = (int)Math.Round(position.z / AreaSize);
 
                 Vector3Int areaPoint = new Vector3Int(x, y, z);
 
@@ -80,9 +80,9 @@ namespace Clever2D.Engine
             {
                 Vector position = renderer.transform.position;
 
-                int x = (int)Math.Round(position.x / areaSize / 2f);
-                int y = (int)Math.Round(position.y / areaSize / 2f);
-                int z = (int)Math.Round(position.z / areaSize / 2f);
+                int x = (int)Math.Round(position.x / AreaSize);
+                int y = (int)Math.Round(position.y / AreaSize);
+                int z = (int)Math.Round(position.z / AreaSize);
 
                 Vector3Int areaPoint = new Vector3Int(x, y, z);
 
@@ -101,19 +101,21 @@ namespace Clever2D.Engine
         /// Returns the nearest area to a point.
         /// </summary>
         /// <param name="position">Checking origin point.</param>
-        public static OcclusionArea[] GetNearestAreas(Vector position)
+        public static OcclusionArea[] GetNearestAreas(Vector position, float radius)
         {
             List<OcclusionArea> list = new();
 
-            for (int offsetZ = -1; offsetZ < 2; offsetZ++)
+            int multiplier = (int)Math.Ceiling(radius / AreaSize);
+
+            for (int offsetZ = -multiplier + 1; offsetZ < multiplier; offsetZ++)
             {
-                for (int offsetY = -1; offsetY < 2; offsetY++)
+                for (int offsetY = -multiplier + 1; offsetY < multiplier; offsetY++)
                 {
-                    for (int offsetX = -1; offsetX < 2; offsetX++)
+                    for (int offsetX = -multiplier + 1; offsetX < multiplier; offsetX++)
                     {
-                        int x = (int)Math.Round(position.x / areaSize / 2f) + offsetX;
-                        int y = (int)Math.Round(position.y / areaSize / 2f) + offsetY;
-                        int z = (int)Math.Round(position.z / areaSize / 2f) + offsetZ;
+                        int x = (int)Math.Round(position.x / AreaSize) + offsetX;
+                        int y = (int)Math.Round(position.y / AreaSize) + offsetY;
+                        int z = (int)Math.Round(position.z / AreaSize) + offsetZ;
 
                         Vector3Int areaPoint = new Vector3Int(x, y, z);
 

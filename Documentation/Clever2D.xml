@@ -800,7 +800,7 @@
             Returns an array of static members tried to occlude.
             </summary>
         </member>
-        <member name="F:Clever2D.Engine.OcclusionManager.areaSize">
+        <member name="F:Clever2D.Engine.OcclusionManager.AreaSize">
             <summary>
             Area chunk sizes.
             </summary>
@@ -815,7 +815,7 @@
             Adds renderer to occlusion manager.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.OcclusionManager.GetNearestAreas(Clever2D.Engine.Vector)">
+        <member name="M:Clever2D.Engine.OcclusionManager.GetNearestAreas(Clever2D.Engine.Vector,System.Single)">
             <summary>
             Returns the nearest area to a point.
             </summary>
