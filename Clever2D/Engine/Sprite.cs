@@ -50,11 +50,30 @@ namespace Clever2D.Engine
         [JsonProperty]
         public Vector2 offset;
 
+        private float opacity = 1f;
         public float Opacity
         {
-            get;
-            set;
-        } = 1f;
+            get
+            {
+                return opacity;
+            }
+            set
+            {
+                Opacity = value;
+
+                if (OnChanged != null)
+                    OnChanged.Invoke(this);
+            }
+        }
+
+        /// <summary>
+        /// When this Sprite changes or is removed, this will get called.
+        /// </summary>
+        public delegate void SpriteChanged(object sender);
+        /// <summary>
+        /// When this Sprite changes or is removed, this will get called.
+        /// </summary>
+        public event SpriteChanged OnChanged;
 
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
@@ -255,12 +274,15 @@ namespace Clever2D.Engine
 
                     Player.Log($"Sprite {path.Substring($"{Application.ExecutableDirectory}/".Length)} ==> Loaded.");
 
-                    AssetLoader.AddAsset($"{path}?color:{Opacity.GetHashCode().ToString()}", this.image);
+                    AssetLoader.AddAsset($"{path}?color:{Opacity.GetHashCode()}", this.image);
                 }
                 else
                 {
-                    this.image = ((IntPtr)asset);
+                    this.image = (IntPtr)asset;
                 }
+
+                if (OnChanged != null)
+                    OnChanged.Invoke(this);
             }
             else
             {

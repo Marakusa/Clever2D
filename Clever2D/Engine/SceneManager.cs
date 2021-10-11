@@ -141,6 +141,8 @@ namespace Clever2D.Engine
 
                 IsInitialized = true;
 
+                OcclusionManager.RendererAddingDone();
+
                 OnLoaded?.Invoke(null, new(LoadedScene));
 
                 return true;

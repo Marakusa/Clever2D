@@ -80,7 +80,7 @@ namespace Clever2D.Engine
                 return false;
             }
         }
-    
+
         /// <summary>
         /// Converts any Vector value to Vector2.
         /// </summary>
@@ -94,6 +94,21 @@ namespace Clever2D.Engine
         public Vector3 ToVector3()
         {
             return new(this.x, this.y, this.z);
+        }
+
+        /// <summary>
+        /// Converts any Vector value to Vector2Int.
+        /// </summary>
+        public Vector2Int ToVector2Int()
+        {
+            return new((int)Math.Round(this.x), (int)Math.Round(this.y));
+        }
+        /// <summary>
+        /// Converts any Vector value to Vector3Int.
+        /// </summary>
+        public Vector3Int ToVector3Int()
+        {
+            return new((int)Math.Round(this.x), (int)Math.Round(this.y), (int)Math.Round(this.z));
         }
 
         /// <summary>

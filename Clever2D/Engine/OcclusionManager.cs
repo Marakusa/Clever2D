@@ -23,7 +23,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Returns an array of static members tried to occlude.
         /// </summary>
-        public static SpriteRenderer[] NonStaticRenderers
+        internal static SpriteRenderer[] NonStaticRenderers
         {
             get
             {
@@ -34,12 +34,12 @@ namespace Clever2D.Engine
         /// <summary>
         /// Area chunk sizes.
         /// </summary>
-        public const float AreaSize = 100f;
+        internal const float AreaSize = 200f;
 
         /// <summary>
         /// Adds renderer to occlusion manager.
         /// </summary>
-        public static void AddRenderer(SpriteRenderer renderer)
+        internal static void AddRenderer(SpriteRenderer renderer, bool initializing)
         {
             // TODO: Check if renderer gameobject static status has changed
             if (renderer.gameObject.isStatic)
@@ -54,7 +54,7 @@ namespace Clever2D.Engine
 
                 if (areas.ContainsKey(areaPoint))
                 {
-                    areas[areaPoint].AddRenderer(renderer);
+                    areas[areaPoint].AddRenderer(renderer, initializing);
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace Clever2D.Engine
                     {
                         occlusionPoint = areaPoint
                     });
-                    areas[areaPoint].AddRenderer(renderer);
+                    areas[areaPoint].AddRenderer(renderer, initializing);
                 }
             }
             else
@@ -74,7 +74,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Adds renderer to occlusion manager.
         /// </summary>
-        public static void RemoveRenderer(SpriteRenderer renderer)
+        internal static void RemoveRenderer(SpriteRenderer renderer)
         {
             if (renderer.gameObject.isStatic)
             {
@@ -88,7 +88,7 @@ namespace Clever2D.Engine
 
                 if (areas.ContainsKey(areaPoint))
                 {
-                    areas[areaPoint].RemoveRenderer(renderer);
+                    areas[areaPoint].RemoveRenderer(renderer, true);
                 }
             }
             else
@@ -101,7 +101,7 @@ namespace Clever2D.Engine
         /// Returns the nearest area to a point.
         /// </summary>
         /// <param name="position">Checking origin point.</param>
-        public static OcclusionArea[] GetNearestAreas(Vector position, float radius)
+        internal static OcclusionArea[] GetNearestAreas(Vector position, float radius)
         {
             List<OcclusionArea> list = new();
 
@@ -130,10 +130,18 @@ namespace Clever2D.Engine
             return list.ToArray();
         }
 
+        internal static void RendererAddingDone()
+        {
+            foreach (var area in areas)
+            {
+                area.Value.BatchDone();
+            }
+        }
+
         /// <summary>
         /// Clears the occlusion data created.
         /// </summary>
-        public static void Clear()
+        internal static void Clear()
         {
             areas.Clear();
             nonStaticRenderers.Clear();

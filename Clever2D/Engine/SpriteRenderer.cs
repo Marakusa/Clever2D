@@ -36,13 +36,37 @@ namespace Clever2D.Engine
         internal override void Initialize()
         {
             if (sprite != null)
+            {
                 Sprite = new(sprite.Path, sprite.pivot, sprite.size, sprite.offset);
+                Sprite.OnChanged += (object sender) => OnChanged.Invoke(this, new()
+                {
+                    renderer = this
+                });
+            }
             else if (spriteArray != null)
             {
-                this.spriteArray = new(spriteArray.spritePath, spriteArray.pivot, spriteArray.rows, spriteArray.columns);
-                Sprite = this.spriteArray.Sprites[0];
+                spriteArray = new(spriteArray.spritePath, spriteArray.pivot, spriteArray.rows, spriteArray.columns);
+
+                foreach (var sprite in spriteArray.Sprites)
+                {
+                    sprite.OnChanged += (object sender) => OnChanged.Invoke(this, new()
+                    {
+                        renderer = this
+                    });
+                }
+
+                Sprite = spriteArray.Sprites[0];
             }
         }
+
+        /// <summary>
+        /// When this SpriteRenderer changes or is removed, this will get called.
+        /// </summary>
+        public delegate void SpriteRendererChanged(object sender, SpriteRendererChangedEventArgs e);
+        /// <summary>
+        /// If this SpriteRenderer has changed or removed, this will get called.
+        /// </summary>
+        public event SpriteRendererChanged OnChanged;
 
         [JsonConstructor]
         private SpriteRenderer() { }
@@ -69,8 +93,23 @@ namespace Clever2D.Engine
         /// </summary>
         public override void Dispose()
         {
+            OnChanged.Invoke(this, new()
+            {
+                renderer = this
+            });
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+    }
+
+    /// <summary>
+    /// Event arguments for Sprite batch changed.
+    /// </summary>
+    public class SpriteRendererChangedEventArgs
+    {
+        /// <summary>
+        /// Renderer changed. If null renderer was removed.
+        /// </summary>
+        public SpriteRenderer renderer;
     }
 }

@@ -161,7 +161,7 @@ namespace Clever2D.Engine
                     component.Initialize();
                     if (component.GetType() == typeof(SpriteRenderer))
                     {
-                        OcclusionManager.AddRenderer((SpriteRenderer)component);
+                        OcclusionManager.AddRenderer((SpriteRenderer)component, !SceneManager.IsInitialized);
                     }
                 }
 

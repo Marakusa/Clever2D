@@ -805,7 +805,7 @@
             Area chunk sizes.
             </summary>
         </member>
-        <member name="M:Clever2D.Engine.OcclusionManager.AddRenderer(Clever2D.Engine.SpriteRenderer)">
+        <member name="M:Clever2D.Engine.OcclusionManager.AddRenderer(Clever2D.Engine.SpriteRenderer,System.Boolean)">
             <summary>
             Adds renderer to occlusion manager.
             </summary>
@@ -1083,6 +1083,16 @@
             Offset of this Sprite.
             </summary>
         </member>
+        <member name="T:Clever2D.Engine.Sprite.SpriteChanged">
+            <summary>
+            When this Sprite changes or is removed, this will get called.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Engine.Sprite.OnChanged">
+            <summary>
+            When this Sprite changes or is removed, this will get called.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.Sprite.#ctor">
             <summary>
             Represents a Sprite object for use in 2D gameplay.
@@ -1175,6 +1185,16 @@
             Returns the assigned image to this SpriteRenderer.
             </summary>
         </member>
+        <member name="T:Clever2D.Engine.SpriteRenderer.SpriteRendererChanged">
+            <summary>
+            When this SpriteRenderer changes or is removed, this will get called.
+            </summary>
+        </member>
+        <member name="E:Clever2D.Engine.SpriteRenderer.OnChanged">
+            <summary>
+            If this SpriteRenderer has changed or removed, this will get called.
+            </summary>
+        </member>
         <member name="M:Clever2D.Engine.SpriteRenderer.#ctor(Clever2D.Engine.Sprite)">
             <summary>
             Component that manages the Sprite wanted to be rendered in a GameObject.
@@ -1188,6 +1208,16 @@
         <member name="M:Clever2D.Engine.SpriteRenderer.Dispose">
             <summary>
             Disposes and destroys this Component.
+            </summary>
+        </member>
+        <member name="T:Clever2D.Engine.SpriteRendererChangedEventArgs">
+            <summary>
+            Event arguments for Sprite batch changed.
+            </summary>
+        </member>
+        <member name="F:Clever2D.Engine.SpriteRendererChangedEventArgs.renderer">
+            <summary>
+            Renderer changed. If null renderer was removed.
             </summary>
         </member>
         <member name="T:Clever2D.Engine.Time">
@@ -1308,6 +1338,16 @@
         <member name="M:Clever2D.Engine.Vector.ToVector3">
             <summary>
             Converts any Vector value to Vector3.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.ToVector2Int">
+            <summary>
+            Converts any Vector value to Vector2Int.
+            </summary>
+        </member>
+        <member name="M:Clever2D.Engine.Vector.ToVector3Int">
+            <summary>
+            Converts any Vector value to Vector3Int.
             </summary>
         </member>
         <member name="M:Clever2D.Engine.Vector.Distance(Clever2D.Engine.Vector,Clever2D.Engine.Vector)">
