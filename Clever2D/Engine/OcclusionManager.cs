@@ -34,7 +34,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Area chunk sizes.
         /// </summary>
-        internal const float AreaSize = 200f;
+        internal const float AreaSize = 512f;
 
         /// <summary>
         /// Adds renderer to occlusion manager.
@@ -46,9 +46,9 @@ namespace Clever2D.Engine
             {
                 Vector position = renderer.transform.position;
 
-                int x = (int)Math.Round(position.x / AreaSize);
-                int y = (int)Math.Round(position.y / AreaSize);
-                int z = (int)Math.Round(position.z / AreaSize);
+                int x = (int)Math.Floor(position.x / AreaSize);
+                int y = (int)Math.Floor(position.y / AreaSize);
+                int z = (int)Math.Floor(position.z / AreaSize);
 
                 Vector3Int areaPoint = new Vector3Int(x, y, z);
 

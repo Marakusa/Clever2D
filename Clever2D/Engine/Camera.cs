@@ -57,6 +57,41 @@ namespace Clever2D.Engine
 
 	                foreach (var zone in zones)
 	                {
+		                Sprite sprite = zone.BatchSprite;
+		                
+		                float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
+		                float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
+
+		                float scaledX = zone.occlusionPoint.x * scale;
+		                float scaledY = -zone.occlusionPoint.y * scale;
+		                float posX = scaledX * zone.occlusionPoint.x - cameraOffsetX;
+		                float posY = -zone.occlusionPoint.y * scale * zone.occlusionPoint.y - cameraOffsetY;
+
+		                float x, y, w, h;
+
+		                SDL.SDL_Rect tRect;
+		                w = sprite.rect.w * scale;
+		                h = sprite.rect.h * scale;
+
+			            x = scaledX * 1f - cameraOffsetX;
+			            y = scaledY * 1f - cameraOffsetY;
+
+		                float pivotOffsetX = sprite.rect.w * sprite.pivot.x * scale;
+		                float pivotOffsetY = sprite.rect.h * sprite.pivot.y * scale;
+
+		                x -= pivotOffsetX + posX;
+		                y -= pivotOffsetY + posY;
+
+		                tRect.x = (int)Math.Round(x);
+		                tRect.y = (int)Math.Round(y);
+		                tRect.w = (int)Math.Round(w);
+		                tRect.h = (int)Math.Round(h);
+		                
+		                SDL.SDL_RenderCopy(renderer, sprite.image, ref sprite.rect, ref sprite.rect);
+	                }
+
+	                /*foreach (var zone in zones)
+	                {
 		                foreach (SpriteRenderer spriteRenderer in zone.renderers)
 		                {
 			                if (spriteRenderer != null && spriteRenderer.Sprite != null)
@@ -108,8 +143,8 @@ namespace Clever2D.Engine
 				                }
 			                }
 		                }
-	                }
-
+	                }*/
+					
 	                foreach (SpriteRenderer spriteRenderer in OcclusionManager.NonStaticRenderers)
 	                {
 		                if (spriteRenderer != null && spriteRenderer.Sprite != null)

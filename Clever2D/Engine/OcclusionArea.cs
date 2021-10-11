@@ -17,6 +17,15 @@ namespace Clever2D.Engine
         public List<SpriteRenderer> renderers = new();
         internal Vector3Int occlusionPoint = Vector3Int.Zero;
 
+        /// <summary>
+        /// Returns this sprite batches Sprite.
+        /// </summary>
+        public Sprite BatchSprite
+        {
+            get;
+            private set;
+        }
+
         internal void AddRenderer(SpriteRenderer renderer, bool initializing)
         {
             if (!renderers.Contains(renderer))
@@ -61,7 +70,7 @@ namespace Clever2D.Engine
             {
                 foreach (var renderer in renderers)
                 {
-                    Vector3Int point = renderer.transform.position.ToVector3Int() - occlusionPoint;
+                    Vector3Int point = renderer.transform.position.ToVector3Int();
 
                     if (point.x + renderer.Sprite.rect.w > rightmost)
                     {
@@ -73,9 +82,6 @@ namespace Clever2D.Engine
                         bottommost = renderer.Sprite.rect.h - point.y;
                     }
                 }
-
-                Player.Log(rightmost);
-                Player.Log(bottommost);
 
                 DrawBatch();
             }
@@ -96,20 +102,39 @@ namespace Clever2D.Engine
                 {
                     foreach (var tile in renderers)
                     {
-                        Vector3Int point = tile.transform.position.ToVector3Int() - occlusionPoint;
+                        Vector3Int occlusionPosition = occlusionPoint * new Vector3Int(1, 1, 1) * (Vector3.One * OcclusionManager.AreaSize).ToVector3Int();
+                        Vector3Int point = new Vector3(tile.transform.position.x, tile.transform.position.y).ToVector3Int();
+
+                        point = point - occlusionPosition;
 
                         for (int y = 0; y < tile.Sprite.rect.h; y++)
                         {
-                            for (int x = 0; x < tile.Sprite.rect.w; x++)
-                            {
-                                int pixelX = point.x + x;
-                                int pixelY = point.y + y;
+                            int pixelY = point.y + y;
 
-                                if (pixelX < image.Width && pixelY < image.Height && pixelX >= 0 && pixelY >= 0)
+                            if (pixelY >= 0 && pixelY < bottommost)
+                            {
+                                Span<Rgba32> pixelRowSpan = image.GetPixelRowSpan(pixelY);
+
+                                for (int x = 0; x < tile.Sprite.rect.w; x++)
                                 {
-                                    var pixel = image[pixelX, pixelY];
-                                    Image asset = (Image)AssetLoader.GetAsset(tile.Sprite.Path + ":Image");
-                                    pixel.Rgba = ((Image<Rgba32>)asset)[x, y].Rgba;
+                                    int pixelX = point.x + x;
+
+                                    if (pixelX >= 0 && pixelX < rightmost)
+                                    {
+                                        int offsetX = tile.Sprite.rect.x;
+                                        int offsetY = tile.Sprite.rect.y;
+
+                                        try
+                                        {
+                                            Image asset = (Image)AssetLoader.GetAsset($"{tile.Sprite.Path}:Image");
+                                            var color = ((Image<Rgba32>)asset)[x + offsetX, y + offsetY];
+                                            pixelRowSpan[pixelX] = new Rgba32(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Player.LogError(e.Message, e);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -121,6 +146,8 @@ namespace Clever2D.Engine
                     string saveLocation = $"{Application.TempDirectory}batches/{Cryptography.HashSHA1(new Vector2Int(rightmost, bottommost).GetHashCode().ToString())}.png";
                     image.Save(saveLocation);
                     Player.Log($"Tile batch saved ==> {saveLocation}");
+
+                    BatchSprite = new Sprite(saveLocation, Vector2.Zero);
                 }
             }
             catch (Exception e)

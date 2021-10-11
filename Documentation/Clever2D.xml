@@ -780,6 +780,11 @@
             SpriteRenderers contained in this area.
             </summary>
         </member>
+        <member name="P:Clever2D.Engine.OcclusionArea.BatchSprite">
+            <summary>
+            Returns this sprite batches Sprite.
+            </summary>
+        </member>
         <member name="T:Clever2D.Engine.OcclusionManager">
             <summary>
             Manages all the occlusion data.

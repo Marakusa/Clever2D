@@ -32,7 +32,7 @@ namespace Clever2D.Engine
         /// Path to the source of the image of this Sprite.
         /// </summary>
         [JsonProperty]
-        private readonly string path;
+        internal string path;
         /// <summary>
         /// Returns the path to the source of the image of this Sprite.
         /// </summary>
@@ -75,6 +75,49 @@ namespace Clever2D.Engine
         /// </summary>
         public event SpriteChanged OnChanged;
 
+        internal void InitializeSprite()
+        {
+            if (path != null && path.Trim() != "")
+            {
+                string resourceName = path;
+                
+                if (!path.StartsWith("/") && (path.Substring(1, 2) != ":/" || path.Substring(1, 2) != @":\"))
+                    path = $"{Application.ExecutableDirectory}/assets/{path}";
+
+                object asset = AssetLoader.GetAsset(path + ":Image");
+
+                if (!Directory.Exists(path) && (asset != null || File.Exists(path)))
+                {
+                    var width = 0;
+                    var height = 0;
+
+                    if (asset == null || asset.GetType() != typeof(Image))
+                    {
+                        Image spriteImage = Image.Load(path);
+                        width = spriteImage.Width;
+                        height = spriteImage.Height;
+                        AssetLoader.AddAsset(path + ":Image", spriteImage);
+                    }
+                    else
+                    {
+                        width = ((Image)asset).Width;
+                        height = ((Image)asset).Height;
+                    }
+
+                    var w = size.x < 0 ? width : size.x;
+                    var h = size.y < 0 ? height : size.y;
+
+                    LoadSprite(w, h, (int)Math.Round(offset.x), (int)Math.Round(offset.y));
+
+                    AssetLoader.AddAsset(resourceName, this);
+                }
+                else
+                {
+                    Player.LogError($"File doesn't exist in {path} or the path is a directory.");
+                }
+            }
+        }
+        
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
@@ -83,8 +126,6 @@ namespace Clever2D.Engine
         {
             if (path != null && path.Trim() != "")
             {
-                path = $"{Application.ExecutableDirectory}/assets/{path}";
-
                 object asset = AssetLoader.GetAsset(path + ":Image");
 
                 if (!Directory.Exists(path) && (asset != null || File.Exists(path)))
@@ -121,129 +162,37 @@ namespace Clever2D.Engine
         /// </summary>
         public Sprite(string path, Vector2 pivot)
         {
-            if (path != null && path.Trim() != "")
-            {
-                path = $"{Application.ExecutableDirectory}/assets/{path}";
+            this.path = path;
+            this.pivot = pivot;
+            Image spriteImage = Image.Load(path);
+            this.size = new(spriteImage.Width, spriteImage.Height);
+            this.offset = Vector2.Zero;
 
-                object asset = AssetLoader.GetAsset(path + ":Image");
-
-                if (!Directory.Exists(path) && (asset != null || File.Exists(path)))
-                {
-                    this.path = path;
-                    this.pivot = pivot;
-
-                    var width = 0;
-                    var height = 0;
-
-                    if (asset == null || asset.GetType() != typeof(Image))
-                    {
-                        Image spriteImage = Image.Load(path);
-                        width = spriteImage.Width;
-                        height = spriteImage.Height;
-                        AssetLoader.AddAsset(path + ":Image", spriteImage);
-                    }
-                    else
-                    {
-                        width = ((Image)asset).Width;
-                        height = ((Image)asset).Height;
-                    }
-
-                    LoadSprite(width, height, 0, 0);
-                }
-                else
-                {
-                    Player.LogError($"File doesn't exist in {path} or the path is a directory.");
-                }
-            }
+            InitializeSprite();
         }
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
         public Sprite(string path, Vector2 pivot, Vector2Int size)
         {
-            if (path != null && path.Trim() != "")
-            {
-                path = $"{Application.ExecutableDirectory}/assets/{path}";
+            this.path = path;
+            this.pivot = pivot;
+            this.size = size;
+            this.offset = Vector2.Zero;
 
-                object asset = AssetLoader.GetAsset(path + ":Image");
-
-                if (!Directory.Exists(path) && (asset != null || File.Exists(path)))
-                {
-                    this.path = path;
-                    this.pivot = pivot;
-
-                    var width = 0;
-                    var height = 0;
-
-                    if (asset == null || asset.GetType() != typeof(Image))
-                    {
-                        Image spriteImage = Image.Load(path);
-                        width = spriteImage.Width;
-                        height = spriteImage.Height;
-                        AssetLoader.AddAsset(path + ":Image", spriteImage);
-                    }
-                    else
-                    {
-                        width = ((Image)asset).Width;
-                        height = ((Image)asset).Height;
-                    }
-
-                    var w = size.x < 0 ? width : size.x;
-                    var h = size.y < 0 ? height : size.y;
-
-                    LoadSprite(w, h, 0, 0);
-                }
-                else
-                {
-                    Player.LogError($"File doesn't exist in {path} or the path is a directory.");
-                }
-            }
+            InitializeSprite();
         }
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
         public Sprite(string path, Vector2 pivot, Vector2Int size, Vector2 offset)
         {
-            if (path != null && path.Trim() != "")
-            {
-                string resourceName = path;
-                path = $"{Application.ExecutableDirectory}/assets/{path}";
+            this.path = path;
+            this.pivot = pivot;
+            this.size = size;
+            this.offset = offset;
 
-                object asset = AssetLoader.GetAsset(path + ":Image");
-
-                if (!Directory.Exists(path) && (asset != null || File.Exists(path)))
-                {
-                    this.path = path;
-                    this.pivot = pivot;
-
-                    var width = 0;
-                    var height = 0;
-
-                    if (asset == null || asset.GetType() != typeof(Image))
-                    {
-                        Image spriteImage = Image.Load(path);
-                        width = spriteImage.Width;
-                        height = spriteImage.Height;
-                        AssetLoader.AddAsset(path + ":Image", spriteImage);
-                    }
-                    else
-                    {
-                        width = ((Image)asset).Width;
-                        height = ((Image)asset).Height;
-                    }
-
-                    var w = size.x < 0 ? width : size.x;
-                    var h = size.y < 0 ? height : size.y;
-
-                    LoadSprite(w, h, (int)Math.Round(offset.x), (int)Math.Round(offset.y));
-
-                    AssetLoader.AddAsset(resourceName, this);
-                }
-                else
-                {
-                    Player.LogError($"File doesn't exist in {path} or the path is a directory.");
-                }
-            }
+            InitializeSprite();
         }
 
         private void LoadSprite(int sizeX, int sizeY, int offsetX, int offsetY)
@@ -254,7 +203,7 @@ namespace Clever2D.Engine
                 rect.y = offsetY;
                 rect.w = sizeX;
                 rect.h = sizeY;
-
+                
                 object asset = AssetLoader.GetAsset(path + "?color:" + Opacity.GetHashCode().ToString());
 
                 if (asset == null || asset.GetType() != typeof(IntPtr))
@@ -272,7 +221,7 @@ namespace Clever2D.Engine
 
                     Clever.Destroying += () => SDL.SDL_DestroyTexture(this.image);
 
-                    Player.Log($"Sprite {path.Substring($"{Application.ExecutableDirectory}/".Length)} ==> Loaded.");
+                    Player.Log($"Sprite {path} ==> Loaded.");
 
                     AssetLoader.AddAsset($"{path}?color:{Opacity.GetHashCode()}", this.image);
                 }

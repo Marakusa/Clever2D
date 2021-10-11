@@ -95,6 +95,10 @@ namespace Clever2D.Engine
 								splitHeight * y
 							)
 						);
+						
+						sprite.size = new Vector2Int((int)Math.Floor(splitWidth), (int)Math.Floor(splitHeight));
+						sprite.offset = new Vector2(splitWidth * x, splitHeight * y);
+						
 						sprites.Add(sprite);
 					}
 				}
