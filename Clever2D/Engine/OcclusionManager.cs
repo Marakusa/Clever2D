@@ -98,9 +98,9 @@ namespace Clever2D.Engine
             {
                 Vector position = renderer.transform.position;
 
-                int x = (int)Math.Round(position.x / AreaSize);
-                int y = (int)Math.Round(position.y / AreaSize);
-                int z = (int)Math.Round(position.z / AreaSize);
+                int x = (int)Math.Round(position.x / AreaSize) * AreaSize;
+                int y = (int)Math.Round(position.y / AreaSize) * AreaSize;
+                int z = (int)Math.Round(position.z / AreaSize) * AreaSize;
 
                 Vector3Int areaPoint = new Vector3Int(x, y, z);
 
@@ -119,30 +119,22 @@ namespace Clever2D.Engine
         /// Returns the nearest area to a point.
         /// </summary>
         /// <param name="position">Checking origin point.</param>
+        /// <param name="radius">Rendering radius.</param>
         internal static OcclusionArea[] GetNearestAreas(Vector position, float radius)
         {
             List<OcclusionArea> list = new();
 
-            int multiplier = (int)Math.Ceiling(radius / AreaSize);
+            int multiplier = (int)Math.Ceiling(radius / 2f);
 
-            for (int offsetZ = -multiplier + 1; offsetZ < multiplier; offsetZ++)
+            int x = (int)Math.Round(position.x / AreaSize) * AreaSize;
+            int y = (int)Math.Round(position.y / AreaSize) * AreaSize;
+            int z = 0;
+
+            Vector3Int areaPoint = new Vector3Int(x, y, z);
+
+            if (areas.ContainsKey(areaPoint))
             {
-                for (int offsetY = -multiplier + 1; offsetY < multiplier; offsetY++)
-                {
-                    for (int offsetX = -multiplier + 1; offsetX < multiplier; offsetX++)
-                    {
-                        int x = (int)Math.Round(position.x / AreaSize) + offsetX;
-                        int y = (int)Math.Round(position.y / AreaSize) + offsetY;
-                        int z = (int)Math.Round(position.z / AreaSize) + offsetZ;
-
-                        Vector3Int areaPoint = new Vector3Int(x, y, z);
-
-                        if (areas.ContainsKey(areaPoint))
-                        {
-                            list.Add(areas[areaPoint]);
-                        }
-                    }
-                }
+                list.Add(areas[areaPoint]);
             }
             
             return list.ToArray();

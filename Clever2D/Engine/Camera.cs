@@ -83,10 +83,10 @@ namespace Clever2D.Engine
 		                tRect.w = (int)Math.Round(w);
 		                tRect.h = (int)Math.Round(h);*/
 
-						tRect.x = (int)Math.Round(zone.occlusionPoint.x - cameraOffsetX);
-						tRect.y = (int)Math.Round(-zone.occlusionPoint.y - cameraOffsetY);
-						tRect.w = sprite.rect.w;
-						tRect.h = sprite.rect.h;
+						tRect.x = (int)Math.Round(zone.occlusionPoint.x * scale - cameraOffsetX - sprite.rect.w * sprite.pivot.x * scale);
+						tRect.y = (int)Math.Round(-zone.occlusionPoint.y * scale - cameraOffsetY - sprite.rect.h * sprite.pivot.y * scale);
+						tRect.w = (int)Math.Round(sprite.rect.w * scale);
+						tRect.h = (int)Math.Round(sprite.rect.h * scale);
 
 						SDL.SDL_RenderCopy(renderer, sprite.image, ref sprite.rect, ref tRect);
 	                }
