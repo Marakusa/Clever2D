@@ -14,7 +14,7 @@
 ### Operating system support
 - Windows x64
 - Linux x64 (Clever2D 2021.2.1.1a or newer)
-- MacOS (Coming soon)
+- MacOS (Coming soon) *please someone test this :D*
 
 ## Contributing
 Issue Tracker: [https://github.com/Marakusa/Clever2D/issues](https://github.com/Marakusa/Clever2D/issues)
