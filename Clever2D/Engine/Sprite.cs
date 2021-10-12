@@ -81,7 +81,7 @@ namespace Clever2D.Engine
             {
                 string resourceName = path;
                 
-                if (!path.StartsWith("/") && (path.Substring(1, 2) != ":/" || path.Substring(1, 2) != @":\"))
+                if (!path.StartsWith("/") && path.Substring(1, 2) != ":/" && path.Substring(1, 2) != @":\")
                     path = $"{Application.ExecutableDirectory}/assets/{path}";
 
                 object asset = AssetLoader.GetAsset(path + ":Image");
@@ -127,7 +127,7 @@ namespace Clever2D.Engine
             if (path != null && path.Trim() != "")
             {
                 object asset = AssetLoader.GetAsset(path + ":Image");
-
+                
                 if (!Directory.Exists(path) && (asset != null || File.Exists(path)))
                 {
                     var width = 0;

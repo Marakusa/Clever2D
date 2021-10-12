@@ -61,57 +61,32 @@ namespace Clever2D.Engine
             UpdateBatch(e.renderer, false);
         }
 
-        private int rightmost = 1;
-        private int bottommost = 1;
-
         private void UpdateBatch(SpriteRenderer r, bool initializing)
         {
-            if (r == null || initializing)
-            {
-                foreach (var renderer in renderers)
-                {
-                    Vector3Int point = renderer.transform.position.ToVector3Int();
-
-                    if (point.x + renderer.Sprite.rect.w > rightmost)
-                    {
-                        rightmost = point.x + renderer.Sprite.rect.w;
-                    }
-
-                    if (renderer.Sprite.rect.h - point.y > bottommost)
-                    {
-                        bottommost = renderer.Sprite.rect.h - point.y;
-                    }
-                }
-
-                DrawBatch();
-            }
-            else
-            {
-                DrawBatch();
-            }
+            DrawBatch();
         }
         private void DrawBatch()
         {
             try
             {
-                rightmost = (int)CMath.Clamp(rightmost, 1, int.MaxValue);
-                bottommost = (int)CMath.Clamp(bottommost, 1, int.MaxValue);
+                int size = OcclusionManager.AreaSize;
+
+                Player.Log(size);
 
                 // TODO: more optimized way to handle this
-                using (var image = new Image<Rgba32>(rightmost, bottommost))
+                using (var image = new Image<Rgba32>(size, size))
                 {
                     foreach (var tile in renderers)
                     {
-                        Vector3Int occlusionPosition = occlusionPoint * new Vector3Int(1, 1, 1) * (Vector3.One * OcclusionManager.AreaSize).ToVector3Int();
-                        Vector3Int point = new Vector3(tile.transform.position.x, tile.transform.position.y).ToVector3Int();
+                        Vector3Int point = tile.transform.position.ToVector3Int();
 
-                        point = point - occlusionPosition;
+                        point = point - occlusionPoint;
 
                         for (int y = 0; y < tile.Sprite.rect.h; y++)
                         {
                             int pixelY = point.y + y;
 
-                            if (pixelY >= 0 && pixelY < bottommost)
+                            if (pixelY >= 0 && pixelY < size)
                             {
                                 Span<Rgba32> pixelRowSpan = image.GetPixelRowSpan(pixelY);
 
@@ -119,7 +94,7 @@ namespace Clever2D.Engine
                                 {
                                     int pixelX = point.x + x;
 
-                                    if (pixelX >= 0 && pixelX < rightmost)
+                                    if (pixelX >= 0 && pixelX < size)
                                     {
                                         int offsetX = tile.Sprite.rect.x;
                                         int offsetY = tile.Sprite.rect.y;
@@ -143,7 +118,7 @@ namespace Clever2D.Engine
                     if (!Directory.Exists($"{Application.TempDirectory}batches/"))
                         Directory.CreateDirectory($"{Application.TempDirectory}batches/");
 
-                    string saveLocation = $"{Application.TempDirectory}batches/{Cryptography.HashSHA1(new Vector2Int(rightmost, bottommost).GetHashCode().ToString())}.png";
+                    string saveLocation = $"{Application.TempDirectory}batches/{Cryptography.HashSHA1(occlusionPoint.GetHashCode().ToString())}.png";
                     image.Save(saveLocation);
                     Player.Log($"Tile batch saved ==> {saveLocation}");
 

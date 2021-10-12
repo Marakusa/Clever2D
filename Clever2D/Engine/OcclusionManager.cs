@@ -34,7 +34,7 @@ namespace Clever2D.Engine
         /// <summary>
         /// Area chunk sizes.
         /// </summary>
-        internal const float AreaSize = 512f;
+        internal const int AreaSize = 128;
 
         /// <summary>
         /// Adds renderer to occlusion manager.
@@ -46,9 +46,9 @@ namespace Clever2D.Engine
             {
                 Vector position = renderer.transform.position;
 
-                int x = (int)Math.Floor(position.x / AreaSize);
-                int y = (int)Math.Floor(position.y / AreaSize);
-                int z = (int)Math.Floor(position.z / AreaSize);
+                int x = (int)Math.Floor(position.x / AreaSize) * AreaSize;
+                int y = (int)Math.Floor(position.y / AreaSize) * AreaSize;
+                int z = (int)Math.Floor(position.z / AreaSize) * AreaSize;
 
                 Vector3Int areaPoint = new Vector3Int(x, y, z);
 
@@ -63,6 +63,24 @@ namespace Clever2D.Engine
                         occlusionPoint = areaPoint
                     });
                     areas[areaPoint].AddRenderer(renderer, initializing);
+                }
+
+                int x2 = (int)Math.Floor((position.x + renderer.Sprite.rect.w) / AreaSize) * AreaSize;
+                int y2 = (int)Math.Floor((position.y + renderer.Sprite.rect.h) / AreaSize) * AreaSize;
+
+                Vector3Int areaPoint2 = new Vector3Int(x2, y2, z);
+
+                if (areas.ContainsKey(areaPoint2))
+                {
+                    areas[areaPoint2].AddRenderer(renderer, initializing);
+                }
+                else
+                {
+                    areas.Add(areaPoint2, new()
+                    {
+                        occlusionPoint = areaPoint2
+                    });
+                    areas[areaPoint2].AddRenderer(renderer, initializing);
                 }
             }
             else
