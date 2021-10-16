@@ -1,7 +1,7 @@
 using System;
 using Clever2D.Core;
 using Clever2D.UI;
-using SDL2;
+using static SDL2.SDL;
 
 namespace Clever2D.Engine
 {
@@ -34,10 +34,10 @@ namespace Clever2D.Engine
 		{
 			if (Camera.MainCamera == null) MainCamera = this;
 			
-			IntPtr renderer = Clever.Renderer;
-			
-            SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            SDL.SDL_RenderClear(renderer);
+			var renderer = Clever.Renderer;
+
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
 
             Scene loadedScene = SceneManager.LoadedScene;
             
@@ -59,7 +59,7 @@ namespace Clever2D.Engine
 	                {
 		                Sprite sprite = zone.BatchSprite;
 
-						SDL.SDL_Rect tRect;
+						SDL_Rect tRect;
 
 						float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
 		                float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
@@ -88,7 +88,7 @@ namespace Clever2D.Engine
 						tRect.w = (int)Math.Round(sprite.rect.w * scale);
 						tRect.h = (int)Math.Round(sprite.rect.h * scale);
 
-						SDL.SDL_RenderCopy(renderer, sprite.image, ref sprite.rect, ref tRect);
+						SDL_RenderCopy(renderer, sprite.image, ref sprite.rect, ref tRect);
 	                }
 
 	                /*foreach (var zone in zones)
@@ -160,7 +160,7 @@ namespace Clever2D.Engine
 
 			                float x, y, w, h;
 
-			                SDL.SDL_Rect tRect;
+			                SDL_Rect tRect;
 			                w = spriteRenderer.Sprite.rect.w * scale * spriteRenderer.transform.scale.x;
 			                h = spriteRenderer.Sprite.rect.h * scale * spriteRenderer.transform.scale.y;
 
@@ -188,7 +188,7 @@ namespace Clever2D.Engine
 			                tRect.w = (int)Math.Round(w);
 			                tRect.h = (int)Math.Round(h);
 
-			                SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
+			                SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
 		                }
 	                }
 
@@ -204,7 +204,7 @@ namespace Clever2D.Engine
                 }
             }
             
-            SDL.SDL_RenderPresent(renderer);
+            SDL_RenderPresent(renderer);
         }
 
         /// <summary>

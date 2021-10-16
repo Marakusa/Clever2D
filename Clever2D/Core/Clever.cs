@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading;
 using SDL2;
 using System.Timers;
+using static SDL2.SDL;
 
 namespace Clever2D.Core
 {
@@ -75,7 +76,7 @@ namespace Clever2D.Core
             set
             {
                 _position = value;
-                ScheduleCommand(() => SDL.SDL_SetWindowPosition(WindowHandle, value.X, value.Y));
+                ScheduleCommand(() => SDL_SetWindowPosition(WindowHandle, value.X, value.Y));
             }
         }
         
@@ -130,14 +131,14 @@ namespace Clever2D.Core
             else
                 Directory.CreateDirectory(tempFolder);
 
-            if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) < 0)
+            if (SDL_Init(SDL_INIT_VIDEO) < 0)
             {
-                Player.LogError($"Unable to initialize SDL. Error: {SDL.SDL_GetError()}");
+                Player.LogError($"Unable to initialize SDL. Error: {SDL_GetError()}");
             }
             
             if (SDL_ttf.TTF_Init() < 0)
             {
-                Player.LogError($"There was an error initializing SDL_ttf. {SDL.SDL_GetError()}");
+                Player.LogError($"There was an error initializing SDL_ttf. {SDL_GetError()}");
             }
 
             List<IntPtr> fonts = new();
@@ -145,20 +146,30 @@ namespace Clever2D.Core
             fonts.Add(SDL_ttf.TTF_OpenFont(Application.ExecutableDirectory + "/res/fonts/Poppins-Regular.ttf", 24));
 
             Fonts = fonts.ToArray();
+
+            SDL_Init(SDL_INIT_VIDEO);
             
-            WindowHandle = SDL.SDL_CreateWindow(
+            WindowHandle = SDL_CreateWindow(
                 $"{Application.CompanyName} - {Application.ProductName} {Application.ProductVersion}",
-                SDL.SDL_WINDOWPOS_CENTERED,
-                SDL.SDL_WINDOWPOS_CENTERED,
+                SDL_WINDOWPOS_CENTERED,
+                SDL_WINDOWPOS_CENTERED,
                 1280,
                 720,
-                SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE
+                SDL_WindowFlags.SDL_WINDOW_OPENGL
             );
+
+            SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+            SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+            SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_PROFILE_MASK,
+                SDL_GLprofile.SDL_GL_CONTEXT_PROFILE_CORE);
+
+            Renderer = SDL_GL_CreateContext(WindowHandle);
             
-            Renderer = SDL.SDL_CreateRenderer(WindowHandle, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            //Renderer = SDL_CreateRenderer(WindowHandle, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
             // VSync
-            SDL.SDL_GL_SetSwapInterval(0);
+            SDL_GL_SetSwapInterval(0);
             
             // TODO: Fix fullscreen
             /*SetScreenState += (WindowState state) =>
@@ -194,103 +205,110 @@ namespace Clever2D.Core
 
             if (WindowHandle == IntPtr.Zero)
             {
-                Player.Log(string.Format("Unable to create a window. Error: {0}", SDL.SDL_GetError()));
+                Player.Log(string.Format("Unable to create a window. Error: {0}", SDL_GetError()));
             }
             else
-            { 
-                SDL.SDL_GetWindowPosition(WindowHandle, out int x, out int y);
-                var newPosition = new Point(x, y);
-                Position = newPosition;
-                ScheduleEvent(() => Moved?.Invoke(newPosition));
-
-                SDL.SDL_GetWindowSize(WindowHandle, out int w, out int h);
-                var newSize = new Size(w, h);
-                Size = newSize;
-                ScheduleEvent(() => Resized?.Invoke(newSize));
-                
-                SDL.SDL_Event e;
-
-                OnInitialized?.Invoke();
-
-                System.Timers.Timer tickTimer = new()
+            {
+                if (Renderer == IntPtr.Zero)
                 {
-                    Interval = 1f / 30f
-                };
-                tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
+                    Player.Log(string.Format("Unable to create a renderer. Error: {0}", SDL_GetError()));
+                }
+                else
                 {
-                    FixedUpdate?.Invoke();
-                };
-                tickTimer.Start();
+                    SDL_GetWindowPosition(WindowHandle, out int x, out int y);
+                    var newPosition = new Point(x, y);
+                    Position = newPosition;
+                    ScheduleEvent(() => Moved?.Invoke(newPosition));
 
-                ulong lastFpsTick = 0;
-                ulong framesInFrame = 0;
+                    SDL_GetWindowSize(WindowHandle, out int w, out int h);
+                    var newSize = new Size(w, h);
+                    Size = newSize;
+                    ScheduleEvent(() => Resized?.Invoke(newSize));
 
-                while (!Quit)
-                {
-                    CommandScheduler.Update();
+                    SDL_Event e;
 
-                    if (SDL.SDL_GetTicks() - lastFpsTick >= 1000)
+                    OnInitialized?.Invoke();
+
+                    System.Timers.Timer tickTimer = new()
                     {
-                        Fps = framesInFrame.ToString();
-                        lastFpsTick = SDL.SDL_GetTicks();
-                        framesInFrame = 0;
-                    }
-                    else
+                        Interval = 1f / 30f
+                    };
+                    tickTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
                     {
-                        framesInFrame++;
-                    }
+                        FixedUpdate?.Invoke();
+                    };
+                    tickTimer.Start();
 
-                    while (SDL.SDL_PollEvent(out e) != 0)
+                    ulong lastFpsTick = 0;
+                    ulong framesInFrame = 0;
+
+                    while (!Quit)
                     {
-                        switch (e.type)
+                        CommandScheduler.Update();
+
+                        if (SDL_GetTicks() - lastFpsTick >= 1000)
                         {
-                            case SDL.SDL_EventType.SDL_QUIT:
-                            case SDL.SDL_EventType.SDL_APP_TERMINATING:
-                                HandleQuitEvent(e.quit);
-                                break;
-
-                            case SDL.SDL_EventType.SDL_WINDOWEVENT:
-                                HandleWindowEvent(e.window);
-                                break;
-
-                            case SDL.SDL_EventType.SDL_KEYDOWN:
-                            case SDL.SDL_EventType.SDL_KEYUP:
-                                HandleKeyboardEvent(e.key);
-                                break;
-
-                            case SDL.SDL_EventType.SDL_TEXTEDITING:
-                                HandleTextEditingEvent(e.edit);
-                                break;
-
-                            case SDL.SDL_EventType.SDL_TEXTINPUT:
-                                HandleTextInputEvent(e.text);
-                                break;
-
-                            case SDL.SDL_EventType.SDL_MOUSEMOTION:
-                                HandleMouseMotionEvent(e.motion);
-                                break;
-
-                            case SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN:
-                            case SDL.SDL_EventType.SDL_MOUSEBUTTONUP:
-                                HandleMouseButtonEvent(e.button);
-                                break;
-
-                            case SDL.SDL_EventType.SDL_MOUSEWHEEL:
-                                HandleMouseWheelEvent(e.wheel);
-                                break;
-
-                            case SDL.SDL_EventType.SDL_DROPFILE:
-                            case SDL.SDL_EventType.SDL_DROPTEXT:
-                            case SDL.SDL_EventType.SDL_DROPBEGIN:
-                            case SDL.SDL_EventType.SDL_DROPCOMPLETE:
-                                HandleDropEvent(e.drop);
-                                break;
+                            Fps = framesInFrame.ToString();
+                            lastFpsTick = SDL_GetTicks();
+                            framesInFrame = 0;
                         }
+                        else
+                        {
+                            framesInFrame++;
+                        }
+
+                        while (SDL_PollEvent(out e) != 0)
+                        {
+                            switch (e.type)
+                            {
+                                case SDL_EventType.SDL_QUIT:
+                                case SDL_EventType.SDL_APP_TERMINATING:
+                                    HandleQuitEvent(e.quit);
+                                    break;
+
+                                case SDL_EventType.SDL_WINDOWEVENT:
+                                    HandleWindowEvent(e.window);
+                                    break;
+
+                                case SDL_EventType.SDL_KEYDOWN:
+                                case SDL_EventType.SDL_KEYUP:
+                                    HandleKeyboardEvent(e.key);
+                                    break;
+
+                                case SDL_EventType.SDL_TEXTEDITING:
+                                    HandleTextEditingEvent(e.edit);
+                                    break;
+
+                                case SDL_EventType.SDL_TEXTINPUT:
+                                    HandleTextInputEvent(e.text);
+                                    break;
+
+                                case SDL_EventType.SDL_MOUSEMOTION:
+                                    HandleMouseMotionEvent(e.motion);
+                                    break;
+
+                                case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                                case SDL_EventType.SDL_MOUSEBUTTONUP:
+                                    HandleMouseButtonEvent(e.button);
+                                    break;
+
+                                case SDL_EventType.SDL_MOUSEWHEEL:
+                                    HandleMouseWheelEvent(e.wheel);
+                                    break;
+
+                                case SDL_EventType.SDL_DROPFILE:
+                                case SDL_EventType.SDL_DROPTEXT:
+                                case SDL_EventType.SDL_DROPBEGIN:
+                                case SDL_EventType.SDL_DROPCOMPLETE:
+                                    HandleDropEvent(e.drop);
+                                    break;
+                            }
+                        }
+
+                        EventScheduler.Update();
+
+                        Update?.Invoke();
                     }
-                    
-                    EventScheduler.Update();
-                    
-                    Update?.Invoke();
                 }
             }
 
@@ -300,10 +318,10 @@ namespace Clever2D.Core
 
             Player.Log("Destroying SDL objects...");
             
-            try { SDL.SDL_DestroyRenderer(Renderer); }
+            try { SDL_DestroyRenderer(Renderer); }
             catch (Exception e) { Player.LogError($"Failed to destroy the renderer: {e.Message}", e); }
             
-            try { SDL.SDL_DestroyWindow(WindowHandle); }
+            try { SDL_DestroyWindow(WindowHandle); }
             catch (Exception e) { Player.LogError($"Failed to destroy the window: {e.Message}", e); }
 
             Player.Log("Quit SDL TTF...");
@@ -315,7 +333,7 @@ namespace Clever2D.Core
             catch (Exception e) { Player.LogError($"Failed to quit SDL Image: {e.Message}", e); }
 
             Player.Log("Quit SDL...");
-            try { SDL.SDL_Quit(); }
+            try { SDL_Quit(); }
             catch (Exception e) { Player.LogError($"Failed to quit SDL: {e.Message}", e); }
 
             Player.Log("Removing temp files...");
@@ -375,11 +393,11 @@ namespace Clever2D.Core
             Directory.Delete(path);
         }
         
-        private static SDL.SDL_DisplayMode GetClosestDisplayMode(Size size, int refreshRate, int displayIndex)
+        private static SDL_DisplayMode GetClosestDisplayMode(Size size, int refreshRate, int displayIndex)
         {
-            var targetMode = new SDL.SDL_DisplayMode { w = size.Width, h = size.Height, refresh_rate = refreshRate };
+            var targetMode = new SDL_DisplayMode { w = size.Width, h = size.Height, refresh_rate = refreshRate };
 
-            if (SDL.SDL_GetClosestDisplayMode(displayIndex, ref targetMode, out var mode) != IntPtr.Zero)
+            if (SDL_GetClosestDisplayMode(displayIndex, ref targetMode, out var mode) != IntPtr.Zero)
                 return mode;
 
             // fallback to current display's native bounds
@@ -387,12 +405,12 @@ namespace Clever2D.Core
             targetMode.h = 1080;
             targetMode.refresh_rate = 0;
 
-            if (SDL.SDL_GetClosestDisplayMode(displayIndex, ref targetMode, out mode) != IntPtr.Zero)
+            if (SDL_GetClosestDisplayMode(displayIndex, ref targetMode, out mode) != IntPtr.Zero)
                 return mode;
 
             // finally return the current mode if everything else fails.
             // not sure this is required.
-            if (SDL.SDL_GetWindowDisplayMode(WindowHandle, out mode) >= 0)
+            if (SDL_GetWindowDisplayMode(WindowHandle, out mode) >= 0)
                 return mode;
 
             throw new InvalidOperationException("couldn't retrieve valid display mode");
@@ -446,12 +464,12 @@ namespace Clever2D.Core
         /// </summary>
         public static event WindowResizedHandler Resized;
         
-        private static void HandleQuitEvent(SDL.SDL_QuitEvent e)
+        private static void HandleQuitEvent(SDL_QuitEvent e)
         {
             Quit = true;
         }
         
-        private static void HandleDropEvent(SDL.SDL_DropEvent evtDrop)
+        private static void HandleDropEvent(SDL_DropEvent evtDrop)
         {
             // TODO: HandleDropEvent
             /*switch (evtDrop.type)
@@ -465,13 +483,13 @@ namespace Clever2D.Core
             }*/
         }
 
-        private static void HandleMouseWheelEvent(SDL.SDL_MouseWheelEvent evtWheel)
+        private static void HandleMouseWheelEvent(SDL_MouseWheelEvent evtWheel)
         {
             // TODO: HandleMouseWheelEvent
             //ScheduleEvent(() => TriggerMouseWheel(new Vector2(evtWheel.x, evtWheel.y), false));
         }
         
-        private static void HandleMouseButtonEvent(SDL.SDL_MouseButtonEvent evtButton)
+        private static void HandleMouseButtonEvent(SDL_MouseButtonEvent evtButton)
         {
             // TODO: HandleMouseButtonEvent
             /*MouseButton button = mouseButtonFromEvent(evtButton.button);
@@ -488,7 +506,7 @@ namespace Clever2D.Core
             }*/
         }
 
-        private static void HandleMouseMotionEvent(SDL.SDL_MouseMotionEvent evtMotion)
+        private static void HandleMouseMotionEvent(SDL_MouseMotionEvent evtMotion)
         {
             // TODO: HandleMouseButtonEvent
             /*if (SDL.SDL_GetRelativeMouseMode() == SDL.SDL_bool.SDL_FALSE)
@@ -497,7 +515,7 @@ namespace Clever2D.Core
                 ScheduleEvent(() => MouseMoveRelative?.Invoke(new Vector2(evtMotion.xrel * Scale, evtMotion.yrel * Scale)));*/
         }
 
-        private static void HandleTextInputEvent(SDL.SDL_TextInputEvent evtText)
+        private static void HandleTextInputEvent(SDL_TextInputEvent evtText)
         {
             // TODO: HandleMouseButtonEvent
             /*var ptr = new IntPtr(evtText.text);
@@ -510,18 +528,18 @@ namespace Clever2D.Core
                 ScheduleEvent(() => KeyTyped?.Invoke(c));*/
         }
 
-        private static void HandleTextEditingEvent(SDL.SDL_TextEditingEvent evtEdit)
+        private static void HandleTextEditingEvent(SDL_TextEditingEvent evtEdit)
         {
         }
 
         /// <summary>
         /// Delegate handler for key press.
         /// </summary>
-        public delegate void KeyPressHandler(SDL.SDL_KeyboardEvent key);
+        public delegate void KeyPressHandler(SDL_KeyboardEvent key);
         /// <summary>
         /// Delegate handler for key release.
         /// </summary>
-        public delegate void KeyReleaseHandler(SDL.SDL_KeyboardEvent key);
+        public delegate void KeyReleaseHandler(SDL_KeyboardEvent key);
         /// <summary>
         /// This event gets called when a key is pressed.
         /// </summary>
@@ -531,11 +549,11 @@ namespace Clever2D.Core
         /// </summary>
         public static event KeyReleaseHandler OnKeyRelease;
 
-        private static void HandleKeyboardEvent(SDL.SDL_KeyboardEvent evtKey)
+        private static void HandleKeyboardEvent(SDL_KeyboardEvent evtKey)
         {
             switch (evtKey.type)
             {
-                case SDL.SDL_EventType.SDL_KEYDOWN:
+                case SDL_EventType.SDL_KEYDOWN:
                     OnKeyPress?.Invoke(evtKey);
                     // TODO: Fullscreen fix
                     /*switch (evtKey.keysym.sym)
@@ -549,7 +567,7 @@ namespace Clever2D.Core
                     }*/
                     break;
 
-                case SDL.SDL_EventType.SDL_KEYUP:
+                case SDL_EventType.SDL_KEYUP:
                     OnKeyRelease?.Invoke(evtKey);
                     break;
             }
@@ -574,13 +592,13 @@ namespace Clever2D.Core
 
         private static event ScreenState SetScreenState;
 
-        private static void HandleWindowEvent(SDL.SDL_WindowEvent evtWindow)
+        private static void HandleWindowEvent(SDL_WindowEvent evtWindow)
         {
             switch (evtWindow.windowEvent)
             {
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MOVED:
+                case SDL_WindowEventID.SDL_WINDOWEVENT_MOVED:
                     
-                    SDL.SDL_GetWindowPosition(WindowHandle, out int x, out int y);
+                    SDL_GetWindowPosition(WindowHandle, out int x, out int y);
                     var newPosition = new Point(x, y);
 
                     if (!newPosition.Equals(Position))
@@ -591,9 +609,9 @@ namespace Clever2D.Core
 
                     break;
 
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_SIZE_CHANGED:
+                case SDL_WindowEventID.SDL_WINDOWEVENT_SIZE_CHANGED:
                     
-                    SDL.SDL_GetWindowSize(WindowHandle, out int w, out int h);
+                    SDL_GetWindowSize(WindowHandle, out int w, out int h);
                     var newSize = new Size(w, h);
 
                     if (!newSize.Equals(Size))
@@ -604,22 +622,22 @@ namespace Clever2D.Core
 
                     break;
 
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESTORED:
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
+                case SDL_WindowEventID.SDL_WINDOWEVENT_RESTORED:
+                case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_GAINED:
                     ScheduleEvent(() => Focused = true);
                     break;
 
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_MINIMIZED:
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
+                case SDL_WindowEventID.SDL_WINDOWEVENT_MINIMIZED:
+                case SDL_WindowEventID.SDL_WINDOWEVENT_FOCUS_LOST:
                     ScheduleEvent(() => Focused = false);
                     break;
 
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
+                case SDL_WindowEventID.SDL_WINDOWEVENT_ENTER:
                     _cursorInWindow = true;
                     ScheduleEvent(() => MouseEntered?.Invoke());
                     break;
 
-                case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
+                case SDL_WindowEventID.SDL_WINDOWEVENT_LEAVE:
                     _cursorInWindow = false;
                     ScheduleEvent(() => MouseLeft?.Invoke());
                     break;
