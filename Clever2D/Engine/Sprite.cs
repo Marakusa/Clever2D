@@ -214,8 +214,7 @@ namespace Clever2D.Engine
                         Directory.CreateDirectory(tempFolder);
 
                     string cachePath = $"{tempFolder}{Cryptography.HashSHA1(System.IO.Path.GetFileNameWithoutExtension(path) + Opacity.GetHashCode().ToString())}{System.IO.Path.GetExtension(path)}";
-                    OpacityFilter(AssetLoader.GetAsset($"{path}:Image") as Image, Opacity)
-                        .Save(cachePath);
+                    //OpacityFilter(AssetLoader.GetAsset($"{path}:Image") as Image, Opacity).Save(cachePath);
 
                     this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, cachePath);
 

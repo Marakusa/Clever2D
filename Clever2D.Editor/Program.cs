@@ -3,7 +3,7 @@ using Gtk;
 
 namespace Clever2D.Editor
 {
-	class Program
+	internal class Program
 	{
 		[STAThread]
 		public static void Main(string[] args)

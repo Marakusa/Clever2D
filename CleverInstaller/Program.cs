@@ -3,7 +3,7 @@ using Gtk;
 
 namespace CleverInstaller
 {
-    class Program
+    internal class Program
     {
         [STAThread]
         public static void Main(string[] args)

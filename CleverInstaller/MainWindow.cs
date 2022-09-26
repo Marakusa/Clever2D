@@ -9,7 +9,7 @@ using UI = Gtk.Builder.ObjectAttribute;
 
 namespace CleverInstaller
 {
-    class MainWindow : Window
+    internal class MainWindow : Window
     {
         [UI] private Label _label1 = null;
         [UI] private Button _button1 = null;

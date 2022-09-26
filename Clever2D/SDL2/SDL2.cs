@@ -8290,9 +8290,9 @@ namespace SDL2
 		[StructLayout(LayoutKind.Sequential)]
 		public struct INTERNAL_kmsdrm_wminfo
 		{
-			int dev_index;
-			int drm_fd;
-			IntPtr gbm_dev; // Refers to a gbm_device*
+			private int dev_index;
+			private int drm_fd;
+			private IntPtr gbm_dev; // Refers to a gbm_device*
 		}
 
 		[StructLayout(LayoutKind.Explicit)]
@@ -8474,8 +8474,8 @@ namespace SDL2
 		[StructLayout(LayoutKind.Sequential)]
 		public struct SDL_Locale
 		{
-			IntPtr language;
-			IntPtr country;
+			private IntPtr language;
+			private IntPtr country;
 		}
 
 		/* IntPtr refers to an SDL_Locale*.
