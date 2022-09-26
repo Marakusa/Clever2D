@@ -1,4 +1,4 @@
-![splash_clever](https://user-images.githubusercontent.com/29477753/135967266-31c62993-e746-48b0-81e1-7eb5269522ae.png)
+![Logo](https://user-images.githubusercontent.com/29477753/135967266-31c62993-e746-48b0-81e1-7eb5269522ae.png)
 
 
 # Clever2D
@@ -6,10 +6,15 @@
 ## Description
 .NET based cross-platform 2D game engine created with C#
 
-![Skeleton](https://user-images.githubusercontent.com/29477753/136274147-a17d9c8f-4714-42fa-ac8d-5e3b9698aed0.png)
+![Screenshot](https://user-images.githubusercontent.com/29477753/137013583-5dd04ada-8fda-463b-af88-977c1e2a170c.png)
 
 ## Dependencies
-- .NET Runtime 5.0 or newer
+- .NET 6.0
+### Linux dependencies
+#### Arch Linux
+```bash
+sudo pacman -S sdl2 sdl2_ttf sdl2_image
+```
 
 ### Operating system support
 - Windows x64
@@ -18,8 +23,5 @@
 ## Contributing
 Issue Tracker: [https://github.com/Marakusa/Clever2D/issues](https://github.com/Marakusa/Clever2D/issues)
 
-## Documentation
-Documentation Page: [https://aquaticstudios.org/clever/documentation](https://aquaticstudios.org/clever/documentation)
-
 ## TODO
-TODO list: [https://github.com/Marakusa/Clever2D/projects/1](https://github.com/Marakusa/Clever2D/projects/1)
+TODO list: [https://github.com/Marakusa/Clever2D/projects](https://github.com/Marakusa/Clever2D/projects)
