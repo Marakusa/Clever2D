@@ -29,6 +29,11 @@ namespace Clever2D.Engine
         [JsonProperty]
         public readonly string name;
         /// <summary>
+        /// Is object static (In example occlusion can be applied).
+        /// </summary>
+        [JsonProperty]
+        public readonly bool isStatic;
+        /// <summary>
         /// The assigned tag to this GameObject.
         /// </summary>
         [JsonProperty]

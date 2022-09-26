@@ -4,6 +4,7 @@ using Clever2D.Core;
 using Newtonsoft.Json;
 using SDL2;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Clever2D.Engine
 {
@@ -31,7 +32,7 @@ namespace Clever2D.Engine
         /// Path to the source of the image of this Sprite.
         /// </summary>
         [JsonProperty]
-        private readonly string path;
+        internal string path;
         /// <summary>
         /// Returns the path to the source of the image of this Sprite.
         /// </summary>
@@ -49,31 +50,111 @@ namespace Clever2D.Engine
         [JsonProperty]
         public Vector2 offset;
 
+        private float opacity = 1f;
+        public float Opacity
+        {
+            get
+            {
+                return opacity;
+            }
+            set
+            {
+                Opacity = value;
+
+                if (OnChanged != null)
+                    OnChanged.Invoke(this);
+            }
+        }
+
+        /// <summary>
+        /// When this Sprite changes or is removed, this will get called.
+        /// </summary>
+        public delegate void SpriteChanged(object sender);
+        /// <summary>
+        /// When this Sprite changes or is removed, this will get called.
+        /// </summary>
+        public event SpriteChanged OnChanged;
+
+        internal void InitializeSprite()
+        {
+            if (path != null && path.Trim() != "")
+            {
+                string resourceName = path;
+                
+                if (!path.StartsWith("/") && path.Substring(1, 2) != ":/" && path.Substring(1, 2) != @":\")
+                    path = $"{Application.ExecutableDirectory}/assets/{path}";
+
+                object asset = AssetLoader.GetAsset(path + ":Image");
+
+                if (!Directory.Exists(path) && (asset != null || File.Exists(path)))
+                {
+                    var width = 0;
+                    var height = 0;
+
+                    if (asset == null || asset.GetType() != typeof(Image))
+                    {
+                        Image spriteImage = Image.Load(path);
+                        width = spriteImage.Width;
+                        height = spriteImage.Height;
+                        AssetLoader.AddAsset(path + ":Image", spriteImage);
+                    }
+                    else
+                    {
+                        width = ((Image)asset).Width;
+                        height = ((Image)asset).Height;
+                    }
+
+                    var w = size.x < 0 ? width : size.x;
+                    var h = size.y < 0 ? height : size.y;
+
+                    LoadSprite(w, h, (int)Math.Round(offset.x), (int)Math.Round(offset.y));
+
+                    AssetLoader.AddAsset(resourceName, this);
+                }
+                else
+                {
+                    Player.LogError($"File doesn't exist in {path} or the path is a directory.");
+                }
+            }
+        }
+        
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
         [JsonConstructor]
         public Sprite()
         {
-            path = $"{Application.ExecutableDirectory}/assets/{path}";
-
-            if (File.Exists(path))
+            if (path != null && path.Trim() != "")
             {
-                this.path = path;
-                this.pivot = pivot;
-
-                Image spriteImage = Image.Load(path);
-                var width = spriteImage.Width;
-                var height = spriteImage.Height;
-
-                var w = size.x < 0 ? width : size.x;
-                var h = size.y < 0 ? height : size.y;
+                object asset = AssetLoader.GetAsset(path + ":Image");
                 
-                LoadSprite(w, h, (int) Math.Round(offset.x), (int) Math.Round(offset.y));
-            }
-            else
-            {
-                Player.LogError($"File doesn't exist in {path} or the path is a directory.");
+                if (!Directory.Exists(path) && (asset != null || File.Exists(path)))
+                {
+                    var width = 0;
+                    var height = 0;
+
+                    if (asset == null || asset.GetType() != typeof(Image))
+                    {
+                        Image spriteImage = Image.Load(path);
+                        width = spriteImage.Width;
+                        height = spriteImage.Height;
+                        AssetLoader.AddAsset(path + ":Image", spriteImage);
+                    }
+                    else
+                    {
+                        width = ((Image)asset).Width;
+                        height = ((Image)asset).Height;
+                    }
+
+                    var w = size.x < 0 ? width : size.x;
+                    var h = size.y < 0 ? height : size.y;
+
+                    LoadSprite(w, h, (int)Math.Round(offset.x), (int)Math.Round(offset.y));
+                }
+                else
+                {
+                    Player.LogError($"File doesn't exist in {path} or the path is a directory.");
+                }
             }
         }
         /// <summary>
@@ -81,89 +162,103 @@ namespace Clever2D.Engine
         /// </summary>
         public Sprite(string path, Vector2 pivot)
         {
-            path = $"{Application.ExecutableDirectory}/assets/{path}";
+            this.path = path;
+            this.pivot = pivot;
+            Image spriteImage = Image.Load(path);
+            this.size = new(spriteImage.Width, spriteImage.Height);
+            this.offset = Vector2.Zero;
 
-            if (File.Exists(path))
-            {
-                this.path = path;
-                this.pivot = pivot;
-                
-                var spriteImage = Image.Load(path);
-                var width = spriteImage.Width;
-                var height = spriteImage.Height;
-                
-                LoadSprite(width, height, 0, 0);
-            }
-            else
-            {
-                Player.LogError($"File doesn't exist in {path} or the path is a directory.");
-            }
+            InitializeSprite();
         }
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
         public Sprite(string path, Vector2 pivot, Vector2Int size)
         {
-            path = $"{Application.ExecutableDirectory}/assets/{path}";
+            this.path = path;
+            this.pivot = pivot;
+            this.size = size;
+            this.offset = Vector2.Zero;
 
-            if (File.Exists(path))
-            {
-                this.path = path;
-                this.pivot = pivot;
-
-                var spriteImage = Image.Load(path);
-                var width = spriteImage.Width;
-                var height = spriteImage.Height;
-
-                var w = size.x < 0 ? width : size.x;
-                var h = size.y < 0 ? height : size.y;
-                
-                LoadSprite(w, h, 0, 0);
-            }
-            else
-            {
-                Player.LogError($"File doesn't exist in {path} or the path is a directory.");
-            }
+            InitializeSprite();
         }
         /// <summary>
         /// Represents a Sprite object for use in 2D gameplay.
         /// </summary>
         public Sprite(string path, Vector2 pivot, Vector2Int size, Vector2 offset)
         {
-            path = $"{Application.ExecutableDirectory}/assets/{path}";
+            this.path = path;
+            this.pivot = pivot;
+            this.size = size;
+            this.offset = offset;
 
-            if (File.Exists(path))
-            {
-                this.path = path;
-                this.pivot = pivot;
-
-                Image spriteImage = Image.Load(path);
-                var width = spriteImage.Width;
-                var height = spriteImage.Height;
-
-                var w = size.x < 0 ? width : size.x;
-                var h = size.y < 0 ? height : size.y;
-                
-                LoadSprite(w, h, (int) Math.Round(offset.x), (int) Math.Round(offset.y));
-            }
-            else
-            {
-                Player.LogError($"File doesn't exist in {path} or the path is a directory.");
-            }
+            InitializeSprite();
         }
 
         private void LoadSprite(int sizeX, int sizeY, int offsetX, int offsetY)
         {
-            rect.x = offsetX;
-            rect.y = offsetY;
-            rect.w = sizeX;
-            rect.h = sizeY;
+            if (path != null)
+            {
+                rect.x = offsetX;
+                rect.y = offsetY;
+                rect.w = sizeX;
+                rect.h = sizeY;
+                
+                object asset = AssetLoader.GetAsset(path + "?color:" + Opacity.GetHashCode().ToString());
 
-            this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, this.path);
+                if (asset == null || asset.GetType() != typeof(IntPtr))
+                {
+                    string tempFolder = $"{Application.TempDirectory}/image/";
 
-            Clever.Destroying += () => SDL.SDL_DestroyTexture(this.image);
-            
-            Player.Log($"Sprite {path.Substring($"{Application.ExecutableDirectory}/".Length)} ==> Loaded.");
+                    if (!Directory.Exists(tempFolder))
+                        Directory.CreateDirectory(tempFolder);
+
+                    string cachePath = $"{tempFolder}{Cryptography.HashSHA1(System.IO.Path.GetFileNameWithoutExtension(path) + Opacity.GetHashCode().ToString())}{System.IO.Path.GetExtension(path)}";
+                    //OpacityFilter(AssetLoader.GetAsset($"{path}:Image") as Image, Opacity).Save(cachePath);
+
+                    this.image = SDL_image.IMG_LoadTexture(Clever.Renderer, cachePath);
+
+                    Clever.Destroying += () => SDL.SDL_DestroyTexture(this.image);
+
+                    Player.Log($"Sprite {path} ==> Loaded.");
+
+                    AssetLoader.AddAsset($"{path}?color:{Opacity.GetHashCode()}", this.image);
+                }
+                else
+                {
+                    this.image = (IntPtr)asset;
+                }
+
+                if (OnChanged != null)
+                    OnChanged.Invoke(this);
+            }
+            else
+            {
+                Player.LogError("Sprites given path was not set.", new NullReferenceException());
+            }
+        }
+
+        /// <summary>
+        /// Sets opacity of the image.
+        /// </summary>
+        /// <param name="opacity">Opacity filter opacity.</param>
+        public void SetOpacity(float opacity)
+        {
+            opacity = CMath.Clamp(opacity, 0f, 1f);
+            Opacity = opacity;
+            LoadSprite(rect.w, rect.h, rect.x, rect.y);
+        }
+
+        /// <summary>
+        /// Sets opacity of the image.
+        /// </summary>
+        /// <param name="image">Image to add a filter into.</param>
+        /// <param name="opacity">Opacity filter opacity.</param>
+        private Image OpacityFilter(Image image, float opacity)
+        {
+            opacity = CMath.Clamp(opacity, 0f, 1f);
+            image.Mutate(x => x.Opacity(opacity));
+            return image;
         }
     }
 }

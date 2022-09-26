@@ -1,4 +1,5 @@
-﻿using Clever2D.Core;
+﻿using System;
+using Clever2D.Core;
 
 namespace Clever2D.Engine
 {
@@ -15,6 +16,13 @@ namespace Clever2D.Engine
             get;
         } = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
+        public static string TempDirectory
+        {
+            get;
+        } = $"{System.IO.Path.GetTempPath()}/Clever2D-{Cryptography.HashSHA1(DateTime.Now.ToLongTimeString() + "," + DateTime.Now.ToLongDateString())}/"
+            .Replace(@"\", "/")
+            .Replace("//", "/");
+        
         /// <summary>
         /// Get the Applications configuration.
         /// </summary>

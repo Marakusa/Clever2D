@@ -9,7 +9,7 @@ namespace Example
     public class Program : Clever
     {
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.WriteLine("Starting...");
 

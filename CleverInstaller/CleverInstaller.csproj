@@ -6,6 +6,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Platforms>AnyCPU;x64</Platforms>
         <StartupObject>CleverInstaller.Program</StartupObject>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

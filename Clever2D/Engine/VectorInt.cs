@@ -144,9 +144,9 @@ namespace Clever2D.Engine
         public override bool Equals(object obj)
         {
             return obj != null &&
-                this.x == (obj as Vector).x &&
-                this.y == (obj as Vector).y &&
-                this.z == (obj as Vector).z;
+                this.x == (obj as VectorInt).x &&
+                this.y == (obj as VectorInt).y &&
+                this.z == (obj as VectorInt).z;
         }
         /// <summary>
         /// Gets the hash code for the Vector value.
@@ -349,9 +349,9 @@ namespace Clever2D.Engine
         public override bool Equals(object obj)
         {
             return obj != null &&
-                this.x == (obj as Vector).x &&
-                this.y == (obj as Vector).y &&
-                this.z == (obj as Vector).z;
+                this.x == (obj as VectorInt).x &&
+                this.y == (obj as VectorInt).y &&
+                this.z == (obj as VectorInt).z;
         }
         /// <summary>
         /// Gets the hash code for the Vector value.

@@ -5,6 +5,7 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -38,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="GtkSharp" Version="3.24.24.34" />
     <PackageReference Include="sdl2.nuget" Version="2.0.9" />
     <PackageReference Include="sdl2_image.nuget" Version="2.0.5" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />

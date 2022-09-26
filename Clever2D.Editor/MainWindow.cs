@@ -3,7 +3,7 @@ using UI = Gtk.Builder.ObjectAttribute;
 
 namespace Clever2D.Editor
 {
-    class MainWindow : Window
+    internal class MainWindow : Window
     {
         private int _counter;
 

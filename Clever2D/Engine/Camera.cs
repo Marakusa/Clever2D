@@ -1,7 +1,7 @@
 using System;
 using Clever2D.Core;
 using Clever2D.UI;
-using SDL2;
+using static SDL2.SDL;
 
 namespace Clever2D.Engine
 {
@@ -34,10 +34,10 @@ namespace Clever2D.Engine
 		{
 			if (Camera.MainCamera == null) MainCamera = this;
 			
-			IntPtr renderer = Clever.Renderer;
-			
-            SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            SDL.SDL_RenderClear(renderer);
+			var renderer = Clever.Renderer;
+
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
 
             Scene loadedScene = SceneManager.LoadedScene;
             
@@ -47,66 +47,164 @@ namespace Clever2D.Engine
 
                 if (instances.Count > 0)
                 {
-                    foreach (var instance in instances)
-                    {
-                        SpriteRenderer spriteRenderer = instance.Value.GetComponent<SpriteRenderer>();
-                        
-                        if (spriteRenderer != null && spriteRenderer.Sprite != null)
-                        {
-                            float scale = (Clever.Size.Height / 600f) * 2f;
+	                // TODO: Rendering order
 
-                            float x, y, w, h;
-                            
-                            SDL.SDL_Rect tRect;
-                            w = spriteRenderer.Sprite.rect.w * scale * instance.Value.transform.scale.x;
-                            h = spriteRenderer.Sprite.rect.h * scale * instance.Value.transform.scale.y;
+	                float scale = Clever.Size.Height / 600f * 2f;
 
-                            float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
-                            float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
+	                float renderRadius = (Clever.Size.Width >= Clever.Size.Height ? Clever.Size.Width : Clever.Size.Height) / scale;
+	                
+	                var zones = OcclusionManager.GetNearestAreas(transform.position, renderRadius);
 
-                            float scaledX = instance.Value.transform.position.x * scale;
-                            float scaledY = -instance.Value.transform.position.y * scale;
-                            float posX = scaledX * instance.Value.transform.position.x - cameraOffsetX;
-                            float posY = -instance.Value.transform.position.y * scale * instance.Value.transform.position.y - cameraOffsetY;
+	                foreach (var zone in zones)
+	                {
+		                Sprite sprite = zone.BatchSprite;
 
-                            if (instance.Value.parent != null)
-                            {
-                                x = posX + instance.Value.parent.transform.position.x * scale * instance.Value.parent.transform.scale.x + scale * instance.Value.transform.position.x - cameraOffsetX;
-                                y = posY - instance.Value.parent.transform.position.y * scale * instance.Value.parent.transform.scale.y + scale * -instance.Value.transform.position.y - cameraOffsetY;
-                                w *= spriteRenderer.Sprite.rect.w * instance.Value.transform.scale.x;
-                                h *= spriteRenderer.Sprite.rect.h * instance.Value.transform.scale.y;
-                            }
-                            else
-                            {
-                                x = scaledX * instance.Value.transform.scale.x - cameraOffsetX;
-                                y = scaledY * instance.Value.transform.scale.y - cameraOffsetY;
-                            }
-                            
-                            float pivotOffsetX = spriteRenderer.Sprite.rect.w * spriteRenderer.Sprite.pivot.x * scale;
-                            float pivotOffsetY = spriteRenderer.Sprite.rect.h * spriteRenderer.Sprite.pivot.y * scale;
-                            
-                            x -= pivotOffsetX;
-                            y -= pivotOffsetY;
+						SDL_Rect tRect;
 
-                            tRect.x = (int)Math.Round(x);
-                            tRect.y = (int)Math.Round(y);
-                            tRect.w = (int)Math.Round(w);
-                            tRect.h = (int)Math.Round(h);
-                            
-                            SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
-                        }
-                        
-                        UIElement uiElement = instance.Value.GetComponent<UIElement>();
+						float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
+		                float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
 
-                        if (uiElement != null)
-                        {
-                            uiElement.Render();
-                        }
-                    }
+						/*float x, y, w, h;
+
+		                w = sprite.rect.w * scale;
+		                h = sprite.rect.h * scale;
+
+			            x = zone.occlusionPoint.x * scale - cameraOffsetX;
+			            y = -zone.occlusionPoint.y * scale - cameraOffsetY;
+
+		                float pivotOffsetX = sprite.rect.w * sprite.pivot.x * scale;
+		                float pivotOffsetY = sprite.rect.h * sprite.pivot.y * scale;
+
+		                x -= pivotOffsetX;
+		                y -= pivotOffsetY;
+
+		                tRect.x = (int)Math.Round(x);
+		                tRect.y = (int)Math.Round(y);
+		                tRect.w = (int)Math.Round(w);
+		                tRect.h = (int)Math.Round(h);*/
+
+						tRect.x = (int)Math.Round(zone.occlusionPoint.x * scale - cameraOffsetX - sprite.rect.w * sprite.pivot.x * scale);
+						tRect.y = (int)Math.Round(-zone.occlusionPoint.y * scale - cameraOffsetY - sprite.rect.h * sprite.pivot.y * scale);
+						tRect.w = (int)Math.Round(sprite.rect.w * scale);
+						tRect.h = (int)Math.Round(sprite.rect.h * scale);
+
+						SDL_RenderCopy(renderer, sprite.image, ref sprite.rect, ref tRect);
+	                }
+
+	                /*foreach (var zone in zones)
+	                {
+		                foreach (SpriteRenderer spriteRenderer in zone.renderers)
+		                {
+			                if (spriteRenderer != null && spriteRenderer.Sprite != null)
+			                {
+				                float distance = Vector.Distance(spriteRenderer.transform.position, transform.position);
+				                if (distance < renderRadius)
+				                {
+					                float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
+					                float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
+
+					                float scaledX = spriteRenderer.transform.position.x * scale;
+					                float scaledY = -spriteRenderer.transform.position.y * scale;
+					                float posX = scaledX * spriteRenderer.transform.position.x - cameraOffsetX;
+					                float posY = -spriteRenderer.transform.position.y * scale * spriteRenderer.transform.position.y - cameraOffsetY;
+
+					                float x, y, w, h;
+
+					                SDL.SDL_Rect tRect;
+					                w = spriteRenderer.Sprite.rect.w * scale * spriteRenderer.transform.scale.x;
+					                h = spriteRenderer.Sprite.rect.h * scale * spriteRenderer.transform.scale.y;
+
+					                if (spriteRenderer.gameObject.parent != null)
+					                {
+						                x = posX + spriteRenderer.gameObject.parent.transform.position.x * scale * spriteRenderer.gameObject.parent.transform.scale.x +
+							                scale * spriteRenderer.transform.position.x - cameraOffsetX;
+						                y = posY - spriteRenderer.gameObject.parent.transform.position.y * scale * spriteRenderer.gameObject.parent.transform.scale.y +
+							                scale * -spriteRenderer.transform.position.y - cameraOffsetY;
+						                w *= spriteRenderer.Sprite.rect.w * spriteRenderer.transform.scale.x;
+						                h *= spriteRenderer.Sprite.rect.h * spriteRenderer.transform.scale.y;
+					                }
+					                else
+					                {
+						                x = scaledX * spriteRenderer.transform.scale.x - cameraOffsetX;
+						                y = scaledY * spriteRenderer.transform.scale.y - cameraOffsetY;
+					                }
+
+					                float pivotOffsetX = spriteRenderer.Sprite.rect.w * spriteRenderer.Sprite.pivot.x * scale;
+					                float pivotOffsetY = spriteRenderer.Sprite.rect.h * spriteRenderer.Sprite.pivot.y * scale;
+
+					                x -= pivotOffsetX;
+					                y -= pivotOffsetY;
+
+					                tRect.x = (int)Math.Round(x);
+					                tRect.y = (int)Math.Round(y);
+					                tRect.w = (int)Math.Round(w);
+					                tRect.h = (int)Math.Round(h);
+
+					                SDL.SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
+				                }
+			                }
+		                }
+	                }*/
+					
+	                foreach (SpriteRenderer spriteRenderer in OcclusionManager.NonStaticRenderers)
+	                {
+		                if (spriteRenderer != null && spriteRenderer.Sprite != null)
+		                {
+			                float cameraOffsetX = scale * transform.position.x - Clever.Size.Width / 2f;
+			                float cameraOffsetY = scale * -transform.position.y - Clever.Size.Height / 2f;
+
+			                float scaledX = spriteRenderer.transform.position.x * scale;
+			                float scaledY = -spriteRenderer.transform.position.y * scale;
+			                float posX = scaledX * spriteRenderer.transform.position.x - cameraOffsetX;
+			                float posY = -spriteRenderer.transform.position.y * scale * spriteRenderer.transform.position.y - cameraOffsetY;
+
+			                float x, y, w, h;
+
+			                SDL_Rect tRect;
+			                w = spriteRenderer.Sprite.rect.w * scale * spriteRenderer.transform.scale.x;
+			                h = spriteRenderer.Sprite.rect.h * scale * spriteRenderer.transform.scale.y;
+
+			                if (spriteRenderer.gameObject.parent != null)
+			                {
+				                x = posX + spriteRenderer.gameObject.parent.transform.position.x * scale * spriteRenderer.gameObject.parent.transform.scale.x;
+				                y = posY - spriteRenderer.gameObject.parent.transform.position.y * scale * spriteRenderer.gameObject.parent.transform.scale.y;
+				                w *= spriteRenderer.gameObject.parent.transform.scale.x * spriteRenderer.transform.scale.x;
+				                h *= spriteRenderer.gameObject.parent.transform.scale.y * spriteRenderer.transform.scale.y;
+			                }
+			                else
+			                {
+				                x = scaledX * spriteRenderer.transform.scale.x - cameraOffsetX;
+				                y = scaledY * spriteRenderer.transform.scale.y - cameraOffsetY;
+			                }
+
+			                float pivotOffsetX = spriteRenderer.Sprite.rect.w * spriteRenderer.Sprite.pivot.x * scale;
+			                float pivotOffsetY = spriteRenderer.Sprite.rect.h * spriteRenderer.Sprite.pivot.y * scale;
+
+			                x -= pivotOffsetX;
+			                y -= pivotOffsetY;
+
+			                tRect.x = (int)Math.Round(x);
+			                tRect.y = (int)Math.Round(y);
+			                tRect.w = (int)Math.Round(w);
+			                tRect.h = (int)Math.Round(h);
+
+			                SDL_RenderCopy(renderer, spriteRenderer.Sprite.image, ref spriteRenderer.Sprite.rect, ref tRect);
+		                }
+	                }
+
+	                foreach (var instance in instances)
+	                {
+		                UIElement uiElement = instance.Value.GetComponent<UIElement>();
+
+		                if (uiElement != null)
+		                {
+			                uiElement.Render();
+		                }
+	                }
                 }
             }
             
-            SDL.SDL_RenderPresent(renderer);
+            SDL_RenderPresent(renderer);
         }
 
         /// <summary>
